@@ -1,3 +1,3 @@
-from Initial_pipeline.ipynb import *
+from fnirs_processing import epochs
 
 print(epochs)
