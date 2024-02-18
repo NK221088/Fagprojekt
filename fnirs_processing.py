@@ -162,3 +162,6 @@ epochs = mne.Epochs(
     detrend=None,
     verbose=True,
 )
+
+tapping = epochs["Tapping"].get_data()
+control = epochs["Control"].get_data()
