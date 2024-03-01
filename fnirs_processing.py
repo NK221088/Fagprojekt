@@ -165,3 +165,11 @@ epochs = mne.Epochs(
 
 tapping = epochs["Tapping"].get_data()
 control = epochs["Control"].get_data()
+
+dimTappingArray = tapping.shape[0]
+dimControlArray = control.shape[0]
+jointArray = np.concatenate((tapping,control),axis = 0)
+stopTime = 9
+startTime = 11
+freq = 7.81
+jointArray = jointArray[:,:,int(np.floor(startTime * freq)):int(np.floor(stopTime * freq))] 
