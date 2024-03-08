@@ -3,7 +3,7 @@ from fnirs_processing import epochs, tapping, control
 
 
 import numpy as np
-def MeanModel(TappingTest, ControlTest, TappingTrain, ControlTrain, jointArray):
+def MeanModel(TappingTest, ControlTest, TappingTrain, ControlTrain, jointArray, labelIndx):
     confusionMatrix = np.zeros((2,2)) # 0 = control, 1 = Tapping
     #[[TP,FP]
     # [FN,TN]]
@@ -15,13 +15,13 @@ def MeanModel(TappingTest, ControlTest, TappingTrain, ControlTrain, jointArray):
             epochMean = np.mean(jointArray[val,:,:]) #Finding the mean of datapoint belonging to test set
             
             if (meanTapping - epochMean)**2 < (meanControl - epochMean)**2: #TRUE if squared distance is closer to meanTapping then meanControl
-                if val < 55:                                                #Evaluating whether datapoint was labeled correctly or comitting type II error
+                if val < labelIndx:                                                #Evaluating whether datapoint was labeled correctly or comitting type II error
                     confusionMatrix[0,0] += 1 
                 else:
                     confusionMatrix[0,1] += 1
                     
             elif (meanTapping - epochMean)**2 > (meanControl - epochMean)**2: #TRUE if squared distance is closer to meanControl then meanTapping
-                if val > 55:                                                  #Evaluating whether datapoint was labeled correctly or comitting type I error
+                if val > labelIndx:                                                  #Evaluating whether datapoint was labeled correctly or comitting type I error
                     confusionMatrix[1,1] += 1
                 else:
                     confusionMatrix[1,0] += 1
@@ -83,7 +83,7 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
         kernelControlTest = randIndControl[k0_control:k1_control] #Selecting control kernel indecies (test data)  
         kernelControlTrain = np.concatenate((randIndControl[:k0_control],randIndControl[k1_control:])) #Selecting control kernel indecies (train data)
 
-        meanModel_accuracy,_ = MeanModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain, jointArray=jointArray)
+        meanModel_accuracy,_ = MeanModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain, jointArray=jointArray, labelIndx = tappingArray.shape[0])
         baseline_accuracy = BaselineModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain)
         
         meanModelAccuracy_list.append(meanModel_accuracy)
@@ -97,7 +97,6 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
         k1_control += kernelControl
         
     return np.mean(meanModelAccuracy_list), np.mean(baselineAccuracy_list)
-        
-
+    
     
 print(StratifiedCV(epochs["Tapping"].get_data(),epochs["Control"].get_data(),startTime = 9, stopTime = 11))
