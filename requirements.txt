@@ -1,0 +1,6 @@
+matplotlib==3.8.3
+mne==1.6.1
+mne_bids==0.14
+mne_nirs==0.6.0
+numpy==1.26.4
+jupyter==1.0.0
