@@ -31,16 +31,13 @@ def MeanModel(TappingTest, ControlTest, TappingTrain, ControlTrain, jointArray):
     return accuracy, confusionMatrix
 
 def BaselineModel(TappingTest, ControlTest, TappingTrain, ControlTrain):
-    testJoint = np.concatenate((TappingTest,ControlTest))
-    trainJoint = np.concatenate((TappingTrain,ControlTrain))
     
-    majorityClass = np.sum(55 > trainJoint) < np.sum(55 < trainJoint)
+    N = (len(ControlTest) + len(TappingTest))
     
-    if majorityClass:
-        return np.sum(55 < testJoint) / len(testJoint)
+    if len(TappingTrain) < len(ControlTrain):
+        return len(ControlTest) / N
     else:
-        return np.sum(55 > testJoint) / len(testJoint)
-    
+        return len(TappingTest) / N
 
     
     
@@ -88,6 +85,7 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
 
         meanModel_accuracy,_ = MeanModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain, jointArray=jointArray)
         baseline_accuracy = BaselineModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain)
+        
         meanModelAccuracy_list.append(meanModel_accuracy)
         baselineAccuracy_list.append(baseline_accuracy)
     
