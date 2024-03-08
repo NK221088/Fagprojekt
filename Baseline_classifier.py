@@ -11,7 +11,7 @@ def MeanModel(TappingTest, ControlTest, TappingTrain, ControlTrain, jointArray):
     meanTapping = np.mean(jointArray[TappingTrain]) #Finding the mean of tapping training set
     meanControl = np.mean(jointArray[ControlTrain]) #Finding the mean of control training set
     
-    for val in np.concatenate((TappingTrain,ControlTrain), axis = 0): #Iterating over values belonging to training set (both tapping and control)
+    for val in np.concatenate((TappingTest,ControlTest), axis = 0): #Iterating over values belonging to training set (both tapping and control)
             epochMean = np.mean(jointArray[val,:,:]) #Finding the mean of datapoint belonging to test set
             
             if (meanTapping - epochMean)**2 < (meanControl - epochMean)**2: #TRUE if squared distance is closer to meanTapping then meanControl
@@ -30,12 +30,24 @@ def MeanModel(TappingTest, ControlTest, TappingTrain, ControlTrain, jointArray):
     
     return accuracy, confusionMatrix
 
-def BaselineModel(TappingTest, ControlTest, TappingTrain, ControlTrain, jointArray):
+def BaselineModel(TappingTest, ControlTest, TappingTrain, ControlTrain):
+    testJoint = np.concatenate((TappingTest,ControlTest))
+    trainJoint = np.concatenate((TappingTrain,ControlTrain))
+    
+    majorityClass = np.sum(55 > trainJoint) < np.sum(55 < trainJoint)
+    
+    if majorityClass:
+        return np.sum(55 < testJoint) / len(testJoint)
+    else:
+        return np.sum(55 > testJoint) / len(testJoint)
+    
+
     
     
 def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 7.81):
     
-    accuracy_list = [] #List to store accuracies
+    baselineAccuracy_list = [] #List to store accuracies
+    meanModelAccuracy_list = []
     
 
     dimTappingArray = tappingArray.shape[0] #Amount of tapping epochs 
@@ -73,13 +85,11 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
     
         kernelControlTest = randIndControl[k0_control:k1_control] #Selecting control kernel indecies (test data)  
         kernelControlTrain = np.concatenate((randIndControl[:k0_control],randIndControl[k1_control:])) #Selecting control kernel indecies (train data)
-        
-        tappingTrain = jointArray[kernelTappingTrain] #Selecting values from data which belongs to tapping training set
-        controlTrain = jointArray[kernelControlTrain] #Selecting values from data which belongs to control training set
 
-        accuracy,_ = MeanModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain, jointArray=jointArray)
-        accuracy,_ = BaselineModel()
-        accuracy_list.append(accuracy)
+        meanModel_accuracy,_ = MeanModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain, jointArray=jointArray)
+        baseline_accuracy = BaselineModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain)
+        meanModelAccuracy_list.append(meanModel_accuracy)
+        baselineAccuracy_list.append(baseline_accuracy)
     
         
         k0_tapping += kernelTapping #Updating kernel.
@@ -88,7 +98,7 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
         k0_control += kernelControl
         k1_control += kernelControl
         
-    return accuracy_list
+    return np.mean(meanModelAccuracy_list), np.mean(baselineAccuracy_list)
         
 
     
