@@ -29,8 +29,11 @@ def MeanModel(TappingTest, ControlTest, TappingTrain, ControlTrain, jointArray):
     accuracy = (confusionMatrix[0,0] + confusionMatrix[1,1])/np.sum(confusionMatrix) #Calculating accuracy of current fold (TP + TN)/(N)
     
     return accuracy, confusionMatrix
+
+def BaselineModel(TappingTest, ControlTest, TappingTrain, ControlTrain, jointArray):
     
-def StratifiedCV(tappingArray,controlArray, startTime, stopTime, K = 4, freq = 7.81):
+    
+def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 7.81):
     
     accuracy_list = [] #List to store accuracies
     
@@ -75,6 +78,7 @@ def StratifiedCV(tappingArray,controlArray, startTime, stopTime, K = 4, freq = 7
         controlTrain = jointArray[kernelControlTrain] #Selecting values from data which belongs to control training set
 
         accuracy,_ = MeanModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain, jointArray=jointArray)
+        accuracy,_ = BaselineModel()
         accuracy_list.append(accuracy)
     
         
@@ -84,8 +88,8 @@ def StratifiedCV(tappingArray,controlArray, startTime, stopTime, K = 4, freq = 7
         k0_control += kernelControl
         k1_control += kernelControl
         
-    print(np.mean(accuracy_list))
+    return accuracy_list
         
 
     
-StratifiedCV(epochs["Tapping"].get_data(),epochs["Control"].get_data(),startTime = 9, stopTime = 11) 
+print(StratifiedCV(epochs["Tapping"].get_data(),epochs["Control"].get_data(),startTime = 9, stopTime = 11))
