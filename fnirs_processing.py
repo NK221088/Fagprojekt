@@ -35,16 +35,16 @@ bad_channels = []
 
 fnirs_snirf_file = mne_nirs.datasets.block_speech_noise.data_path()
 # Loop over all subjects
-for i in range(1, 2):
-    # sub_id = str(i).zfill(2)  # Pad with zeros to get "01", "02", etc.
-    # fnirs_snirf_file_path = os.path.join(fnirs_snirf_file, f"sub-{sub_id}", "ses-01", "nirs", f"sub-{sub_id}_ses-01_task-AudioSpeechNoise_nirs.snirf")
-    # raw_intensity = mne.io.read_raw_snirf(fnirs_snirf_file_path, verbose=True)
-    # raw_intensity.load_data()
-    
-    fnirs_data_folder = mne.datasets.fnirs_motor.data_path()
-    fnirs_cw_amplitude_dir = fnirs_data_folder / "Participant-1"
-    raw_intensity = mne.io.read_raw_nirx(fnirs_cw_amplitude_dir, verbose=True)
+for i in range(1, 18):
+    sub_id = str(i).zfill(2)  # Pad with zeros to get "01", "02", etc.
+    fnirs_snirf_file_path = os.path.join(fnirs_snirf_file, f"sub-{sub_id}", "ses-01", "nirs", f"sub-{sub_id}_ses-01_task-AudioSpeechNoise_nirs.snirf")
+    raw_intensity = mne.io.read_raw_snirf(fnirs_snirf_file_path, verbose=True)
     raw_intensity.load_data()
+    
+    # fnirs_data_folder = mne.datasets.fnirs_motor.data_path()
+    # fnirs_cw_amplitude_dir = fnirs_data_folder / "Participant-1"
+    # raw_intensity = mne.io.read_raw_nirx(fnirs_cw_amplitude_dir, verbose=True)
+    # raw_intensity.load_data()
 
     raw_intensity.annotations.set_durations(5)
     raw_intensity.annotations.rename(
@@ -105,3 +105,4 @@ for i in range(1, 2):
 # all_epochs_con = np.concatenate(all_epochs, axis = 0)
 all_tapping = np.concatenate(all_tapping, axis = 0)
 all_control = np.concatenate(all_control, axis = 0)
+all_freq = all_epochs[0].info['sfreq']
