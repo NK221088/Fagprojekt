@@ -34,6 +34,7 @@ import os
 all_epochs = []
 all_tapping = []
 all_control = []
+bad_channels = []
 
 fnirs_snirf_file = mne_nirs.datasets.block_speech_noise.data_path()
 # Loop over all subjects
@@ -64,6 +65,7 @@ for i in range(1, 18):
 
 
     raw_od.info["bads"] = list(compress(raw_od.ch_names, sci < 0.5))
+    bad_channels.extend(list(compress(raw_od.ch_names, sci < 0.5)))
 
     raw_haemo = mne.preprocessing.nirs.beer_lambert_law(raw_od, ppf=0.1)
 
@@ -95,6 +97,8 @@ for i in range(1, 18):
     all_control.append(epochs["Control"].get_data())
     
 # Concatenate data across all subjects
-all_epochs = np.concatenate(all_epochs, axis = 0)
+for epoch in all_epochs:
+    epoch.info['bads'] = list(set(bad_channels))
+all_epochs_con = np.concatenate(all_epochs, axis = 0)
 all_tapping = np.concatenate(all_tapping, axis = 0)
 all_control = np.concatenate(all_control, axis = 0)
