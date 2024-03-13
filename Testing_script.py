@@ -6,5 +6,6 @@ from fnirs_processing import all_epochs, epochs, all_tapping, all_control
 from epoch_plot import epoch_plot
 import mne
 
-epoch_plot(epochs, type = "Tapping", combine_strategy = "mean")
-print(StratifiedCV(all_tapping,all_control,startTime = 3, K=3, stopTime = 7, freq=5.2))
+
+epoch_plot(all_epochs, type = "Tapping", combine_strategy = "mean")
+print(StratifiedCV(all_tapping,all_control,startTime = 3, K=3, stopTime = 7, freq=epochs.info["sfreq"]))
