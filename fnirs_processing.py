@@ -26,10 +26,7 @@ import mne_nirs
 import mne_bids
 import os
 
-# fnirs_data_folder = mne.datasets.fnirs_motor.data_path()
-# fnirs_cw_amplitude_dir = fnirs_data_folder / "Participant-1"
-# raw_intensity = mne.io.read_raw_nirx(fnirs_cw_amplitude_dir, verbose=True)
-# raw_intensity.load_data()
+
 
 all_epochs = []
 all_tapping = []
@@ -38,10 +35,15 @@ bad_channels = []
 
 fnirs_snirf_file = mne_nirs.datasets.block_speech_noise.data_path()
 # Loop over all subjects
-for i in range(1, 18):
-    sub_id = str(i).zfill(2)  # Pad with zeros to get "01", "02", etc.
-    fnirs_snirf_file_path = os.path.join(fnirs_snirf_file, f"sub-{sub_id}", "ses-01", "nirs", f"sub-{sub_id}_ses-01_task-AudioSpeechNoise_nirs.snirf")
-    raw_intensity = mne.io.read_raw_snirf(fnirs_snirf_file_path, verbose=True)
+for i in range(1, 2):
+    # sub_id = str(i).zfill(2)  # Pad with zeros to get "01", "02", etc.
+    # fnirs_snirf_file_path = os.path.join(fnirs_snirf_file, f"sub-{sub_id}", "ses-01", "nirs", f"sub-{sub_id}_ses-01_task-AudioSpeechNoise_nirs.snirf")
+    # raw_intensity = mne.io.read_raw_snirf(fnirs_snirf_file_path, verbose=True)
+    # raw_intensity.load_data()
+    
+    fnirs_data_folder = mne.datasets.fnirs_motor.data_path()
+    fnirs_cw_amplitude_dir = fnirs_data_folder / "Participant-1"
+    raw_intensity = mne.io.read_raw_nirx(fnirs_cw_amplitude_dir, verbose=True)
     raw_intensity.load_data()
 
     raw_intensity.annotations.set_durations(5)
@@ -65,7 +67,7 @@ for i in range(1, 18):
 
 
     raw_od.info["bads"] = list(compress(raw_od.ch_names, sci < 0.5))
-    bad_channels.extend(list(compress(raw_od.ch_names, sci < 0.5)))
+    # bad_channels.extend(list(compress(raw_od.ch_names, sci < 0.5)))
 
     raw_haemo = mne.preprocessing.nirs.beer_lambert_law(raw_od, ppf=0.1)
 
@@ -92,13 +94,14 @@ for i in range(1, 18):
         verbose=True,
     )
     
+    # print(epoch.info)
     all_epochs.append(epochs)
     all_tapping.append(epochs["Tapping"].get_data())
     all_control.append(epochs["Control"].get_data())
     
 # Concatenate data across all subjects
-for epoch in all_epochs:
-    epoch.info['bads'] = list(set(bad_channels))
-all_epochs_con = np.concatenate(all_epochs, axis = 0)
+# for epoch in all_epochs:
+#     epoch.info['bads'] = list(set(bad_channels))
+# all_epochs_con = np.concatenate(all_epochs, axis = 0)
 all_tapping = np.concatenate(all_tapping, axis = 0)
 all_control = np.concatenate(all_control, axis = 0)
