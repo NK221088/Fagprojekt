@@ -3,12 +3,13 @@ from stratified_cv import StratifiedCV
 from majority_voting_classifier import BaselineModel
 from mean_model_classifier import MeanModel
 # from fNirs_processesing_fNirs_motor import all_epochs, epochs, all_data, all_freq, data_name
-from fnirs_processing_AudioSpeechNoise import all_epochs, epochs, all_data, all_freq, data_name
+#from fnirs_processing_AudioSpeechNoise import all_epochs, epochs, all_data, all_freq, data_name
+from fnirs_processing_fnirs_motor_full_data import all_epochs, epochs, all_data, all_freq, data_name
 from epoch_plot import epoch_plot
 import mne
 import os
 
-epoch_type = "Speech"
+epoch_type = "Tapping"
 combine_strategy = "mean"
 save = True
 bad_channels_strategy = "all"
