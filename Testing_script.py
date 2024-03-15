@@ -2,18 +2,19 @@ from datetime import datetime
 from stratified_cv import StratifiedCV
 from majority_voting_classifier import BaselineModel
 from mean_model_classifier import MeanModel
-from fNirs_processesing_fNirs_motor import all_epochs, epochs, all_data, all_freq, data_name
-# from fnirs_processing_AudioSpeechNoise import all_epochs, epochs, all_data, all_freq, data_name
+# from fNirs_processesing_fNirs_motor import all_epochs, epochs, all_data, all_freq, data_name
+from fnirs_processing_AudioSpeechNoise import all_epochs, epochs, all_data, all_freq, data_name
 from epoch_plot import epoch_plot
 import mne
+import os
 
-epoch_type = "Tapping"
+epoch_type = "Speech"
 combine_strategy = "mean"
 save = True
-bad_channels_strategy = "delete"
-startTime = 9
+bad_channels_strategy = "all"
+startTime = 7.5
 K = 2
-stopTime = 11
+stopTime = 10.5
 freq = all_freq
 save_results = True
 
@@ -27,7 +28,9 @@ results = StratifiedCV(all_data[epoch_type], all_data["Control"], startTime=star
 current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 # Construct filename with date and time
-filename = f"{data_name}_{epoch_type}_results_{current_datetime}.txt"
+# Define the folder name
+results_folder = "Classifier_results"
+filename = os.path.join(results_folder, f"{data_name}_{epoch_type}_results_{current_datetime}.txt")
 if save_results:
     with open(filename, "w") as file:
         file.write("Classifier Results:\n")

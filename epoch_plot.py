@@ -1,5 +1,6 @@
 import mne
 import matplotlib.pyplot as plt
+import os
 
 def epoch_plot(epochs, epoch_type: str, bad_channels_strategy: str, save : bool, combine_strategy: str = "mean"):
 
@@ -36,7 +37,7 @@ def epoch_plot(epochs, epoch_type: str, bad_channels_strategy: str, save : bool,
             epochs[i].info['bads'] = []
         epochs = mne.concatenate_epochs(epochs)
         
-    if bad_channels_strategy == "all":
+    elif bad_channels_strategy == "all":
         bad_channels = []
         for i in range(len(epochs)):
             bad_channels.extend(epochs[i].info['bads'])
@@ -44,16 +45,22 @@ def epoch_plot(epochs, epoch_type: str, bad_channels_strategy: str, save : bool,
         for i in range(len(epochs)):
                 epochs[i].info['bads'] = bad_channels
         epochs = mne.concatenate_epochs(epochs)
-        
-    epochs[epoch_type].plot_image(
-    combine=combine_strategy,
-    vmin=-30,
-    vmax=30,
-    ts_args=dict(ylim=dict(hbo=[-15, 15], hbr=[-15, 15])),
-    )
     
-    # Save the plot if save is True
+    # Plot the epochs
+    plots = epochs[epoch_type].plot_image(
+        combine=combine_strategy,
+        vmin=-30,
+        vmax=30,
+        ts_args=dict(ylim=dict(hbo=[-15, 15], hbr=[-15, 15])),
+    )
+
+    # Save each plot if save is True
+    plots_folder = "Plots"
     if save:
-        filename = f"{epoch_type}_epochs_plot.pdf"
-        plt.savefig(filename)
-        print(f"Plot saved as {filename}")
+        Plot_types = ["Oxyhemoglobin", "Deoxyhemoglobin"]
+        for plot_type, plot in zip(Plot_types, plots):
+            filename = os.path.join(plots_folder, f"{epoch_type}_epochs_plot_{plot_type}_{bad_channels_strategy}.pdf")
+            plot.savefig(filename)
+            print(f"Plot {plot_type} saved as {filename}")
+            plt.close(plot)  # Close the figure after saving
+

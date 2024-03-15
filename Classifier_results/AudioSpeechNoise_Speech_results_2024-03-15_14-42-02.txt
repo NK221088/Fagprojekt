@@ -1,6 +1,6 @@
 Classifier Results:
 ====================
-Data obtained at: 2024-03-13_23-56-08
+Data obtained at: 2024-03-15_14-42-02
 Dataset: AudioSpeechNoise
 Epoch type used for classification: Speech
 Combine Strategy: mean
@@ -11,4 +11,4 @@ Stop Time: 11
 Frequency: 5.208
 Results:
 For the majority voting classifier: 0.52
-For the mean model classifier: 0.56
+For the mean model classifier: 0.55

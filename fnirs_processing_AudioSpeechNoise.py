@@ -59,7 +59,7 @@ for i in range(1, 18):
     sci = mne.preprocessing.nirs.scalp_coupling_index(raw_od)
 
 
-    raw_od.info["bads"] = list(compress(raw_od.ch_names, sci < 0.5))
+    raw_od.info["bads"] = list(compress(raw_od.ch_names, sci < 0.8))
 
     raw_haemo = mne.preprocessing.nirs.beer_lambert_law(raw_od, ppf=0.1)
 
