@@ -35,6 +35,7 @@ def epoch_plot(epochs, epoch_type: str, bad_channels_strategy: str, save : bool,
         for i in range(len(epochs)):
             epochs[i].info['bads'] = []
         epochs = mne.concatenate_epochs(epochs)
+        
     if bad_channels_strategy == "all":
         bad_channels = []
         for i in range(len(epochs)):
@@ -43,6 +44,7 @@ def epoch_plot(epochs, epoch_type: str, bad_channels_strategy: str, save : bool,
         for i in range(len(epochs)):
                 epochs[i].info['bads'] = bad_channels
         epochs = mne.concatenate_epochs(epochs)
+        
     epochs[epoch_type].plot_image(
     combine=combine_strategy,
     vmin=-30,
