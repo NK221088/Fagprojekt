@@ -2,8 +2,9 @@ from datetime import datetime
 from stratified_cv import StratifiedCV
 from majority_voting_classifier import BaselineModel
 from mean_model_classifier import MeanModel
-# from fNirs_processesing_fNirs_motor import all_epochs, epochs, all_data, all_freq, data_name
+#from fNirs_processesing_fNirs_motor import all_epochs, epochs, all_data, all_freq, data_name
 #from fnirs_processing_AudioSpeechNoise import all_epochs, epochs, all_data, all_freq, data_name
+from fnirs_processing_AudioSpeechNoise_SCC import all_epochs, epochs, all_data, all_freq, data_name
 from fnirs_processing_fnirs_motor_full_data import all_epochs, epochs, all_data, all_freq, data_name
 from epoch_plot import epoch_plot
 import mne
@@ -15,7 +16,7 @@ save = True
 bad_channels_strategy = "all"
 startTime = 7.5
 K = 2
-stopTime = 10.5
+stopTime = 12.5
 freq = all_freq
 save_results = True
 
