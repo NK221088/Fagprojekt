@@ -63,7 +63,7 @@ if save_results:
         file.write("Stop Time: {}\n".format(stopTime))
         file.write("Frequency: {}\n".format(round(freq,3)))
         file.write("Results:\n")
-        file.write("For the majority voting classifier: {}\n".format(round(results[1],2)))
-        file.write("For the mean model classifier: {}\n".format(round(results[0],2)))
+        file.write("For the majority voting classifier: {}\n".format(results[1],2))
+        file.write("For the mean model classifier: {}\n".format(results[0],2))
 
     print(f"Results saved as {filename}")
