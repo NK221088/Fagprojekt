@@ -23,22 +23,22 @@ freq = all_freq
 save_results = True
 
 # Plot epochs and save results
-# epoch_plot(all_epochs, epoch_type=epoch_type, combine_strategy=combine_strategy, save=True, bad_channels_strategy=bad_channels_strategy, threshold = threshold)
+epoch_plot(all_epochs, epoch_type=epoch_type, combine_strategy=combine_strategy, save=True, bad_channels_strategy=bad_channels_strategy, threshold = threshold)
 
-bad_channels = []
-for i in range(len(all_epochs)):
-    bad_channels.extend(all_epochs[i].info['bads'])
+# bad_channels = []
+# for i in range(len(all_epochs)):
+#     bad_channels.extend(all_epochs[i].info['bads'])
 
-# Count occurrences of each bad channel
-channel_counts = Counter(bad_channels)
+# # Count occurrences of each bad channel
+# channel_counts = Counter(bad_channels)
 
-# Keep only channels that occur more than twice
-bad_channels = [channel for channel, count in channel_counts.items() if count > 5]
+# # Keep only channels that occur more than twice
+# bad_channels = [channel for channel, count in channel_counts.items() if count > 5]
 
-# Update epochs with filtered bad channels
-for i in range(len(all_epochs)):
-    all_epochs[i].info['bads'] = bad_channels
-epochs = mne.concatenate_epochs(all_epochs)
+# # Update epochs with filtered bad channels
+# for i in range(len(all_epochs)):
+#     all_epochs[i].info['bads'] = bad_channels
+# epochs = mne.concatenate_epochs(all_epochs)
 # Run classifier and get results
 results = StratifiedCV(epochs[epoch_type].get_data(), epochs["Control"].get_data(), startTime=startTime, K=K, stopTime=stopTime, freq=freq)
 
