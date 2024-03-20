@@ -11,18 +11,18 @@ import mne
 import os
 from collections import Counter
 
-epoch_type = "Speech"
+epoch_type = "Tapping"
 combine_strategy = "mean"
-save = False
+save = True
 bad_channels_strategy = "all"
 threshold = 3
 startTime = 7.5
-K = 2
+K = 4
 stopTime = 12.5
 save_results = True
 short_channel_correction = True
-negative_correlation_enhancement = False
-data_set = "AudioSpeechNoise"
+negative_correlation_enhancement = True
+data_set = "fNirs_motor_full_data"
 
 def load_data(data_set : str, short_channel_correction : bool = None, negative_correlation_enhancement : bool = None):
     if data_set == "fNIrs_motor":
