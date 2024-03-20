@@ -11,10 +11,10 @@ import mne
 import os
 from collections import Counter
 
-epoch_type = "Tapping"
+epoch_type = "Speech"
 combine_strategy = "mean"
 save = False
-bad_channels_strategy = "threshold"
+bad_channels_strategy = "all"
 threshold = 3
 startTime = 7.5
 K = 2
