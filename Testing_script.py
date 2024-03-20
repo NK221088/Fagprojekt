@@ -9,11 +9,13 @@ from fnirs_processing_fnirs_motor_full_data import all_epochs, epochs, all_data,
 from epoch_plot import epoch_plot
 import mne
 import os
+from collections import Counter
 
 epoch_type = "Tapping"
 combine_strategy = "mean"
-save = True
-bad_channels_strategy = "all"
+save = False
+bad_channels_strategy = "threshold"
+threshold = 3
 startTime = 7.5
 K = 2
 stopTime = 12.5
@@ -21,10 +23,24 @@ freq = all_freq
 save_results = True
 
 # Plot epochs and save results
-epoch_plot(all_epochs, epoch_type=epoch_type, combine_strategy=combine_strategy, save=True, bad_channels_strategy=bad_channels_strategy)
+# epoch_plot(all_epochs, epoch_type=epoch_type, combine_strategy=combine_strategy, save=True, bad_channels_strategy=bad_channels_strategy, threshold = threshold)
 
+bad_channels = []
+for i in range(len(all_epochs)):
+    bad_channels.extend(all_epochs[i].info['bads'])
+
+# Count occurrences of each bad channel
+channel_counts = Counter(bad_channels)
+
+# Keep only channels that occur more than twice
+bad_channels = [channel for channel, count in channel_counts.items() if count > 5]
+
+# Update epochs with filtered bad channels
+for i in range(len(all_epochs)):
+    all_epochs[i].info['bads'] = bad_channels
+epochs = mne.concatenate_epochs(all_epochs)
 # Run classifier and get results
-results = StratifiedCV(all_data[epoch_type], all_data["Control"], startTime=startTime, K=K, stopTime=stopTime, freq=freq)
+results = StratifiedCV(epochs[epoch_type].get_data(), epochs["Control"].get_data(), startTime=startTime, K=K, stopTime=stopTime, freq=freq)
 
 # Get current date and time
 current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
