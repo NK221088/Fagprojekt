@@ -57,4 +57,4 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
         k0_control += kernelControl
         k1_control += kernelControl
         
-    return np.mean(meanModelAccuracy_list), np.mean(baselineAccuracy_list)
+    return str(np.round(np.mean(meanModelAccuracy_list), 3)) + u"\u00B1" + str(np.round(1.96 * np.std(meanModelAccuracy_list)/np.sqrt(len(meanModelAccuracy_list)),3)), str(np.round(np.mean(baselineAccuracy_list),3)) + u"\u00B1" + str(np.round(1.96 * np.std(baselineAccuracy_list)/np.sqrt(len(baselineAccuracy_list)),3))
