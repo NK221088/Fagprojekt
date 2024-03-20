@@ -1,11 +1,13 @@
 import numpy as np
 from majority_voting_classifier import BaselineModel
 from mean_model_classifier import MeanModel
+from positive_negative_classifer import Positive_Negativ_classifier
 
 def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 7.81):
     
     baselineAccuracy_list = [] #List to store accuracies
     meanModelAccuracy_list = []
+    psAccuracy_list = []
     
 
     dimTappingArray = tappingArray.shape[0] #Amount of tapping epochs 
@@ -46,9 +48,11 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
 
         meanModel_accuracy,_ = MeanModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain, jointArray=jointArray, labelIndx = tappingArray.shape[0])
         baseline_accuracy = BaselineModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain)
+        ps_accuracy,_ = Positive_Negativ_classifier(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain,jointArray=jointArray, labelIndx = tappingArray.shape[0])
         
         meanModelAccuracy_list.append(meanModel_accuracy)
         baselineAccuracy_list.append(baseline_accuracy)
+        psAccuracy_list.append(ps_accuracy)
     
         
         k0_tapping += kernelTapping #Updating kernel.
@@ -57,4 +61,4 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
         k0_control += kernelControl
         k1_control += kernelControl
         
-    return str(np.round(np.mean(meanModelAccuracy_list), 3)) + u"\u00B1" + str(np.round(1.96 * np.std(meanModelAccuracy_list)/np.sqrt(len(meanModelAccuracy_list)),3)), str(np.round(np.mean(baselineAccuracy_list),3)) + u"\u00B1" + str(np.round(1.96 * np.std(baselineAccuracy_list)/np.sqrt(len(baselineAccuracy_list)),3))
+    return str(np.round(np.mean(meanModelAccuracy_list), 3)) + u"\u00B1" + str(np.round(1.96 * np.std(meanModelAccuracy_list)/np.sqrt(len(meanModelAccuracy_list)),3)), str(np.round(np.mean(baselineAccuracy_list),3)) + u"\u00B1" + str(np.round(1.96 * np.std(baselineAccuracy_list)/np.sqrt(len(baselineAccuracy_list)),3)),str(np.round(np.mean(psAccuracy_list), 3)) + u"\u00B1" + str(np.round(1.96 * np.std(psAccuracy_list)/np.sqrt(len(psAccuracy_list)),3))

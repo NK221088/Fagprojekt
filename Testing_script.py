@@ -13,13 +13,13 @@ from collections import Counter
 
 epoch_type = "Tapping"
 combine_strategy = "mean"
-save = True
+save = False
 bad_channels_strategy = "all"
 threshold = 3
 startTime = 7.5
 K = 4
 stopTime = 12.5
-save_results = True
+save_results = save
 short_channel_correction = True
 negative_correlation_enhancement = True
 data_set = "fNirs_motor_full_data"
@@ -39,7 +39,7 @@ def load_data(data_set : str, short_channel_correction : bool = None, negative_c
 all_epochs, data_name, all_data, freq = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement)
 
 # Plot epochs and save results
-epoch_plot(all_epochs, epoch_type=epoch_type, combine_strategy=combine_strategy, save=True, bad_channels_strategy=bad_channels_strategy, threshold = threshold, data_set = data_name)
+epoch_plot(all_epochs, epoch_type=epoch_type, combine_strategy=combine_strategy, save=False, bad_channels_strategy=bad_channels_strategy, threshold = threshold, data_set = data_name)
 
 results = StratifiedCV(all_data[epoch_type], all_data["Control"], startTime = startTime, K = K, stopTime = stopTime, freq = freq)
 
@@ -65,5 +65,7 @@ if save_results:
         file.write("Results:\n")
         file.write("For the majority voting classifier: {}\n".format(results[1],2))
         file.write("For the mean model classifier: {}\n".format(results[0],2))
+        file.write("For the mean ps model classifier: {}\n".format(results[2],2))
+        
 
     print(f"Results saved as {filename}")
