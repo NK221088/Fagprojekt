@@ -3,7 +3,7 @@ from stratified_cv import StratifiedCV
 from majority_voting_classifier import BaselineModel
 from mean_model_classifier import MeanModel
 from fNirs_processesing_fNirs_motor import data_fNirs_motor
-from fnirs_processing_AudioSpeechNoise import all_epochs, epochs, all_data, all_freq, data_name
+# from fnirs_processing_AudioSpeechNoise import all_epochs, epochs, all_data, all_freq, data_name
 from fnirs_processing_AudioSpeechNoise_SCC import data_AudioSpeechNoise
 from fnirs_processing_fnirs_motor_full_data import data_fNirs_motor_full_data
 from epoch_plot import epoch_plot
@@ -19,52 +19,35 @@ threshold = 3
 startTime = 7.5
 K = 2
 stopTime = 12.5
-freq = all_freq
 save_results = True
 short_channel_correction = True
-negative_correlation_enhancement = True
+negative_correlation_enhancement = False
 data_set = "AudioSpeechNoise"
 
 def load_data(data_set : str, short_channel_correction : bool = None, negative_correlation_enhancement : bool = None):
-    if "fNIrs_motor":
-        data_name, all_data, all_freq = data_fNirs_motor()
+    if data_set == "fNIrs_motor":
+        all_epochs, data_name, all_data, all_freq = data_fNirs_motor()
         return all_epochs, data_name, all_data, all_freq
-    if "AudioSpeechNoise":
-        data_name, all_data, all_freq = data_AudioSpeechNoise()
+    if data_set == "AudioSpeechNoise":
+        all_epochs, data_name, all_data, all_freq = data_AudioSpeechNoise(short_channel_correction, negative_correlation_enhancement)
         return all_epochs, data_name, all_data, all_freq
-    if "fNirs_motor_full_data":
-        data_name, all_data, all_freq = data_fNirs_motor_full_data()
+    if data_set ==  "fNirs_motor_full_data":
+        all_epochs, data_name, all_data, all_freq = data_fNirs_motor_full_data()
         return all_epochs, data_name, all_data, all_freq
     
 
-all_epochs, data_name, all_data, all_freq = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement)
+all_epochs, data_name, all_data, freq = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement)
 
 # Plot epochs and save results
 epoch_plot(all_epochs, epoch_type=epoch_type, combine_strategy=combine_strategy, save=True, bad_channels_strategy=bad_channels_strategy, threshold = threshold)
 
-# bad_channels = []
-# for i in range(len(all_epochs)):
-#     bad_channels.extend(all_epochs[i].info['bads'])
-
-# # Count occurrences of each bad channel
-# channel_counts = Counter(bad_channels)
-
-# # Keep only channels that occur more than twice
-# bad_channels = [channel for channel, count in channel_counts.items() if count > 5]
-
-# # Update epochs with filtered bad channels
-# for i in range(len(all_epochs)):
-#     all_epochs[i].info['bads'] = bad_channels
-# epochs = mne.concatenate_epochs(all_epochs)
-# Run classifier and get results
-results = StratifiedCV(epochs[epoch_type].get_data(), epochs["Control"].get_data(), startTime=startTime, K=K, stopTime=stopTime, freq=freq)
+results = StratifiedCV(all_data[epoch_type], all_data["Control"], startTime = startTime, K = K, stopTime = stopTime, freq = freq)
 
 # Get current date and time
 current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 # Construct filename with date and time
-# Define the folder name
-results_folder = "Classifier_results"
+results_folder = "Classifier_results" # Define the folder name
 filename = os.path.join(results_folder, f"{data_name}_{epoch_type}_results_{current_datetime}.txt")
 if save_results:
     with open(filename, "w") as file:
