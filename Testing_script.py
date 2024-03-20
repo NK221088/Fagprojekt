@@ -39,7 +39,7 @@ def load_data(data_set : str, short_channel_correction : bool = None, negative_c
 all_epochs, data_name, all_data, freq = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement)
 
 # Plot epochs and save results
-epoch_plot(all_epochs, epoch_type=epoch_type, combine_strategy=combine_strategy, save=True, bad_channels_strategy=bad_channels_strategy, threshold = threshold)
+epoch_plot(all_epochs, epoch_type=epoch_type, combine_strategy=combine_strategy, save=True, bad_channels_strategy=bad_channels_strategy, threshold = threshold, data_set = data_name)
 
 results = StratifiedCV(all_data[epoch_type], all_data["Control"], startTime = startTime, K = K, stopTime = stopTime, freq = freq)
 

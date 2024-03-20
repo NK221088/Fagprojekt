@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import os
 from collections import Counter
 
-def epoch_plot(epochs, epoch_type: str, bad_channels_strategy: str, save : bool, combine_strategy: str = "mean", threshold = None):
+def epoch_plot(epochs, epoch_type: str, bad_channels_strategy: str, save : bool, combine_strategy: str = "mean", threshold = None, data_set : str = "data_name"):
 
     """Plot epochs for one or multiple patients
 
@@ -78,7 +78,7 @@ def epoch_plot(epochs, epoch_type: str, bad_channels_strategy: str, save : bool,
     if save:
         Plot_types = ["Oxyhemoglobin", "Deoxyhemoglobin"]
         for plot_type, plot in zip(Plot_types, plots):
-            filename = os.path.join(plots_folder, f"{epoch_type}_epochs_plot_{plot_type}_{bad_channels_strategy}.pdf")
+            filename = os.path.join(plots_folder, f"{epoch_type}_epochs_plot_{plot_type}_{bad_channels_strategy}_{data_set}.pdf")
             plot.savefig(filename)
             print(f"Plot {plot_type} saved as {filename}")
             plt.close(plot)  # Close the figure after saving
