@@ -5,7 +5,7 @@ import numpy as np
 
 def SVM_classifier(TappingTest, ControlTest, TappingTrain, ControlTrain, jointArray, labelIndx):
     confusionMatrix = np.zeros((2, 2))  # 0 = control, 1 = Tapping
-    clf = svm.SVC()
+    clf = svm.SVC(kernel='rbf')
 
     # Flatten the last two dimensions of the data
     train_indices = np.concatenate((TappingTrain, ControlTrain))
