@@ -26,7 +26,7 @@ import mne_nirs
 import mne_bids
 import os
 
-def data_fNirs_motor_full_data():
+def data_fNirs_motor_full_data(short_channel_correction : bool, negative_correlation_enhancement : bool):
     all_epochs = []
     all_tapping = []
     all_control = []
@@ -45,13 +45,22 @@ def data_fNirs_motor_full_data():
         unwanted = np.nonzero(raw_intensity.annotations.description == "15.0")
         raw_intensity.annotations.delete(unwanted)
 
-        picks = mne.pick_types(raw_intensity.info, meg=False, fnirs=True)
-        dists = mne.preprocessing.nirs.source_detector_distances(
-            raw_intensity.info, picks=picks
-        )
-        raw_intensity.pick(picks[dists > 0.01])
-
-        raw_od = mne.preprocessing.nirs.optical_density(raw_intensity)
+        if short_channel_correction:
+            raw_od = mne.preprocessing.nirs.optical_density(raw_intensity)
+            raw_od = mne_nirs.signal_enhancement.short_channel_regression(raw_od)
+            
+            picks = mne.pick_types(raw_intensity.info, meg=False, fnirs=True)
+            dists = mne.preprocessing.nirs.source_detector_distances(
+                raw_intensity.info, picks=picks
+            )
+            raw_intensity.pick(picks[dists > 0.01])
+        else:
+            picks = mne.pick_types(raw_intensity.info, meg=False, fnirs=True)
+            dists = mne.preprocessing.nirs.source_detector_distances(
+                raw_intensity.info, picks=picks
+            )
+            raw_intensity.pick(picks[dists > 0.01])
+            raw_od = mne.preprocessing.nirs.optical_density(raw_intensity)
 
         sci = mne.preprocessing.nirs.scalp_coupling_index(raw_od)
 
@@ -61,6 +70,9 @@ def data_fNirs_motor_full_data():
 
         raw_haemo_unfiltered = raw_haemo.copy()
         raw_haemo.filter(0.05, 0.7, h_trans_bandwidth=0.2, l_trans_bandwidth=0.02)
+
+        if negative_correlation_enhancement:
+            raw_haemo = mne_nirs.signal_enhancement.enhance_negative_correlation(raw_haemo)
 
         events, event_dict = mne.events_from_annotations(raw_haemo)
 
