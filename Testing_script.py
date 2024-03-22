@@ -3,7 +3,7 @@ from stratified_cv import StratifiedCV
 from majority_voting_classifier import BaselineModel
 from mean_model_classifier import MeanModel
 from fNirs_processesing_fNirs_motor import data_fNirs_motor
-# from fnirs_processing_AudioSpeechNoise import all_epochs, epochs, all_data, all_freq, data_name
+from fnirs_processing_AudioSpeechNoise import all_epochs, epochs, all_data, all_freq, data_name
 from fnirs_processing_AudioSpeechNoise_SCC import data_AudioSpeechNoise
 from fnirs_processing_fnirs_motor_full_data import data_fNirs_motor_full_data
 from epoch_plot import epoch_plot
@@ -11,18 +11,18 @@ import mne
 import os
 from collections import Counter
 
-epoch_type = "Tapping"
+epoch_type = "Speech"
 combine_strategy = "mean"
 save = False
 bad_channels_strategy = "all"
 threshold = 3
 startTime = 7.5
-K = 4
+K = 2
 stopTime = 12.5
 save_results = save
 short_channel_correction = True
 negative_correlation_enhancement = True
-data_set = "fNirs_motor_full_data"
+data_set = "AudioSpeechNoise"
 
 def load_data(data_set : str, short_channel_correction : bool = None, negative_correlation_enhancement : bool = None):
     if data_set == "fNIrs_motor":
@@ -39,7 +39,11 @@ def load_data(data_set : str, short_channel_correction : bool = None, negative_c
 all_epochs, data_name, all_data, freq = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement)
 
 # Plot epochs and save results
+<<<<<<< Updated upstream
 epoch_plot(all_epochs, epoch_type=epoch_type, combine_strategy=combine_strategy, save=False, bad_channels_strategy=bad_channels_strategy, threshold = threshold, data_set = data_name)
+=======
+epoch_plot(all_epochs, epoch_type=epoch_type, combine_strategy=combine_strategy, save=save, bad_channels_strategy=bad_channels_strategy, threshold = threshold, data_set = data_name)
+>>>>>>> Stashed changes
 
 results = StratifiedCV(all_data[epoch_type], all_data["Control"], startTime = startTime, K = K, stopTime = stopTime, freq = freq)
 
