@@ -25,7 +25,7 @@ def epoch_plot(epochs, epoch_type: str, bad_channels_strategy: str, save : bool,
         raise ValueError("Invalid bad_channels_strategy. Please use 'delete', 'all' og 'threshold'.")
     
     # Check if combine_strategy is valid
-    if combine_strategy not in ("mean", "median", "sum"):
+    if combine_strategy not in ("mean", "median", "sum", "gfp"):
         raise ValueError("Invalid combine_strategy. Please use 'mean', 'median', or 'sum'.")
     
     # Check if save is a boolean
