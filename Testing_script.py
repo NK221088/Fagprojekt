@@ -12,7 +12,7 @@ import os
 from collections import Counter
 
 epoch_type = "Speech"
-combine_strategy = "mean"
+combine_strategy = "gfp"
 save = False
 bad_channels_strategy = "all"
 threshold = 3
