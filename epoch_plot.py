@@ -2,6 +2,7 @@ import mne
 import matplotlib.pyplot as plt
 import os
 from collections import Counter
+from datetime import datetime
 
 def epoch_plot(epochs, epoch_type: str, bad_channels_strategy: str, save : bool, combine_strategy: str = "mean", threshold = None, data_set : str = "data_name"):
 
@@ -76,9 +77,10 @@ def epoch_plot(epochs, epoch_type: str, bad_channels_strategy: str, save : bool,
     # Save each plot if save is True
     plots_folder = "Plots"
     if save:
+        current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         Plot_types = ["Oxyhemoglobin", "Deoxyhemoglobin"]
         for plot_type, plot in zip(Plot_types, plots):
-            filename = os.path.join(plots_folder, f"{epoch_type}_epochs_plot_{plot_type}_{bad_channels_strategy}_{data_set}.pdf")
+            filename = os.path.join(plots_folder, f"{epoch_type}_epochs_plot_{plot_type}_{bad_channels_strategy}_{data_set}_{current_datetime}.pdf")
             plot.savefig(filename)
             print(f"Plot {plot_type} saved as {filename}")
             plt.close(plot)  # Close the figure after saving
