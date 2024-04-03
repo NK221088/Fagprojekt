@@ -19,8 +19,8 @@ stopTime = 12.5
 K = 2
 short_channel_correction = False
 negative_correlation_enhancement = False
-save_results = True
-plot_epochs = True
+save_results = False
+plot_epochs = False
 plot_std_fNIRS_response = True
 save_plot = True
 

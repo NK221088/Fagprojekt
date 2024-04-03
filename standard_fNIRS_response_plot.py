@@ -96,7 +96,7 @@ def standard_fNIRS_response_plot(epochs, data_types: list, bad_channels_strategy
     styles_dict = dict(Control=dict(linestyle="dashed"))
 
     # Plot evoked data
-    mne.viz.plot_compare_evokeds(
+    plot = mne.viz.plot_compare_evokeds(
         evoked_dict, combine="mean", ci=0.95, colors=color_dict, styles=styles_dict
     )
 
@@ -104,6 +104,6 @@ def standard_fNIRS_response_plot(epochs, data_types: list, bad_channels_strategy
     if save:
         current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = os.path.join("Plots", f"standard_fNIRS_response_plot_{current_datetime}.pdf")
-        plt.savefig(filename)
+        plot[0].savefig(filename)
         print(f"Plot saved as {filename}")
-        plt.close()  # Close the figure after saving
+        plt.close(plot[0])  # Close the figure after saving

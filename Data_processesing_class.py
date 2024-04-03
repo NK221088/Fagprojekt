@@ -159,7 +159,6 @@ class AudioSpeechNoise_data_load(fNIRS_data_load):
         fnirs_snirf_file_path = os.path.join(self.file_path, f"sub-{sub_id}", "ses-01", "nirs", f"sub-{sub_id}_ses-01_task-AudioSpeechNoise_nirs.snirf")
         raw_intensity = mne.io.read_raw_snirf(fnirs_snirf_file_path, verbose=True)
         raw_intensity.load_data()
-
         return raw_intensity
 
 class fNIRS_motor_data_load(fNIRS_data_load):
