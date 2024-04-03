@@ -1,11 +1,21 @@
 import tensorflow as tf
-# print("TensorFlow version:", tf.__version__)
 from load_data_function import load_data
 from fNirs_processesing_fNirs_motor import data_fNirs_motor
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
+
+
+# Allow memory growth for the GPU
+physical_devices = tf.config.list_physical_devices('GPU')
+if physical_devices:
+    try:
+        # Set memory growth to avoid allocating all GPU memory at once
+        tf.config.experimental.set_memory_growth(physical_devices[0], True)
+    except RuntimeError as e:
+        print(e)
+        
 data_set = "fNirs_motor_full_data"
 epoch_type = "Tapping"
 short_channel_correction = True
