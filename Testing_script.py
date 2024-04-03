@@ -9,8 +9,8 @@ import mne
 import os
 from collections import Counter
 
-data_set = "AudioSpeechNoise" #"fNirs_motor_full_data" #"fNIrs_motor", #"AudioSpeechNoise", 
-epoch_type = "Speech"
+data_set = "fNirs_motor_full_data" #"fNirs_motor_full_data" #"fNIrs_motor", #"AudioSpeechNoise", 
+epoch_type = "Tapping"
 combine_strategy = "mean"
 bad_channels_strategy = "all"
 threshold = 3
