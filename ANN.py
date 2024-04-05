@@ -27,22 +27,22 @@ X = np.concatenate((all_data[epoch_type],all_data["Control"]), axis = 0)
 y = np.concatenate((np.ones(len(all_data[epoch_type])), np.zeros(len(all_data["Control"]))), axis=0)
 
 
-# Assuming X is your data
-samples, features, time = X.shape
+# # Assuming X is your data
+# samples, features, time = X.shape
 
-# Reshape to 2D
-X_2D = np.reshape(X, (samples*features, time))
+# # Reshape to 2D
+# X_2D = np.reshape(X, (samples*features, time))
 
-# Standardize
-scaler = StandardScaler()
-X_standardized_2D = scaler.fit_transform(X_2D)
+# # Standardize
+# scaler = StandardScaler()
+# X_standardized_2D = scaler.fit_transform(X_2D)
 
-# Reshape back to 3D
-X = np.reshape(X_standardized_2D, (samples, features, time))
+# # Reshape back to 3D
+# X = np.reshape(X_standardized_2D, (samples, features, time))
 
-# X = (X - np.mean(X, axis = 0)) / np.std(X, axis = 0)
+X = (X - np.mean(X, axis = 0)) / np.std(X, axis = 0)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.7, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 X_train = tf.convert_to_tensor(X_train)
 y_train = tf.convert_to_tensor(y_train)
 X_test = tf.convert_to_tensor(X_test)
@@ -57,10 +57,42 @@ model = tf.keras.models.Sequential([
 
 loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 
-model.compile(optimizer='adam',
+import tensorflow as tf
+
+class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
+    def __init__(self, initial_learning_rate, decay_steps, decay_rate):
+        self.initial_learning_rate = initial_learning_rate
+        self.decay_steps = decay_steps
+        self.decay_rate = decay_rate
+
+    def __call__(self, step):
+        lr = tf.keras.optimizers.schedules.ExponentialDecay(
+            initial_learning_rate=self.initial_learning_rate,
+            decay_steps=self.decay_steps,
+            decay_rate=self.decay_rate,
+            staircase=True)(step)
+        return lr / (step + 1)
+
+initial_learning_rate = 0.1
+decay_steps = 10000
+decay_rate = 0.9
+
+optimizer = tf.keras.optimizers.Adam(
+    learning_rate=fNirs_LRSchedule(
+        initial_learning_rate=initial_learning_rate,
+        decay_steps=decay_steps,
+        decay_rate=decay_rate
+    )
+)
+
+
+model.compile(optimizer=optimizer,
               loss=loss_fn,
               metrics=['accuracy'])
 
 model.fit(X_train, y_train, epochs=5)
 
 model.evaluate(X_test,  y_test, verbose=2)
+
+
+np.array([0.692, 0.7901, 0.9321, 0.9575, 0.9741])
