@@ -60,17 +60,18 @@ loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 import tensorflow as tf
 
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
-    def __init__(self, initial_learning_rate, decay_steps, decay_rate):
+    def __init__(self, initial_learning_rate, decay_steps, decay_rate, staircase):
         self.initial_learning_rate = initial_learning_rate
         self.decay_steps = decay_steps
         self.decay_rate = decay_rate
+        self.staircase = staircase
 
     def __call__(self, step):
         lr = tf.keras.optimizers.schedules.ExponentialDecay(
             initial_learning_rate=self.initial_learning_rate,
             decay_steps=self.decay_steps,
             decay_rate=self.decay_rate,
-            staircase=True)(step)
+            staircase=self.staircase)(step)
         return lr / (step + 1)
 
 initial_learning_rate = 0.1
@@ -79,9 +80,10 @@ decay_rate = 0.9
 
 optimizer = tf.keras.optimizers.Adam(
     learning_rate=fNirs_LRSchedule(
-        initial_learning_rate=initial_learning_rate,
-        decay_steps=decay_steps,
-        decay_rate=decay_rate
+        initial_learning_rate = initial_learning_rate,
+        decay_steps = decay_steps,
+        decay_rate = decay_rate,
+        staircase = True
     )
 )
 
