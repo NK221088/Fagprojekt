@@ -120,7 +120,7 @@ initial_learning_rate = 0.01
 decay_steps = tf.constant(1, dtype=tf.int64)
 decay_rate = 0.9
 
-optimizer = keras.optimizers.Adam(
+optimizer = tf.keras.optimizers.Adam(
     learning_rate=fNirs_LRSchedule(
         initial_learning_rate = initial_learning_rate,
         decay_steps = decay_steps,
