@@ -48,38 +48,38 @@ y_train = tf.convert_to_tensor(y_train)
 X_test = tf.convert_to_tensor(X_test)
 y_test = tf.convert_to_tensor(y_test)
 
-"""
+
 model = tf.keras.models.Sequential([
   tf.keras.layers.Flatten(input_shape=(np.shape(X)[1], np.shape(X)[2])),
   tf.keras.layers.Dense(128, activation='relu'),
   tf.keras.layers.Dropout(0.2),
-  tf.keras.layers.Dense(len(np.unique(y)))
+  tf.keras.layers.Dense(len(np.unique(y)), activation='softmax')
 ])
-"""
 
-# Convolutional model:
-model = models.Sequential()
 
-model.add(layers.Input(shape=(np.shape(X)[1], np.shape(X)[2])))
+# # Convolutional model:
+# model = models.Sequential()
 
-# First Conv1D layer
-model.add(layers.Conv1D(filters=128, kernel_size=8, activation='relu', padding='same'))
-model.add(layers.BatchNormalization())
+# model.add(layers.Input(shape=(np.shape(X)[1], np.shape(X)[2])))
 
-# Second Conv1D layer
-model.add(layers.Conv1D(filters=256, kernel_size=5, activation='relu', padding='same'))
-model.add(layers.BatchNormalization())
+# # First Conv1D layer
+# model.add(layers.Conv1D(filters=128, kernel_size=8, activation='relu', padding='same'))
+# model.add(layers.BatchNormalization())
 
-# Third Conv1D layer
-model.add(layers.Conv1D(filters=128, kernel_size=3, activation='relu', padding='same'))
-model.add(layers.BatchNormalization())
+# # Second Conv1D layer
+# model.add(layers.Conv1D(filters=256, kernel_size=5, activation='relu', padding='same'))
+# model.add(layers.BatchNormalization())
 
-# Flattening the output to feed into the Dense layer
-model.add(layers.GlobalAveragePooling1D())
+# # Third Conv1D layer
+# model.add(layers.Conv1D(filters=128, kernel_size=3, activation='relu', padding='same'))
+# model.add(layers.BatchNormalization())
 
-# Final Dense layer for classification
-model.add(layers.Dense(len(np.unique(y))))
-model.add(layers.Activation('softmax'))
+# # Flattening the output to feed into the Dense layer
+# model.add(layers.GlobalAveragePooling1D())
+
+# # Final Dense layer for classification
+# model.add(layers.Dense(len(np.unique(y))))
+# model.add(layers.Activation('softmax'))
 
 
 """
@@ -116,7 +116,7 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
         return lr / (step + 1)
 
 initial_learning_rate = 0.01
-decay_steps = tf.constant(1, dtype=tf.int64)
+decay_steps = tf.constant(100, dtype=tf.int64)
 decay_rate = 0.9
 
 optimizer = tf.keras.optimizers.Adam(
@@ -131,7 +131,7 @@ model.compile(optimizer=optimizer,
               loss=loss_fn,
               metrics=['accuracy'])
 
-model.fit(X_train, y_train, epochs=5)
+model.fit(X_train, y_train, epochs=1000)
 
 model.evaluate(X_test,  y_test, verbose=2)
 
