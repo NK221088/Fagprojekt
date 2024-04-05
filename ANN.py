@@ -4,6 +4,7 @@ from fNirs_processesing_fNirs_motor import data_fNirs_motor
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from tensorflow.keras import datasets, layers, models
 
 
 
@@ -48,22 +49,41 @@ y_train = tf.convert_to_tensor(y_train)
 X_test = tf.convert_to_tensor(X_test)
 y_test = tf.convert_to_tensor(y_test)
 
-# Basic model:
+"""
 model = tf.keras.models.Sequential([
   tf.keras.layers.Flatten(input_shape=(np.shape(X)[1], np.shape(X)[2])),
   tf.keras.layers.Dense(128, activation='relu'),
   tf.keras.layers.Dropout(0.2),
   tf.keras.layers.Dense(len(np.unique(y)))
 ])
-# Output layer with no activation function (to ensure logits)
-model.add(layers.Dense(len(np.unique(y))))
-
-# Softmax activation applied separately to logits
-model.add(layers.Activation('softmax'))
+"""
 
 # Convolutional model:
 model = models.Sequential()
 
+model.add(layers.Input(shape=(np.shape(X)[1], np.shape(X)[2])))
+
+# First Conv1D layer
+model.add(layers.Conv1D(filters=128, kernel_size=8, activation='relu', padding='same'))
+model.add(layers.BatchNormalization())
+
+# Second Conv1D layer
+model.add(layers.Conv1D(filters=256, kernel_size=5, activation='relu', padding='same'))
+model.add(layers.BatchNormalization())
+
+# Third Conv1D layer
+model.add(layers.Conv1D(filters=128, kernel_size=3, activation='relu', padding='same'))
+model.add(layers.BatchNormalization())
+
+# Flattening the output to feed into the Dense layer
+model.add(layers.GlobalAveragePooling1D())
+
+# Final Dense layer for classification
+model.add(layers.Dense(len(np.unique(y))))
+model.add(layers.Activation('softmax'))
+
+
+"""
 # Convolutional base
 model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(np.shape(X)[1], np.shape(X)[2], 1)))
 model.add(layers.MaxPooling2D((2, 2)))
@@ -78,25 +98,26 @@ model.add(layers.Dropout(0.5))  # Dropout layer to reduce overfitting
 
 # Output layer
 model.add(layers.Dense(len(np.unique(y)), activation='softmax'))
+"""
 
-loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
+
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
-    def __init__(self, initial_learning_rate, decay_steps, decay_rate, staircase):
+    def __init__(self, initial_learning_rate, decay_steps, decay_rate):
         self.initial_learning_rate = initial_learning_rate
         self.decay_steps = decay_steps
         self.decay_rate = decay_rate
-        self.staircase = staircase
 
     def __call__(self, step):
         lr = tf.keras.optimizers.schedules.ExponentialDecay(
             initial_learning_rate=self.initial_learning_rate,
             decay_steps=self.decay_steps,
             decay_rate=self.decay_rate,
-            staircase=self.staircase)(step)
+            staircase=True)(step)
         return lr / (step + 1)
 
-initial_learning_rate = 0.1
-decay_steps = 10000
+initial_learning_rate = 0.01
+decay_steps = tf.constant(1, dtype=tf.int64)
 decay_rate = 0.9
 
 optimizer = keras.optimizers.Adam(
@@ -104,21 +125,7 @@ optimizer = keras.optimizers.Adam(
         initial_learning_rate = initial_learning_rate,
         decay_steps = decay_steps,
         decay_rate = decay_rate,
-        staircase = True
-    ),
-    beta_1=0.9,
-    beta_2=0.999,
-    epsilon=1e-07,
-    amsgrad=False,
-    weight_decay=None,
-    clipnorm=None,
-    clipvalue=None,
-    global_clipnorm=None,
-    use_ema=False,
-    ema_momentum=0.99,
-    ema_overwrite_frequency=None,
-    name="adam",
-    **kwargs
+    )
 )
 
 model.compile(optimizer=optimizer,
@@ -128,3 +135,5 @@ model.compile(optimizer=optimizer,
 model.fit(X_train, y_train, epochs=5)
 
 model.evaluate(X_test,  y_test, verbose=2)
+
+
