@@ -48,13 +48,20 @@ y_train = tf.convert_to_tensor(y_train)
 X_test = tf.convert_to_tensor(X_test)
 y_test = tf.convert_to_tensor(y_test)
 
+# Basic model:
 model = tf.keras.models.Sequential([
   tf.keras.layers.Flatten(input_shape=(np.shape(X)[1], np.shape(X)[2])),
   tf.keras.layers.Dense(128, activation='relu'),
   tf.keras.layers.Dropout(0.2),
   tf.keras.layers.Dense(len(np.unique(y)))
 ])
+# Output layer with no activation function (to ensure logits)
+model.add(layers.Dense(len(np.unique(y))))
 
+# Softmax activation applied separately to logits
+model.add(layers.Activation('softmax'))
+
+# Convolutional model:
 model = models.Sequential()
 
 # Convolutional base
@@ -73,9 +80,6 @@ model.add(layers.Dropout(0.5))  # Dropout layer to reduce overfitting
 model.add(layers.Dense(len(np.unique(y)), activation='softmax'))
 
 loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
-
-import tensorflow as tf
-
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
     def __init__(self, initial_learning_rate, decay_steps, decay_rate, staircase):
         self.initial_learning_rate = initial_learning_rate
@@ -95,15 +99,27 @@ initial_learning_rate = 0.1
 decay_steps = 10000
 decay_rate = 0.9
 
-optimizer = tf.keras.optimizers.Adam(
+optimizer = keras.optimizers.Adam(
     learning_rate=fNirs_LRSchedule(
         initial_learning_rate = initial_learning_rate,
         decay_steps = decay_steps,
         decay_rate = decay_rate,
         staircase = True
-    )
+    ),
+    beta_1=0.9,
+    beta_2=0.999,
+    epsilon=1e-07,
+    amsgrad=False,
+    weight_decay=None,
+    clipnorm=None,
+    clipvalue=None,
+    global_clipnorm=None,
+    use_ema=False,
+    ema_momentum=0.99,
+    ema_overwrite_frequency=None,
+    name="adam",
+    **kwargs
 )
-
 
 model.compile(optimizer=optimizer,
               loss=loss_fn,
@@ -112,6 +128,3 @@ model.compile(optimizer=optimizer,
 model.fit(X_train, y_train, epochs=5)
 
 model.evaluate(X_test,  y_test, verbose=2)
-
-
-np.array([0.692, 0.7901, 0.9321, 0.9575, 0.9741])
