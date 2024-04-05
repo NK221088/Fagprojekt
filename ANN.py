@@ -1,6 +1,5 @@
 import tensorflow as tf
 from load_data_function import load_data
-from fNirs_processesing_fNirs_motor import data_fNirs_motor
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -22,7 +21,7 @@ epoch_type = "Tapping"
 short_channel_correction = True
 negative_correlation_enhancement = True
 
-all_epochs, data_name, all_data, freq = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement)
+all_epochs, data_name, all_data, freq, data_types = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement)
 
 X = np.concatenate((all_data[epoch_type],all_data["Control"]), axis = 0)
 y = np.concatenate((np.ones(len(all_data[epoch_type])), np.zeros(len(all_data["Control"]))), axis=0)
