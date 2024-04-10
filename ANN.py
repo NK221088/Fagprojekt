@@ -40,14 +40,9 @@ y = np.concatenate((np.ones(len(all_data[epoch_type])), np.zeros(len(all_data["C
 # # Reshape back to 3D
 # X = np.reshape(X_standardized_2D, (samples, features, time))
 
-X = (X - np.mean(X, axis = 0)) / np.std(X, axis = 0)
+# X = (X - np.mean(X, axis = 0)) / np.std(X, axis = 0)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-
-
-
-
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # # Convolutional model:
 # model = models.Sequential()
@@ -73,7 +68,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # model.add(layers.Dense(len(np.unique(y))))
 # model.add(layers.Activation('softmax'))
 
-
 """
 # Convolutional base
 model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(np.shape(X)[1], np.shape(X)[2], 1)))
@@ -90,7 +84,6 @@ model.add(layers.Dropout(0.5))  # Dropout layer to reduce overfitting
 # Output layer
 model.add(layers.Dense(len(np.unique(y)), activation='softmax'))
 """
-
 
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
     def __init__(self, initial_learning_rate, decay_steps, decay_rate):
@@ -133,7 +126,7 @@ def ANN_classifier(TappingTest, ControlTest, TappingTrain, ControlTrain, jointAr
     tf.keras.layers.Dense(len(np.unique(y_test)), activation='softmax')
     ])
     
-    loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+    loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
     
     initial_learning_rate = 0.01
     decay_steps = tf.constant(10, dtype=tf.int64)
@@ -151,7 +144,7 @@ def ANN_classifier(TappingTest, ControlTest, TappingTrain, ControlTrain, jointAr
                 loss=loss_fn, 
                 metrics=['accuracy'])
 
-    model.fit(X_train, y_train, epochs=100)
+    model.fit(X_train, y_train, epochs=5)
 
     accuracy = model.evaluate(X_test,  y_test, verbose=2)
     

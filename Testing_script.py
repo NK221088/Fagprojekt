@@ -8,6 +8,7 @@ from standard_fNIRS_response_plot import standard_fNIRS_response_plot
 import mne
 import os
 from collections import Counter
+import numpy as np
 
 epoch_type = "Tapping"
 combine_strategy = "mean"
@@ -16,7 +17,7 @@ bad_channels_strategy = "all"
 threshold = 3
 startTime = 7.5
 stopTime = 12.5
-K = 4
+K = 3
 save_results = save
 short_channel_correction = True
 negative_correlation_enhancement = True
@@ -39,8 +40,11 @@ if plot_std_fNIRS_response:
 
 results = StratifiedCV(all_data[epoch_type], all_data["Control"], startTime = startTime, K = K, stopTime = stopTime, freq = freq)
 
+results_string_format = {classifier: str(np.round(np.mean(result), 3)) + u"\u00B1" + str(np.round(1.96 * np.std(result)/np.sqrt(len(result)),3)) for (classifier, result) in results.items()}
+
 # Get current date and time
 current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
 
 # Construct filename with date and time
 results_folder = "Classifier_results" # Define the folder name
@@ -59,12 +63,10 @@ if save_results:
         file.write("Stop Time: {}\n".format(stopTime))
         file.write("Frequency: {}\n".format(round(freq,3)))
         file.write("Results:\n")
-        file.write("For the majority voting classifier: {}\n".format(results[1],2))
-        file.write("For the mean model classifier: {}\n".format(results[0],2))
-        file.write("For the mean ps model classifier: {}\n".format(results[2],2))
-        file.write("For the mean SVM model classifier: {}\n".format(results[3],2))
-        file.write("For the ANN classifier: {}\n".format(results[4],2))
-
-        
+        file.write("For the majority voting classifier: {}\n".format(results_string_format["MajorityVoting"],2))
+        file.write("For the mean model classifier: {}\n".format(results_string_format["MeanModel"],2))
+        file.write("For the mean ps model classifier: {}\n".format(results_string_format["PSModel"],2))
+        file.write("For the mean SVM model classifier: {}\n".format(results_string_format["SVMModel"],2))
+        file.write("For the ANN classifier: {}\n".format(results_string_format["ANNModel"],2))
 
     print(f"Results saved as {filename}")
