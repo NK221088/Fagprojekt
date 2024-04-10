@@ -43,18 +43,10 @@ y = np.concatenate((np.ones(len(all_data[epoch_type])), np.zeros(len(all_data["C
 X = (X - np.mean(X, axis = 0)) / np.std(X, axis = 0)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-X_train = tf.convert_to_tensor(X_train)
-y_train = tf.convert_to_tensor(y_train)
-X_test = tf.convert_to_tensor(X_test)
-y_test = tf.convert_to_tensor(y_test)
 
 
-model = tf.keras.models.Sequential([
-  tf.keras.layers.Flatten(input_shape=(np.shape(X)[1], np.shape(X)[2])),
-  tf.keras.layers.Dense(128, activation='relu'),
-  tf.keras.layers.Dropout(0.2),
-  tf.keras.layers.Dense(len(np.unique(y)), activation='softmax')
-])
+
+
 
 
 # # Convolutional model:
@@ -99,7 +91,6 @@ model.add(layers.Dropout(0.5))  # Dropout layer to reduce overfitting
 model.add(layers.Dense(len(np.unique(y)), activation='softmax'))
 """
 
-loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
 
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
     def __init__(self, initial_learning_rate, decay_steps, decay_rate):
@@ -115,24 +106,53 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             staircase=True)(step)
         return lr / (step + 1)
 
-initial_learning_rate = 0.01
-decay_steps = tf.constant(100, dtype=tf.int64)
-decay_rate = 0.9
+def ANN_classifier(TappingTest, ControlTest, TappingTrain, ControlTrain, jointArray, labelIndx):
 
-optimizer = tf.keras.optimizers.Adam(
-    learning_rate=fNirs_LRSchedule(
-        initial_learning_rate = initial_learning_rate,
-        decay_steps = decay_steps,
-        decay_rate = decay_rate,
+    train_indices = np.concatenate((TappingTrain, ControlTrain))
+    test_indices = np.concatenate((TappingTest, ControlTest))
+    
+    X_train = jointArray[train_indices]
+    X_test = jointArray[test_indices]
+    
+    y_train = np.concatenate((np.ones(len(TappingTrain)), np.zeros(len(ControlTrain))), axis=0)
+    y_test = np.concatenate((np.ones(len(TappingTest)), np.zeros(len(ControlTest))), axis=0)
+    
+    X_train = (X_train - np.mean(X_train, axis = 0)) / np.std(X_train, axis = 0)
+    X_test = (X_test - np.mean(X_train, axis = 0)) / np.std(X_train, axis = 0)
+
+    
+    X_train = tf.convert_to_tensor(X_train)
+    y_train = tf.convert_to_tensor(y_train)
+    X_test = tf.convert_to_tensor(X_test)
+    y_test = tf.convert_to_tensor(y_test)
+    
+    model = tf.keras.models.Sequential([
+    tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dropout(0.2),
+    tf.keras.layers.Dense(len(np.unique(y_test)), activation='softmax')
+    ])
+    
+    loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+    
+    initial_learning_rate = 0.01
+    decay_steps = tf.constant(10, dtype=tf.int64)
+    decay_rate = 0.9
+
+    optimizer = tf.keras.optimizers.Adam(
+        learning_rate=fNirs_LRSchedule(
+            initial_learning_rate = initial_learning_rate,
+            decay_steps = decay_steps,
+            decay_rate = decay_rate,
+        )
     )
-)
+    
+    model.compile(optimizer=optimizer,
+                loss=loss_fn, 
+                metrics=['accuracy'])
 
-model.compile(optimizer=optimizer,
-              loss=loss_fn,
-              metrics=['accuracy'])
+    model.fit(X_train, y_train, epochs=100)
 
-model.fit(X_train, y_train, epochs=1000)
-
-model.evaluate(X_test,  y_test, verbose=2)
-
-
+    accuracy = model.evaluate(X_test,  y_test, verbose=2)
+    
+    return accuracy
