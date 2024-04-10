@@ -2,20 +2,34 @@ from datetime import datetime
 from stratified_cv import StratifiedCV
 from majority_voting_classifier import BaselineModel
 from mean_model_classifier import MeanModel
+<<<<<<< HEAD
 from load_data_function import load_data
+=======
+from fNirs_processesing_fNirs_motor import data_fNirs_motor
+# from fnirs_processing_AudioSpeechNoise import all_epochs, epochs, all_data, all_freq, data_name
+from fnirs_processing_AudioSpeechNoise_SCC import data_AudioSpeechNoise
+from fnirs_processing_fnirs_motor_full_data import data_fNirs_motor_full_data
+>>>>>>> Support_vector_machine
 from epoch_plot import epoch_plot
 from standard_fNIRS_response_plot import standard_fNIRS_response_plot
 import mne
 import os
 from collections import Counter
 
+<<<<<<< HEAD
 data_set = "fNirs_motor_full_data" #"fNirs_motor_full_data" #"fNIrs_motor", #"AudioSpeechNoise", 
 epoch_type = "Tapping"
 combine_strategy = "mean"
+=======
+epoch_type = "Tapping"
+combine_strategy = "mean"
+save = True
+>>>>>>> Support_vector_machine
 bad_channels_strategy = "all"
 threshold = 3
 startTime = 7.5
 stopTime = 12.5
+<<<<<<< HEAD
 K = 2
 short_channel_correction = False
 negative_correlation_enhancement = False
@@ -23,6 +37,12 @@ save_results = False
 plot_epochs = True
 plot_std_fNIRS_response = True
 save_plot = True
+=======
+save_results = save
+short_channel_correction = True
+negative_correlation_enhancement = True
+data_set = "fNIrs_motor"
+>>>>>>> Support_vector_machine
 
 
 all_epochs, data_name, all_data, freq, data_types = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement)
@@ -61,6 +81,7 @@ if save_results:
         file.write("For the majority voting classifier: {}\n".format(results[1],2))
         file.write("For the mean model classifier: {}\n".format(results[0],2))
         file.write("For the mean ps model classifier: {}\n".format(results[2],2))
+        file.write("For the mean SVM model classifier: {}\n".format(results[3],2))
         
 
     print(f"Results saved as {filename}")
