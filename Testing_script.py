@@ -36,7 +36,7 @@ plot_accuracy_across_k_folds = True
 
 save_plot_epochs = False
 save_plot_std_fNIRS_response = False
-save_plot_accuracy_across_k_folds = True
+save_plot_accuracy_across_k_folds = False
 save_results = True
 
 ############################
@@ -51,7 +51,6 @@ if plot_epochs:
 if plot_std_fNIRS_response:
     standard_fNIRS_response_plot(all_epochs, data_types, combine_strategy=combine_strategy, save=save_plot_std_fNIRS_response, bad_channels_strategy=bad_channels_strategy, threshold = threshold, data_set = data_name)
 
-
 results = StratifiedCV(all_data[epoch_type], all_data["Control"], startTime = startTime, K = K, stopTime = stopTime, freq = freq)
 
 if plot_accuracy_across_k_folds:
@@ -61,7 +60,6 @@ results_string_format = {classifier: str(np.round(np.mean(result), 3)) + u"\u00B
 
 # Get current date and time
 current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-
 
 # Construct filename with date and time
 results_folder = "Classifier_results" # Define the folder name

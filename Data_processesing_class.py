@@ -97,9 +97,9 @@ class fNIRS_data_load:
             )
 
             self.all_epochs.append(epochs)
-            self.all_control.append(epochs["Control"].get_data())
+            self.all_control.append(epochs["Control"].get_data(copy=True))
             for name in self.data_types:
-                getattr(self, f'all_{name}').append(epochs[name].get_data())
+                getattr(self, f'all_{name}').append(epochs[name].get_data(copy=True))
 
         # Concatenate the control data
         self.all_control = np.concatenate(self.all_control, axis=0)
