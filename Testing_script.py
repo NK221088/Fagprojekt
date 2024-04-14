@@ -30,7 +30,7 @@ stopTime = 12.5
 K = 3
 
 # Plotting and saving:
-plot_epochs = False
+plot_epochs = True
 plot_std_fNIRS_response = False
 plot_accuracy_across_k_folds = True
 

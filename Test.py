@@ -9,6 +9,7 @@ import mne
 import os
 from collections import Counter
 import numpy as np
+import matplotlib.pyplot as plt
 
 ############################
 # Settings:
@@ -33,7 +34,7 @@ plot_epochs = False
 plot_std_fNIRS_response = False
 plot_accuracy_across_k_folds = True
 
-save_plot_epochs = False
+save_plot_epochs = True
 save_plot_std_fNIRS_response = False
 save_plot_accuracy_across_k_folds = True
 save_results = True
@@ -103,23 +104,38 @@ def epoch_plot(epochs, epoch_type: str, bad_channels_strategy: str, save : bool,
             epochs = mne.concatenate_epochs(epochs)
     
     # Plot the epochs
-    plots = epochs[epoch_type].plot_image(
-        combine=combine_strategy,
-        vmin=-30,
-        vmax=30,
-        ts_args=dict(ylim=dict(hbo=[-15, 15], hbr=[-15, 15])),
-    )
+    # Plot the epochs
+    for i in range(len(epochs[epoch_type])):
+        plots = epochs[epoch_type][i].plot_image(
+            combine=combine_strategy,
+            vmin=-30,
+            vmax=30,
+            ts_args=dict(ylim=dict(hbo=[-15, 15], hbr=[-15, 15]), vline=False),
+            colorbar = False,
+            show = False,
+            evoked = False,
+            set_meas_date = False
+        )
 
-    # Save each plot if save is True
-    plots_folder = "CNN_image_preprocesing"
-    if save:
-        current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        Plot_types = ["Oxyhemoglobin", "Deoxyhemoglobin"]
-        for plot_type, plot in zip(Plot_types, plots):
-            filename = os.path.join(plots_folder, f"{epoch_type}_epochs_plot_{plot_type}_{bad_channels_strategy}_{data_set}_{current_datetime}.pdf")
-            plot.savefig(filename)
-            print(f"Plot {plot_type} saved as {filename}")
-            plt.close(plot)  # Close the figure after saving
-            
+        # Modify the properties of the axes after creating the plot
+        for ax in plots[0].axes:  # Assuming plots[0] contains the first plot
+            ax.set_xlabel('')       # Remove x-axis label
+            ax.set_ylabel('')       # Remove y-axis label
+            ax.set_xticks([])       # Remove x-axis ticks
+            ax.set_yticks([])       # Remove y-axis ticks
+            ax.set_title('')        # Remove axis title
+        
+
+        # Save each plot if save is True
+        plots_folder = "CNN_image_preprocesing"
+        if save:
+            current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            Plot_types = ["Oxyhemoglobin", "Deoxyhemoglobin"]
+            for plot_type, plot in zip(Plot_types, plots):
+                filename = os.path.join(plots_folder, f"{epoch_type}_epochs_plot_{plot_type}_{bad_channels_strategy}_{data_set}_epoch_no._{i}_{current_datetime}.pdf")
+                plot.savefig(filename)
+                print(f"Plot {plot_type} saved as {filename}")
+                plt.close(plot)  # Close the figure after saving
+                
 all_epochs, data_name, all_data, freq, data_types = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement)
-# epoch_plot(all_epochs, epoch_type=epoch_type, combine_strategy=combine_strategy, save=save_plot_epochs, bad_channels_strategy=bad_channels_strategy, threshold = threshold, data_set = data_name)
+epoch_plot(all_epochs, epoch_type=epoch_type, combine_strategy=combine_strategy, save=save_plot_epochs, bad_channels_strategy=bad_channels_strategy, threshold = threshold, data_set = data_name)
