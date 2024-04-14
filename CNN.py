@@ -10,35 +10,27 @@ import mne
 import os
 from collections import Counter
 import numpy as np
+import matplotlib.pyplot as plt
 
 ############################
-# Settings:
+#Settings:
 ############################
 
-# Data set:
+#Data set:
 data_set = "fNirs_motor_full_data"
-epoch_type = "Tapping"
-combine_strategy = "mean"
 
-# Data processing:
-bad_channels_strategy = "all"
+
 short_channel_correction = True
 negative_correlation_enhancement = True
-threshold = 3
-startTime = 7.5
-stopTime = 12.5
-K = 3
-
-# Plotting and saving:
-plot_epochs = False
-plot_std_fNIRS_response = False
-plot_accuracy_across_k_folds = True
-
-save_plot_epochs = False
-save_plot_std_fNIRS_response = False
-save_plot_accuracy_across_k_folds = True
-save_results = True
 
 ############################
 
 all_epochs, data_name, all_data, freq, data_types = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement)
+
+plt.imshow(all_data["Control"][4], cmap='Grays', interpolation='nearest')
+
+plt.show()
+
+plt.imshow(all_data["Tapping"][4], cmap='Grays', interpolation='nearest')
+
+plt.show()
