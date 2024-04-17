@@ -27,10 +27,10 @@ negative_correlation_enhancement = True
 
 all_epochs, data_name, all_data, freq, data_types = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement)
 
-plt.imshow(all_data["Control"][4], cmap='Grays', interpolation='nearest')
+plt.imshow(all_data["Control"][2], cmap='Grays', interpolation='nearest')
 
 plt.show()
 
-plt.imshow(all_data["Tapping"][4], cmap='Grays', interpolation='nearest')
+plt.imshow(all_data["Tapping"][2], cmap='Grays', interpolation='nearest')
 
 plt.show()
