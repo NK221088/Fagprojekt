@@ -114,7 +114,6 @@ def epoch_plot(epochs, epoch_type: str, bad_channels_strategy: str, save : bool,
             colorbar = False,
             show = False,
             evoked = False,
-            set_meas_date = False
         )
 
         # Modify the properties of the axes after creating the plot
