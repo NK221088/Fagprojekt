@@ -21,11 +21,6 @@ epoch_type = "Tapping"
 short_channel_correction = True
 negative_correlation_enhancement = True
 
-all_epochs, data_name, all_data, freq, data_types = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement)
-
-X = np.concatenate((all_data[epoch_type],all_data["Control"]), axis = 0)
-y = np.concatenate((np.ones(len(all_data[epoch_type])), np.zeros(len(all_data["Control"]))), axis=0)
-
 
 # # Assuming X is your data
 # samples, features, time = X.shape

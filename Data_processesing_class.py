@@ -11,7 +11,7 @@ class fNIRS_data_load:
     def __init__(self, file_path, number_of_participants=1, annotation_names=None, stimulus_duration=5,
                  short_channel_correction=True, negative_correlation_enhancement=True, scalp_coupling_threshold=0.8,
                  reject_criteria=dict(hbo=80e-6), tmin=-5, tmax=15, baseline=(None, 0), data_types=[], number_of_data_types=2,
-                 data_name="None"):
+                 data_name="None", individuals = False):
         self.number_of_participants = number_of_participants
         self.file_path = file_path
         self.annotation_names = annotation_names
@@ -28,6 +28,9 @@ class fNIRS_data_load:
         self.data_types = data_types
         self.number_of_data_types = len(data_types)
         self.data_name = data_name
+        self.individuals = individuals
+        if individuals:
+            setattr(self, 'Individual_participants', {f"Participant_{i}": {} for i in range(1, self.number_of_participants + 1)})
         for name in self.data_types:
             setattr(self, f'all_{name}', [])
 
@@ -98,8 +101,14 @@ class fNIRS_data_load:
 
             self.all_epochs.append(epochs)
             self.all_control.append(epochs["Control"].get_data(copy=True))
+
             for name in self.data_types:
                 getattr(self, f'all_{name}').append(epochs[name].get_data(copy=True))
+                if self.individuals:
+                    getattr(self, 'Individual_participants')[f"Participant_{i}"].update({name: epochs[name].get_data(copy=True)})
+                    getattr(self, 'Individual_participants')[f"Participant_{i}"].update({"Control": epochs["Control"].get_data(copy=True)})
+
+                
 
         # Concatenate the control data
         self.all_control = np.concatenate(self.all_control, axis=0)
@@ -116,11 +125,14 @@ class fNIRS_data_load:
         # Update all_data with control_dict
         all_freq = self.all_epochs[0].info['sfreq']
         self.data_types.append("Control")
-        return self.all_epochs, self.data_name, all_data, all_freq, self.data_types
+        if self.individuals:
+            return self.all_epochs, self.data_name, all_data, all_freq, self.data_types, self.Individual_participants
+        else:
+            return self.all_epochs, self.data_name, all_data, all_freq, self.data_types
 
         
 class AudioSpeechNoise_data_load(fNIRS_data_load):
-    def __init__(self, short_channel_correction : bool, negative_correlation_enhancement : bool):
+    def __init__(self, short_channel_correction : bool, negative_correlation_enhancement : bool, individuals :bool = False):
         self.number_of_participants = 17
         self.all_speech = []
         self.all_noise = []
@@ -139,6 +151,7 @@ class AudioSpeechNoise_data_load(fNIRS_data_load):
         self.data_types = ["Speech", "Noise"]
         self.number_of_data_types = 2
         self.data_name = "AudioSpeechNoise"
+        self.individuals = individuals
         super().__init__(
                         number_of_participants = self.number_of_participants,
                         file_path = self.file_path,
@@ -153,7 +166,8 @@ class AudioSpeechNoise_data_load(fNIRS_data_load):
                         tmax = self.tmax,
                         data_types = self.data_types,
                         number_of_data_types = self.number_of_data_types,
-                        data_name = self.data_name)
+                        data_name = self.data_name,
+                        individuals = self.individuals)
 
     def define_raw_intensity(self, sub_id):
         fnirs_snirf_file_path = os.path.join(self.file_path, f"sub-{sub_id}", "ses-01", "nirs", f"sub-{sub_id}_ses-01_task-AudioSpeechNoise_nirs.snirf")
@@ -162,7 +176,7 @@ class AudioSpeechNoise_data_load(fNIRS_data_load):
         return raw_intensity
 
 class fNIRS_motor_data_load(fNIRS_data_load):
-    def __init__(self, short_channel_correction: bool, negative_correlation_enhancement: bool):
+    def __init__(self, short_channel_correction: bool, negative_correlation_enhancement: bool, individuals :bool = False):
         self.number_of_participants = 1
         self.all_tapping = []
         self.all_control = []
@@ -181,6 +195,7 @@ class fNIRS_motor_data_load(fNIRS_data_load):
         self.data_types = ["Tapping"]
         self.number_of_data_types = 2
         self.data_name = "fnirs_motor_plus_anti"
+        self.individuals = individuals
         super().__init__(
             number_of_participants=self.number_of_participants,
             file_path=self.file_path,
@@ -195,7 +210,8 @@ class fNIRS_motor_data_load(fNIRS_data_load):
             tmax=self.tmax,
             data_types=self.data_types,
             number_of_data_types=self.number_of_data_types,
-            data_name=self.data_name
+            data_name=self.data_name,
+            individuals = self.individuals
         )
 
     def define_raw_intensity(self, sub_id):
@@ -206,7 +222,7 @@ class fNIRS_motor_data_load(fNIRS_data_load):
         return raw_intensity
 
 class fNIRS_full_motor_data_load(fNIRS_data_load):
-    def __init__(self, short_channel_correction: bool, negative_correlation_enhancement: bool):
+    def __init__(self, short_channel_correction: bool, negative_correlation_enhancement: bool, individuals : bool = False):
         self.number_of_participants = 5
         self.all_tapping = []
         self.all_control = []
@@ -225,6 +241,7 @@ class fNIRS_full_motor_data_load(fNIRS_data_load):
         self.data_types = ["Tapping"]
         self.number_of_data_types = 2
         self.data_name = "fnirs_full_motor"
+        self.individuals = individuals
         super().__init__(
             number_of_participants=self.number_of_participants,
             file_path=self.file_path,
@@ -239,7 +256,8 @@ class fNIRS_full_motor_data_load(fNIRS_data_load):
             tmax=self.tmax,
             data_types=self.data_types,
             number_of_data_types=self.number_of_data_types,
-            data_name=self.data_name
+            data_name=self.data_name,
+            individuals = self.individuals,
         )
 
     def define_raw_intensity(self, sub_id):

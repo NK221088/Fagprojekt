@@ -19,6 +19,7 @@ import numpy as np
 data_set = "fNirs_motor_full_data"
 epoch_type = "Tapping"
 combine_strategy = "mean"
+individuals = True
 
 # Data processing:
 bad_channels_strategy = "all"
@@ -37,12 +38,15 @@ plot_accuracy_across_k_folds = True
 save_plot_epochs = False
 save_plot_std_fNIRS_response = False
 save_plot_accuracy_across_k_folds = False
-save_results = False
+save_results = True
 
 ############################
 
-all_epochs, data_name, all_data, freq, data_types = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement)
-
+if individuals:
+    all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals)
+else:
+    all_epochs, data_name, all_data, freq, data_types = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals)
+    
 # Plot epochs and save results
 if plot_epochs:
     epoch_plot(all_epochs, epoch_type=epoch_type, combine_strategy=combine_strategy, save=save_plot_epochs, bad_channels_strategy=bad_channels_strategy, threshold = threshold, data_set = data_name)
