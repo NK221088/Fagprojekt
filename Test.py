@@ -17,8 +17,8 @@ import matplotlib.pyplot as plt
 
 # Data set:
 data_set = "fNirs_motor_full_data"
-epoch_type = "Tapping"
-combine_strategy = "mean"
+epoch_type = "Control"
+combine_strategy = "median"
 
 # Data processing:
 bad_channels_strategy = "all"
@@ -27,17 +27,10 @@ negative_correlation_enhancement = True
 threshold = 3
 startTime = 7.5
 stopTime = 12.5
-K = 3
 
 # Plotting and saving:
 plot_epochs = False
-plot_std_fNIRS_response = False
-plot_accuracy_across_k_folds = True
-
 save_plot_epochs = True
-save_plot_std_fNIRS_response = False
-save_plot_accuracy_across_k_folds = True
-save_results = True
 
 ############################
 
@@ -117,21 +110,32 @@ def epoch_plot(epochs, epoch_type: str, bad_channels_strategy: str, save : bool,
         )
 
         # Modify the properties of the axes after creating the plot
-        for ax in plots[0].axes:  # Assuming plots[0] contains the first plot
-            ax.set_xlabel('')       # Remove x-axis label
-            ax.set_ylabel('')       # Remove y-axis label
-            ax.set_xticks([])       # Remove x-axis ticks
-            ax.set_yticks([])       # Remove y-axis ticks
-            ax.set_title('')        # Remove axis title
+        for j in range(2):
+            for ax in plots[j].axes:  # Assuming plots[0] contains the first plot
+                ax.set_xlabel('')       # Remove x-axis label
+                ax.set_ylabel('')       # Remove y-axis label
+                ax.set_xticks([])       # Remove x-axis ticks
+                ax.set_yticks([])       # Remove y-axis ticks
+                ax.set_title('')        # Remove axis title
+                # Find the line objects
+                lines = ax.lines
+                # Iterate through lines to find the vertical dotted line
+                for line in lines:
+                    if line.get_linestyle() == '--' and line.get_xdata()[0] == 0:
+                        # Remove the line
+                        line.remove()
         
 
         # Save each plot if save is True
-        plots_folder = "CNN_image_preprocesing"
+        if i <= int(len(epochs[epoch_type])*0.7):
+            plots_folder = f"CNN_image_preprocesing/train/{epoch_type}"
+        else:
+            plots_folder = f"CNN_image_preprocesing/val/{epoch_type}"
         if save:
-            current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            Plot_types = ["Oxyhemoglobin", "Deoxyhemoglobin"]
+            #, "Deoxyhemoglobin"
+            Plot_types = ["Oxyhemoglobin"]
             for plot_type, plot in zip(Plot_types, plots):
-                filename = os.path.join(plots_folder, f"{epoch_type}_epochs_plot_{plot_type}_{bad_channels_strategy}_{data_set}_epoch_no._{i}_{current_datetime}.pdf")
+                filename = os.path.join(plots_folder, f"{epoch_type}_epochs_plot_{plot_type}_{bad_channels_strategy}_{data_set}_epoch_no._{i}_combineby{combine_strategy}.png")
                 plot.savefig(filename)
                 print(f"Plot {plot_type} saved as {filename}")
                 plt.close(plot)  # Close the figure after saving
