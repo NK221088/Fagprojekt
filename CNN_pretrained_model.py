@@ -44,3 +44,33 @@ model.fit(train_generator, epochs=10, validation_data=validation_generator)
 
 val_loss, val_accuracy = model.evaluate(validation_generator)
 print(f"Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_accuracy*100:.2f}%")
+
+
+# Fine-Tuning
+# Unfreeze the base model
+base_model.trainable = True
+
+# Fine-tune from this layer onwards
+fine_tune_at = 50
+
+# Freeze all the layers before the `fine_tune_at` layer
+for layer in base_model.layers[:fine_tune_at]:
+    layer.trainable = False
+
+model.compile(
+    optimizer=tf.keras.optimizers.Adam(learning_rate=0.00001),  # Lower learning rate for fine-tuning
+    loss='binary_crossentropy',
+    metrics=['accuracy'])
+
+# Fine-tuning should be done with a smaller number of epochs
+fine_tune_epochs = 5
+total_epochs = 10 + fine_tune_epochs  # Total = initial epochs + fine-tuning epochs
+
+model.fit(train_generator,
+          epochs=total_epochs,
+          initial_epoch=10,  # Continue from previous training
+          validation_data=validation_generator)
+
+# Evaluate model post fine-tuning
+val_loss, val_accuracy = model.evaluate(validation_generator)
+print(f"Post-Fine-Tuning Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_accuracy*100:.2f}%")
