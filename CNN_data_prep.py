@@ -20,9 +20,9 @@ train_dir = 'fNIRS_images/train/'
 
 train_generator = train_datagen.flow_from_directory(
     train_dir,  # Directory containing training data
-    target_size=IMG_SIZE,  # Resize images to specified size
+    target_size=IMG_SIZE,
     batch_size=32,
-    class_mode='binary'  # 'binary' if two classes otherwise use 'categorical'
+    class_mode='binary'
 )
 
 # Set up the ImageDataGenerator for validation (no data augmentation here)
