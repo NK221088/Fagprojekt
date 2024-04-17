@@ -45,7 +45,7 @@ model.fit(train_generator, epochs=10, validation_data=validation_generator)
 val_loss, val_accuracy = model.evaluate(validation_generator)
 print(f"Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_accuracy*100:.2f}%")
 
-
+"""
 # Fine-Tuning
 # Unfreeze the base model
 base_model.trainable = True
@@ -74,3 +74,4 @@ model.fit(train_generator,
 # Evaluate model post fine-tuning
 val_loss, val_accuracy = model.evaluate(validation_generator)
 print(f"Post-Fine-Tuning Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_accuracy*100:.2f}%")
+"""
