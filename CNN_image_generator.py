@@ -2,10 +2,10 @@ import os
 import matplotlib.pyplot as plt
 from load_data_function import load_data
 from sklearn.model_selection import train_test_split
+import numpy as np
 
 
 def create_directories(base_dir, class_names, sub_dirs):
-    # Create a dictionary to hold paths for easy access later
     paths = {}
     if not os.path.exists(base_dir):
         os.makedirs(base_dir)
@@ -20,6 +20,7 @@ def create_directories(base_dir, class_names, sub_dirs):
         paths[class_name] = class_paths
     return paths
 
+
 # Define base directory and class names
 base_dir = 'fNIRS_images'
 class_names = ['Tapping', 'Control']
@@ -31,8 +32,11 @@ paths = create_directories(base_dir, class_names, sub_dirs)
 
 def save_fNIRS_data_as_images(data_dict, paths, split_ratio=0.8):
     for class_name, data in data_dict.items():
-        # Split data into training and validation sets
-        train_data, val_data = train_test_split(data, train_size=split_ratio, random_state=42)
+        # Create labels for stratification: Array of same length as data, filled with the class_name
+        labels = np.array([class_name] * len(data))
+
+        # Split data into training and validation sets with stratification
+        train_data, val_data = train_test_split(data, train_size=split_ratio, random_state=42, stratify=labels)
 
         # Save training data
         for i, epoch_data in enumerate(train_data):
