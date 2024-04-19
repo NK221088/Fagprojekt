@@ -23,7 +23,7 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             staircase=True)(step)
         return lr / (step + 1)
 
-def ANN_classifier(TappingTest, ControlTest, TappingTrain, ControlTrain, jointArray, labelIndx):
+def ANN_classifier(Xtrain, ytrain, Xtest, ytest):
     
     # Allow memory growth for the GPU
     physical_devices = tf.config.list_physical_devices('GPU')
@@ -34,23 +34,12 @@ def ANN_classifier(TappingTest, ControlTest, TappingTrain, ControlTrain, jointAr
         except RuntimeError as e:
             print(e)
     
-    train_indices = np.concatenate((TappingTrain, ControlTrain))
-    test_indices = np.concatenate((TappingTest, ControlTest))
-    
-    X_train = jointArray[train_indices]
-    X_test = jointArray[test_indices]
-    
-    y_train = np.concatenate((np.ones(len(TappingTrain)), np.zeros(len(ControlTrain))), axis=0)
-    y_test = np.concatenate((np.ones(len(TappingTest)), np.zeros(len(ControlTest))), axis=0)
-    
-    X_train = (X_train - np.mean(X_train, axis = 0)) / np.std(X_train, axis = 0)
-    X_test = (X_test - np.mean(X_train, axis = 0)) / np.std(X_train, axis = 0)
 
     
-    X_train = tf.convert_to_tensor(X_train)
-    y_train = tf.convert_to_tensor(y_train)
-    X_test = tf.convert_to_tensor(X_test)
-    y_test = tf.convert_to_tensor(y_test)
+    X_train = tf.convert_to_tensor(Xtrain)
+    y_train = tf.convert_to_tensor(ytrain)
+    X_test = tf.convert_to_tensor(Xtest)
+    y_test = tf.convert_to_tensor(ytest)
     
     model = tf.keras.models.Sequential([
     tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], 3)),
