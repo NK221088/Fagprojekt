@@ -34,7 +34,7 @@ K = 10
 # Plotting and saving:
 plot_epochs = False
 plot_std_fNIRS_response = False
-plot_accuracy_across_k_folds = True
+plot_accuracy_across_k_folds = False
 
 save_plot_epochs = False
 save_plot_std_fNIRS_response = False
