@@ -76,7 +76,7 @@ def ANN_classifier(TappingTest, ControlTest, TappingTrain, ControlTrain, jointAr
                 loss=loss_fn, 
                 metrics=['accuracy'])
     
-    plot_model(model, to_file='model.png', show_shapes=True)
+    plot_model(model, to_file='ANN_model_structure.png', show_shapes=True)
 
     log_dir = "logs/"
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
