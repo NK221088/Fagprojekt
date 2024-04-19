@@ -3,8 +3,6 @@ from sklearn.decomposition import PCA
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # Import Axes3D for 3D plotting
-from scipy.stats import gaussian_kde
-
 ############################
 # Settings:
 ############################
