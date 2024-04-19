@@ -34,7 +34,8 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest):
         except RuntimeError as e:
             print(e)
     
-
+    Xtest = (Xtest - np.mean(Xtrain, axis = 0)) / np.std(Xtrain, axis = 0)
+    Xtrain = (Xtrain - np.mean(Xtrain, axis = 0)) / np.std(Xtrain, axis = 0)
     
     X_train = tf.convert_to_tensor(Xtrain)
     y_train = tf.convert_to_tensor(ytrain)
@@ -42,18 +43,16 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest):
     y_test = tf.convert_to_tensor(ytest)
     
     model = tf.keras.models.Sequential([
-    tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], 3)),
-    tf.keras.layers.Dense(200, activation='relu'),
+    tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
+    tf.keras.layers.Dense(128, activation='relu'),
     tf.keras.layers.Dropout(0.2),
-    tf.keras.layers.Dense(1000, activation='gelu'),
-    tf.keras.layers.Dense(10, activation='tanh'),
     tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
     ])
     
     loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False) # We use BinaryCrossentropy as there is only two classes
     
-    initial_learning_rate = 0.001
-    decay_steps = tf.constant(10, dtype=tf.int64)
+    initial_learning_rate = 0.01
+    decay_steps = tf.constant(50, dtype=tf.int64)
     decay_rate = 0.9
 
     optimizer = tf.keras.optimizers.Adam(
@@ -72,24 +71,9 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest):
 
     log_dir = "logs/"
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
-
-    # Reshape input data to have only two dimensions
-    X_train_flat = np.reshape(X_train, (np.shape(X_train)[0], -1))
-
-    # Initialize PCA with desired number of components
-    n_components = 3
-    pca = PCA(n_components=n_components)
-
-    # Fit PCA to the flattened training data
-    pca.fit(X_train_flat)
-
-    # Transform both training and testing data using the trained PCA
-    X_train_pca = pca.transform(X_train_flat)
-    X_test_pca = pca.transform(np.reshape(X_test, (np.shape(X_test)[0], -1)))
-
     
-    model.fit(X_train_pca, y_train, epochs=50, callbacks=[tensorboard_callback])
+    model.fit(X_train, y_train, epochs=5, callbacks=[tensorboard_callback])
     
-    accuracy = model.evaluate(X_test_pca,  y_test, verbose=2)
+    accuracy = model.evaluate(X_test,  y_test, verbose=2)
     
     return accuracy
