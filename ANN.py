@@ -24,6 +24,7 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
         return lr / (step + 1)
 
 def ANN_classifier(Xtrain, ytrain, Xtest, ytest):
+    # tf.config.run_functions_eagerly(True)
     
     # Allow memory growth for the GPU
     physical_devices = tf.config.list_physical_devices('GPU')

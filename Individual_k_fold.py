@@ -23,7 +23,7 @@ K = 10
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals)
 
-def StratifiedCV(individual_data, startTime, stopTime, freq = 7.81):
+def individualKFold(individual_data, startTime, stopTime, freq = 7.81):
     
 
     
@@ -115,5 +115,3 @@ def StratifiedCV(individual_data, startTime, stopTime, freq = 7.81):
         # k1_control += kernelControl
     
     return {"MeanModel": meanModelAccuracy_list, "MajorityVoting": baselineAccuracy_list, "PSModel": psAccuracy_list, "SVMModel": svm_accuracy_list, "ANNModel": ANN_accuracy_list}
-
-StratifiedCV(individual_data = all_individuals, startTime = 7.5, stopTime = 12.5)

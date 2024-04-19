@@ -6,6 +6,7 @@ from load_data_function import load_data
 from epoch_plot import epoch_plot
 from standard_fNIRS_response_plot import standard_fNIRS_response_plot
 from Plotting_of_accuracy_across_k_folds import plot_of_accuracy_across_k_folds
+from Individual_k_fold import individualKFold
 import mne
 import os
 from collections import Counter
@@ -55,7 +56,8 @@ if plot_epochs:
 if plot_std_fNIRS_response:
     standard_fNIRS_response_plot(all_epochs, data_types, combine_strategy=combine_strategy, save=save_plot_std_fNIRS_response, bad_channels_strategy=bad_channels_strategy, threshold = threshold, data_set = data_name)
 
-results = StratifiedCV(all_data[epoch_type], all_data["Control"], startTime = startTime, K = K, stopTime = stopTime, freq = freq)
+# results = StratifiedCV(all_data[epoch_type], all_data["Control"], startTime = startTime, K = K, stopTime = stopTime, freq = freq)
+results = individualKFold(individual_data = all_individuals, startTime = startTime, stopTime = stopTime)
 
 if plot_accuracy_across_k_folds:
     plot_of_accuracy_across_k_folds(results_across_k_folds =  results, save_plot = save_plot_accuracy_across_k_folds)
