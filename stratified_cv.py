@@ -49,17 +49,31 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
         kernelControlTest = randIndControl[k0_control:k1_control] #Selecting control kernel indecies (test data)  
         kernelControlTrain = np.concatenate((randIndControl[:k0_control],randIndControl[k1_control:])) #Selecting control kernel indecies (train data)
 
-        meanModel_accuracy,_ = MeanModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain, jointArray=jointArray, labelIndx = tappingArray.shape[0])
-        baseline_accuracy = BaselineModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain)
-        ps_accuracy,_ = Positive_Negativ_classifier(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain,jointArray=jointArray, labelIndx = tappingArray.shape[0])
-        svm_accuracy,_ = SVM_classifier(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain,jointArray=jointArray, labelIndx = tappingArray.shape[0])        
-        ANN_error, ANN_accuracy = ANN_classifier(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain,jointArray=jointArray, labelIndx = tappingArray.shape[0])        
+        train_len = len(kernelControlTrain) + len(kernelTappingTrain)
+        test_len = len(kernelTappingTest) + len(kernelControlTest)
+        
+        
+        train_rand_ind = np.random.choice(size = train_len, a = train_len)
+        test_rand_ind = np.random.choice(size = test_len, a = test_len)
+        
+        Xtrain = jointArray[np.concatenate((kernelTappingTrain, kernelControlTrain))[train_rand_ind]]
+        ytrain = np.concatenate((np.ones(len(kernelTappingTrain), dtype = bool), np.zeros(len(kernelControlTrain), dtype = bool)))[train_rand_ind]
+        
+        Xtest = jointArray[np.concatenate((kernelTappingTest, kernelControlTest))[test_rand_ind]]
+        ytest = np.concatenate((np.ones(len(kernelTappingTest), dtype = bool), np.zeros(len(kernelControlTest), dtype = bool)))[test_rand_ind]
+        
+        
+        meanModel_accuracy = MeanModel(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
+        baselineaccuracy = BaselineModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain)
+        ps_accuracy = Positive_Negativ_classifier(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain,jointArray=jointArray, labelIndx = tappingArray.shape[0])
+        svm_accuracy = SVM_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
+        #ANN_error, ANN_accuracy = ANN_classifier(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain,jointArray=jointArray, labelIndx = tappingArray.shape[0])        
 
         meanModelAccuracy_list.append(meanModel_accuracy)
-        baselineAccuracy_list.append(baseline_accuracy)
+        baselineAccuracy_list.append(baselineaccuracy)
         psAccuracy_list.append(ps_accuracy)
         svm_accuracy_list.append(svm_accuracy)
-        ANN_accuracy_list.append(ANN_accuracy)
+        #ANN_accuracy_list.append(ANN_accuracy)
         
         k0_tapping += kernelTapping #Updating kernel.
         k1_tapping += kernelTapping

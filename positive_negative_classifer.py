@@ -22,4 +22,4 @@ def Positive_Negativ_classifier(TappingTest, ControlTest, TappingTrain, ControlT
         
     accuracy = (confusionMatrix[0,0] + confusionMatrix[1,1])/np.sum(confusionMatrix) #Calculating accuracy of current fold (TP + TN)/(N)
     
-    return accuracy, confusionMatrix
+    return accuracy

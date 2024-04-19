@@ -28,12 +28,12 @@ negative_correlation_enhancement = True
 threshold = 3
 startTime = 7.5
 stopTime = 12.5
-K = 3
+K = 10
 
 # Plotting and saving:
 plot_epochs = False
 plot_std_fNIRS_response = False
-plot_accuracy_across_k_folds = True
+plot_accuracy_across_k_folds = False
 
 save_plot_epochs = False
 save_plot_std_fNIRS_response = False
