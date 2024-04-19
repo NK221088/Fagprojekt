@@ -16,7 +16,7 @@ train_datagen = ImageDataGenerator(
 )
 
 # Set the path to the training directory
-train_dir = 'fNIRS_images/train/'
+train_dir = 'CNN_image_preprocesing/train/'
 
 train_generator = train_datagen.flow_from_directory(
     train_dir,  # Directory containing training data
@@ -29,7 +29,7 @@ train_generator = train_datagen.flow_from_directory(
 validation_datagen = ImageDataGenerator(rescale=1./255)
 
 # Set the path to the validation directory
-val_dir = 'fNIRS_images/val/'
+val_dir = 'CNN_image_preprocesing/val/'
 
 validation_generator = validation_datagen.flow_from_directory(
     val_dir,
