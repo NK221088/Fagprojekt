@@ -4,6 +4,8 @@ from tensorflow.keras.layers import GlobalAveragePooling2D, Dense
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers.schedules import ExponentialDecay
 from CNN_data_prep import *
+from tensorflow.keras.callbacks import TensorBoard
+from tensorflow.keras.utils import plot_model
 
 # Load MobileNetV2 pre-trained on ImageNet without the top layer
 base_model = MobileNetV2(input_shape=IMG_SIZE + (3,), include_top=False, weights='imagenet')
@@ -39,16 +41,18 @@ model.compile(
     loss='binary_crossentropy',
     metrics=['accuracy'])
 
+# Fine-tuning should be done with a smaller number of epochs
+fine_tune_epochs = 5
+total_epochs = 10 + fine_tune_epochs  # Total = initial epochs + fine-tuning epochs
 
 model.fit(train_generator, epochs=10, validation_data=validation_generator)
 
 val_loss, val_accuracy = model.evaluate(validation_generator)
 print(f"Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_accuracy*100:.2f}%")
 
-
 # Fine-Tuning
 # Unfreeze the base model
-base_model.trainable = True
+base_model.trainable = False
 
 # Fine-tune from this layer onwards
 fine_tune_at = 50
@@ -57,19 +61,21 @@ fine_tune_at = 50
 for layer in base_model.layers[:fine_tune_at]:
     layer.trainable = False
 
+# Compile the model
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(learning_rate=0.00001),  # Lower learning rate for fine-tuning
+    optimizer=tf.keras.optimizers.Adam(learning_rate=lr_schedule),
     loss='binary_crossentropy',
     metrics=['accuracy'])
 
-# Fine-tuning should be done with a smaller number of epochs
-fine_tune_epochs = 5
-total_epochs = 10 + fine_tune_epochs  # Total = initial epochs + fine-tuning epochs
+# Generate visualization of the model
+plot_model(model, to_file='CNN_model_structure.png', show_shapes=True)
 
-model.fit(train_generator,
-          epochs=total_epochs,
-          initial_epoch=10,  # Continue from previous training
-          validation_data=validation_generator)
+# Define TensorBoard callback
+log_dir = "logs/"
+tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
+
+# Train the model with the TensorBoard callback
+model.fit(train_generator, epochs=10, validation_data=validation_generator, callbacks=[tensorboard_callback])
 
 # Evaluate model post fine-tuning
 val_loss, val_accuracy = model.evaluate(validation_generator)
