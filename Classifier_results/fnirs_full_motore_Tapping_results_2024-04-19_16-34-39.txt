@@ -1,0 +1,17 @@
+Classifier Results:
+====================
+Data obtained at: 2024-04-19_16-34-39
+Dataset: fnirs_full_motor
+Epoch type used for classification: Tapping
+Combine Strategy: mean
+Bad Channels Strategy: all
+Start Time: 7.5
+K: 10
+Stop Time: 12.5
+Frequency: 7.812
+Results:
+For the majority voting classifier: 0.635±0.003
+For the mean model classifier: 0.653±0.092
+For the mean ps model classifier: 0.733±0.051
+For the mean SVM model classifier: 0.737±0.091
+For the ANN classifier: nan±nan
