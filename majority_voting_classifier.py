@@ -1,8 +1,9 @@
-def BaselineModel(TappingTest, ControlTest, TappingTrain, ControlTrain):
+import numpy as np
+def BaselineModel(Xtrain, ytrain, Xtest, ytest):
     
-    N = (len(ControlTest) + len(TappingTest))
+    N = len(ytest)
     
-    if len(TappingTrain) < len(ControlTrain):
-        return len(ControlTest) / N
+    if sum(ytrain == 1) < sum(ytrain == 0):
+        return sum(ytest == 0) / N
     else:
-        return len(TappingTest) / N
+        return sum(ytest == 1) / N
