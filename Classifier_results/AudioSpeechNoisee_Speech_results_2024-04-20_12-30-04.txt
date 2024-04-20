@@ -1,0 +1,17 @@
+Classifier Results:
+====================
+Data obtained at: 2024-04-20_12-30-04
+Dataset: AudioSpeechNoise
+Epoch type used for classification: Speech
+Combine Strategy: mean
+Bad Channels Strategy: all
+Start Time: 7.5
+K: 15
+Stop Time: 12.5
+Frequency: 5.208
+Results:
+For the majority voting classifier: 0.546±0.049
+For the mean model classifier: 0.468±0.042
+For the mean ps model classifier: 0.472±0.055
+For the mean SVM model classifier: 0.544±0.049
+For the ANN classifier: 0.614±0.063
