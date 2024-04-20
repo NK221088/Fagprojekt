@@ -67,13 +67,13 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
         baselineaccuracy = BaselineModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain)
         ps_accuracy = Positive_Negativ_classifier(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain,jointArray=jointArray, labelIndx = tappingArray.shape[0])
         svm_accuracy = SVM_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
-        #ANN_error, ANN_accuracy = ANN_classifier(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain,jointArray=jointArray, labelIndx = tappingArray.shape[0])        
+        ANN_error, ANN_accuracy = ANN_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)        
 
         meanModelAccuracy_list.append(meanModel_accuracy)
         baselineAccuracy_list.append(baselineaccuracy)
         psAccuracy_list.append(ps_accuracy)
         svm_accuracy_list.append(svm_accuracy)
-        #ANN_accuracy_list.append(ANN_accuracy)
+        ANN_accuracy_list.append(ANN_accuracy)
         
         k0_tapping += kernelTapping #Updating kernel.
         k1_tapping += kernelTapping
@@ -82,5 +82,3 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
         k1_control += kernelControl
     
     return {"MeanModel": meanModelAccuracy_list, "MajorityVoting": baselineAccuracy_list, "PSModel": psAccuracy_list, "SVMModel": svm_accuracy_list, "ANNModel": ANN_accuracy_list}
-
-#     return str(np.round(np.mean(meanModelAccuracy_list), 3)) + u"\u00B1" + str(np.round(1.96 * np.std(meanModelAccuracy_list)/np.sqrt(len(meanModelAccuracy_list)),3)), str(np.round(np.mean(baselineAccuracy_list),3)) + u"\u00B1" + str(np.round(1.96 * np.std(baselineAccuracy_list)/np.sqrt(len(baselineAccuracy_list)),3)), str(np.round(np.mean(psAccuracy_list), 3)) + u"\u00B1" + str(np.round(1.96 * np.std(psAccuracy_list)/np.sqrt(len(psAccuracy_list)),3)), str(np.round(np.mean(svm_accuracy_list), 3)) + u"\u00B1" + str(np.round(1.96 * np.std(svm_accuracy_list)/np.sqrt(len(svm_accuracy_list)),3)), str(np.round(np.mean(ANN_accuracy_list), 3))
