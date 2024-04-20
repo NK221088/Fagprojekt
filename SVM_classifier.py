@@ -10,8 +10,15 @@ def SVM_classifier(Xtrain, ytrain, Xtest, ytest):
     # Flatten the last two dimensions of the data
     
     # Standardize the data
-    scaler = StandardScaler()
-    X_standardized = scaler.fit_transform(Xtrain.reshape(Xtrain.shape[0], -1))
+    #scaler = StandardScaler()
+    #X_standardized = scaler.fit_transform(Xtrain.reshape(Xtrain.shape[0], -1))
+    
+
+    
+    mu = np.mean(Xtrain)
+    std = np.std(Xtrain)
+    
+    X_standardized = (Xtrain.reshape(Xtrain.shape[0], -1) - mu) / std
 
     # Apply PCA on the standardized data
     pca = PCA(n_components=2)  # Project data onto the first two principal components
@@ -20,7 +27,10 @@ def SVM_classifier(Xtrain, ytrain, Xtest, ytest):
     # Train the SVM classifier on the PCA-transformed and standardized data
     clf.fit(X_pca, ytrain)
     
-    X_test_standardized = scaler.transform(Xtest.reshape(Xtest.shape[0], -1))
+    
+    #X_test_standardized = scaler.transform(Xtest.reshape(Xtest.shape[0], -1))
+    
+    X_test_standardized = (Xtest.reshape(Xtest.shape[0], -1) - mu) / std
     X_test_pca = pca.transform(X_test_standardized)
 
     accuracy = clf.score(X = X_test_pca ,y = ytest)
