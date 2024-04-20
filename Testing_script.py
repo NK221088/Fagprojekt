@@ -17,24 +17,24 @@ import numpy as np
 ############################
 
 # Data set:
-data_set = "fNirs_motor_full_data"
-epoch_type = "Tapping"
+data_set = "AudioSpeechNoise" # "fNirs_motor_full_data" # 
+epoch_type = "Speech"
 combine_strategy = "mean"
 individuals = True
 
 # Data processing:
 bad_channels_strategy = "all"
-short_channel_correction = True
-negative_correlation_enhancement = True
+short_channel_correction = False
+negative_correlation_enhancement = False
 threshold = 3
 startTime = 7.5
 stopTime = 12.5
-K = 10
+K = 15
 
 # Plotting and saving:
 plot_epochs = False
 plot_std_fNIRS_response = False
-plot_accuracy_across_k_folds = False
+plot_accuracy_across_k_folds = True
 
 save_plot_epochs = False
 save_plot_std_fNIRS_response = False
@@ -56,8 +56,8 @@ if plot_epochs:
 if plot_std_fNIRS_response:
     standard_fNIRS_response_plot(all_epochs, data_types, combine_strategy=combine_strategy, save=save_plot_std_fNIRS_response, bad_channels_strategy=bad_channels_strategy, threshold = threshold, data_set = data_name)
 
-#results = StratifiedCV(all_data[epoch_type], all_data["Control"], startTime = startTime, K = K, stopTime = stopTime, freq = freq)
-results = individualKFold(individual_data = all_individuals, startTime = startTime, stopTime = stopTime)
+# results = StratifiedCV(all_data[epoch_type], all_data["Control"], startTime = startTime, K = K, stopTime = stopTime, freq = freq)
+results = individualKFold(individual_data = all_individuals, epoch_type=epoch_type, startTime = startTime, stopTime = stopTime)
 
 if plot_accuracy_across_k_folds:
     plot_of_accuracy_across_k_folds(results_across_k_folds =  results, save_plot = save_plot_accuracy_across_k_folds)

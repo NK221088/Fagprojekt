@@ -143,7 +143,7 @@ class AudioSpeechNoise_data_load(fNIRS_data_load):
         self.short_channel_correction = short_channel_correction
         self.negative_correlation_enhancement = negative_correlation_enhancement
         self.stimulus_duration = 5
-        self.scalp_coupling_threshold = 0.5
+        self.scalp_coupling_threshold = 0.2
         self.reject_criteria = dict(hbo=80e-6)
         self.tmin = -5
         self.tmax = 15
