@@ -17,10 +17,10 @@ import numpy as np
 ############################
 
 # Data set:
-data_set = "AudioSpeechNoise" # "fNirs_motor_full_data" # 
-epoch_type = "Speech"
+data_set = "fNirs_motor_full_data" #"AudioSpeechNoise" #  
+epoch_type = "Tapping"
 combine_strategy = "mean"
-individuals = True
+individuals = False
 
 # Data processing:
 bad_channels_strategy = "all"
@@ -56,8 +56,10 @@ if plot_epochs:
 if plot_std_fNIRS_response:
     standard_fNIRS_response_plot(all_epochs, data_types, combine_strategy=combine_strategy, save=save_plot_std_fNIRS_response, bad_channels_strategy=bad_channels_strategy, threshold = threshold, data_set = data_name)
 
-# results = StratifiedCV(all_data[epoch_type], all_data["Control"], startTime = startTime, K = K, stopTime = stopTime, freq = freq)
-results = individualKFold(individual_data = all_individuals, epoch_type=epoch_type, startTime = startTime, stopTime = stopTime)
+if individuals:
+    results = individualKFold(individual_data = all_individuals, epoch_type=epoch_type, startTime = startTime, stopTime = stopTime)
+else:
+    results = StratifiedCV(all_data[epoch_type], all_data["Control"], startTime = startTime, K = K, stopTime = stopTime, freq = freq)
 
 if plot_accuracy_across_k_folds:
     plot_of_accuracy_across_k_folds(results_across_k_folds =  results, save_plot = save_plot_accuracy_across_k_folds)
@@ -83,6 +85,8 @@ if save_results:
         file.write("K: {}\n".format(K))
         file.write("Stop Time: {}\n".format(stopTime))
         file.write("Frequency: {}\n".format(round(freq,3)))
+        if individuals:
+            file.write("The models were evaluated using hold one out with each patient.\n")
         file.write("Results:\n")
         file.write("For the majority voting classifier: {}\n".format(results_string_format["MajorityVoting"],2))
         file.write("For the mean model classifier: {}\n".format(results_string_format["MeanModel"],2))
