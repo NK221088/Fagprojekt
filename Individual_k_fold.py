@@ -97,13 +97,13 @@ def individualKFold(individual_data, startTime, stopTime, freq = 7.81):
         ytrain = np.array(ytrain).flatten()
         
         meanModel_accuracy = MeanModel(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
-        baselineaccuracy = BaselineModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain)
-        ps_accuracy = Positive_Negativ_classifier(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain,jointArray=jointArray, labelIndx = tappingArray.shape[0])
+        baselineaccuracy = BaselineModel(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
+        # ps_accuracy = Positive_Negativ_classifier(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain,jointArray=jointArray, labelIndx = tappingArray.shape[0])
         svm_accuracy = SVM_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
         ANN_error, ANN_accuracy = ANN_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)        
 
         meanModelAccuracy_list.append(meanModel_accuracy)
-        # baselineAccuracy_list.append(baselineaccuracy)
+        baselineAccuracy_list.append(baselineaccuracy)
         # psAccuracy_list.append(ps_accuracy)
         svm_accuracy_list.append(svm_accuracy)
         ANN_accuracy_list.append(ANN_accuracy)
