@@ -86,19 +86,19 @@ def individualKFold(individual_data, startTime, stopTime, freq = 7.81):
 
     for participant, data in all_individuals.items():
         Xtest = np.concatenate([data[data_type] for data_type in data])
-        ytest = np.concatenate([np.ones(len(data["Tapping"])), np.zeros(len(data["Control"]))])
+        ytest = np.concatenate([np.ones(len(data["Tapping"]), dtype = bool), np.zeros(len(data["Control"]), dtype = bool)])
         Xtrain = []
         ytrain = []
         for patient, pdata in all_individuals.items():
             if patient != participant:
                 Xtrain.extend(np.concatenate([pdata[data_type] for data_type in pdata]))
-                ytrain.extend(np.concatenate([np.ones(len(pdata["Tapping"])), np.zeros(len(pdata["Control"]))]))
+                ytrain.extend(np.concatenate([np.ones(len(pdata["Tapping"]), dtype = bool), np.zeros(len(pdata["Control"]), dtype = bool)]))
         Xtrain = np.array(Xtrain).reshape(-1,Xtrain[0].shape[0],Xtrain[0].shape[1])
         ytrain = np.array(ytrain).flatten()
         
         meanModel_accuracy = MeanModel(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
-        # baselineaccuracy = BaselineModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain)
-        # ps_accuracy = Positive_Negativ_classifier(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain,jointArray=jointArray, labelIndx = tappingArray.shape[0])
+        baselineaccuracy = BaselineModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain)
+        ps_accuracy = Positive_Negativ_classifier(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain,jointArray=jointArray, labelIndx = tappingArray.shape[0])
         svm_accuracy = SVM_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
         ANN_error, ANN_accuracy = ANN_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)        
 
