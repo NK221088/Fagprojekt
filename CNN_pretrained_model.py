@@ -6,8 +6,50 @@ from tensorflow.keras.optimizers.schedules import ExponentialDecay
 from CNN_data_prep import *
 from tensorflow.keras.callbacks import TensorBoard
 from tensorflow.keras.utils import plot_model
+import matplotlib.pyplot as plt
+import os
 
-def CNN(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest):
+
+def create_directories(base_dir, class_names, sub_dirs):
+    paths = {}
+    if not os.path.exists(base_dir):
+        os.makedirs(base_dir)
+
+    for class_name in class_names:
+        class_paths = {}
+        for sub_dir in sub_dirs:
+            dir_path = os.path.join(base_dir, sub_dir, class_name)
+            if not os.path.exists(dir_path):
+                os.makedirs(dir_path)
+            class_paths[sub_dir] = dir_path
+        paths[class_name] = class_paths
+    return paths
+
+
+def save_fNIRS_data_as_images(Xtrain, ytrain, Xtest, ytest, paths):
+    # Save training data
+    for i in range(len(Xtrain)):
+        class_label = 'Tapping' if ytrain[i] == 1 else 'Control'
+        file_path = os.path.join(paths[class_label]['train'], f'{class_label}_{i}.png')
+        plt.imsave(file_path, Xtrain[i], cmap='gray')
+
+    # Save validation data
+    for i in range(len(Xtest)):
+        class_label = 'Tapping' if ytest[i] == 1 else 'Control'
+        file_path = os.path.join(paths[class_label]['val'], f'{class_label}_{i}.png')
+        plt.imsave(file_path, Xtest[i], cmap='gray')
+
+
+def CNN_classifier(Xtrain, ytrain, Xtest, ytest):
+    base_dir = 'fNIRS_images'
+    class_names = ['Tapping', 'Control']
+    sub_dirs = ['train', 'val']
+
+    paths = create_directories(base_dir, class_names, sub_dirs)
+    save_fNIRS_data_as_images(Xtrain, ytrain, Xtest, ytest, paths)
+
+    # Data prep:
+
     # Load MobileNetV2 pre-trained on ImageNet without the top layer
     base_model = MobileNetV2(input_shape=IMG_SIZE + (3,), include_top=False, weights='imagenet')
 
@@ -81,5 +123,6 @@ def CNN(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest):
     # Evaluate model post fine-tuning
     val_loss, val_accuracy = model.evaluate(validation_generator)
     return (val_loss, val_accuracy)
-    
+
+
 # print(f"Post-Fine-Tuning Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_accuracy*100:.2f}%")

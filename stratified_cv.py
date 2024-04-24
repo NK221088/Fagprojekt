@@ -4,6 +4,7 @@ from mean_model_classifier import MeanModel
 from positive_negative_classifer import Positive_Negativ_classifier
 from SVM_classifier import SVM_classifier
 from ANN import ANN_classifier
+from CNN_pretrained_model import CNN_classifier
 
 def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 7.81):
     
@@ -66,7 +67,7 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
         ps_accuracy = Positive_Negativ_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
         svm_accuracy = SVM_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
         ANN_error, ANN_accuracy = ANN_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)     
-        CNN_error, CNN_accuracy = CNN(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)   
+        # CNN_error, CNN_accuracy = CNN_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
 
         meanModelAccuracy_list.append(meanModel_accuracy)
         baselineAccuracy_list.append(baselineaccuracy)
