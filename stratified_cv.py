@@ -65,7 +65,8 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
         baselineaccuracy = BaselineModel(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
         ps_accuracy = Positive_Negativ_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
         svm_accuracy = SVM_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
-        ANN_error, ANN_accuracy = ANN_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)        
+        ANN_error, ANN_accuracy = ANN_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)     
+        CNN_error, CNN_accuracy = CNN(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)   
 
         meanModelAccuracy_list.append(meanModel_accuracy)
         baselineAccuracy_list.append(baselineaccuracy)
