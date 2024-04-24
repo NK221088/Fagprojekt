@@ -1,4 +1,4 @@
-def BaselineModel(TappingTest, ControlTest, TappingTrain, ControlTrain):
+def BaselineModel(TappingTest, ControlTest, TappingTrain, ControlTrain, theta):
     
     N = (len(ControlTest) + len(TappingTest))
     

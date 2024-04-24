@@ -4,14 +4,11 @@ from mean_model_classifier import MeanModel
 from positive_negative_classifer import Positive_Negativ_classifier
 from SVM_classifier import SVM_classifier
 from ANN import ANN_classifier
+from models import model
 
-def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 7.81):
+def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 7.81, modelList):
     
-    baselineAccuracy_list = [] #List to store accuracies
-    meanModelAccuracy_list = []
-    psAccuracy_list = []
-    svm_accuracy_list = []
-    ANN_accuracy_list = []
+    E_val = {}
 
     dimTappingArray = tappingArray.shape[0] #Amount of tapping epochs 
     dimControlArray = controlArray.shape[0] #Amount of control epochs
@@ -63,17 +60,15 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
         ytest = np.concatenate((np.ones(len(kernelTappingTest), dtype = bool), np.zeros(len(kernelControlTest), dtype = bool)))[test_rand_ind]
         
         
-        meanModel_accuracy = MeanModel(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
-        baselineaccuracy = BaselineModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain)
-        ps_accuracy = Positive_Negativ_classifier(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain,jointArray=jointArray, labelIndx = tappingArray.shape[0])
-        svm_accuracy = SVM_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
-        ANN_error, ANN_accuracy = ANN_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)        
-
-        meanModelAccuracy_list.append(meanModel_accuracy)
-        baselineAccuracy_list.append(baselineaccuracy)
-        psAccuracy_list.append(ps_accuracy)
-        svm_accuracy_list.append(svm_accuracy)
-        ANN_accuracy_list.append(ANN_accuracy)
+        # meanModel_accuracy = MeanModel(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
+        # baselineaccuracy = BaselineModel(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain)
+        # ps_accuracy = Positive_Negativ_classifier(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain,jointArray=jointArray, labelIndx = tappingArray.shape[0])
+        # svm_accuracy = SVM_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
+        # ANN_error, ANN_accuracy = ANN_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)        
+        for model in modelList:
+            for param in theta:
+                E_val[(model.name, i, param)] = (model.train(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest), len(y_test))
+        
         
         k0_tapping += kernelTapping #Updating kernel.
         k1_tapping += kernelTapping
@@ -81,4 +76,4 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
         k0_control += kernelControl
         k1_control += kernelControl
     
-    return {"MeanModel": meanModelAccuracy_list, "MajorityVoting": baselineAccuracy_list, "PSModel": psAccuracy_list, "SVMModel": svm_accuracy_list, "ANNModel": ANN_accuracy_list}
+    return E_val
