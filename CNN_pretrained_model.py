@@ -7,7 +7,7 @@ from CNN_data_prep import *
 from tensorflow.keras.callbacks import TensorBoard
 from tensorflow.keras.utils import plot_model
 
-def CNN(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest):
+def CNN(Xtrain,  ytrain, Xtest, ytest):
     # Load MobileNetV2 pre-trained on ImageNet without the top layer
     base_model = MobileNetV2(input_shape=IMG_SIZE + (3,), include_top=False, weights='imagenet')
 

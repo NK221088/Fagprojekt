@@ -4,6 +4,7 @@ from mean_model_classifier import MeanModel
 from positive_negative_classifer import Positive_Negativ_classifier
 from SVM_classifier import SVM_classifier
 from ANN import ANN_classifier
+from CNN_pretrained_model import CNN
 
 def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 7.81):
     
