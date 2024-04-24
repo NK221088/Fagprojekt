@@ -1,5 +1,5 @@
 import numpy as np
-def Positive_Negativ_classifier(TappingTest, ControlTest, TappingTrain, ControlTrain, jointArray, labelIndx):
+def Positive_Negative_classifier(TappingTest, ControlTest, TappingTrain, ControlTrain, jointArray, labelIndx):
     confusionMatrix = np.zeros((2,2)) # 0 = control, 1 = Tapping
     #[[TP,FP]
     # [FN,TN]]
