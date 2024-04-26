@@ -6,15 +6,14 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
 
     
     for participant, data in dataset.items():
-        Xtest = np.concatenate([data[data_type] for data_type in data])
-        Xtrain = []
+        D_test = {data_type: data[data_type] for data_type in data}
         for patient, pdata in dataset.items():
             if patient != participant:
-                Xtrain.extend(np.concatenate([pdata[data_type] for data_type in pdata]))
+                D_par = {data_type: pdata[data_type] for data_type in pdata}
                 
         #Xtrain = np.array(Xtrain).reshape(-1,Xtrain[0].shape[0],Xtrain[0].shape[1])
-        tappingArray = Xtrain["Tapping"]
-        controlArray = Xtrain["Control"]
+        tappingArray = D_par["Tapping"]
+        controlArray = D_par["Control"]
         E_val = StratifiedCV(modelList = modelList, tappingArray = tappingArray, controlArray = controlArray, startTime = startTime, stopTime = stopTime, freq = freq, K = K2)
         
         E_gen = {}

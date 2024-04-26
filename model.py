@@ -3,7 +3,7 @@ from ANN import ANN_classifier
 from SVM_classifier import SVM_classifier
 from mean_model_classifier import MeanModel
 from majority_voting_classifier import BaselineModel
-from positive_negative_classifier import Positive_Negative_classifier
+from positive_negative_classifer import Positive_Negative_classifier
 
 
 class model:

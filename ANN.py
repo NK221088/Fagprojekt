@@ -23,7 +23,7 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             staircase=True)(step)
         return lr / (step + 1)
 
-def ANN_classifier(Xtrain, ytrain, Xtest, ytest):
+def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     # tf.config.run_functions_eagerly(True)
     
     # Allow memory growth for the GPU

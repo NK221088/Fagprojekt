@@ -32,7 +32,7 @@ ANN = model(name = "ANN")
 modelList = [SVM, ANN]
 
 
-all_epochs, data_name, all_data, freq, data_types = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals)
-two_level_cross_validation(modelList = modelList, )
+all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals)
+two_level_cross_validation(modelList = modelList, K2 = 5, startTime = 7.5, stopTime = 12.5, dataset = all_individuals)
 
 
