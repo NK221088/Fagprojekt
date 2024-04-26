@@ -45,7 +45,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     
     model = tf.keras.models.Sequential([
     tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
-    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(theta, activation='relu'),
     tf.keras.layers.Dropout(0.2),
     tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
     ])
@@ -77,8 +77,8 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     # log_dir = "logs/"
     # tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
     # , callbacks=[tensorboard_callback]
-    model.fit(X_train, y_train, epochs=5)
+    model.fit(X_train, y_train, epochs=1)
     
-    accuracy = model.evaluate(X_test,  y_test, verbose=2)
+    accuracy = model.evaluate(X_test,  y_test, verbose=2)[1]
     
     return accuracy

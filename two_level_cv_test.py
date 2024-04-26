@@ -29,6 +29,8 @@ K = 10
 SVM = model(name = "SVM")
 ANN = model(name = "ANN")
 
+SVM.theta = [100,200]
+
 modelList = [SVM, ANN]
 
 
