@@ -5,7 +5,7 @@ import mne
 import mne_nirs
 import mne_bids
 import os
-
+from Participant_class import individual_participant_class
 
 class fNIRS_data_load:
     def __init__(self, file_path, number_of_participants=1, annotation_names=None, stimulus_duration=5,
@@ -30,7 +30,7 @@ class fNIRS_data_load:
         self.data_name = data_name
         self.individuals = individuals
         if individuals:
-            setattr(self, 'Individual_participants', {f"Participant_{i}": {} for i in range(1, self.number_of_participants + 1)})
+            setattr(self, 'Individual_participants', [])
         for name in self.data_types:
             setattr(self, f'all_{name}', [])
 
@@ -90,13 +90,22 @@ class fNIRS_data_load:
 
             self.all_epochs.append(epochs)
             self.all_control.append(epochs["Control"].get_data(copy=True))
-
+            
+            if self.individuals:
+                Participant_i = individual_participant_class(f"Participant_{i}")
+                Participant_i.events.update({"Control": epochs["Control"].get_data(copy=True)})
+                Participant_i.raw_intensity = raw_intensity
+                Participant_i.raw_od = raw_od
+                Participant_i.raw_haemo_unfiltered = raw_haemo_unfiltered
+                Participant_i.raw_haemo = raw_haemo
+            
             for name in self.data_types:
                 getattr(self, f'all_{name}').append(epochs[name].get_data(copy=True))
                 if self.individuals:
-                    getattr(self, 'Individual_participants')[f"Participant_{i}"].update({name: epochs[name].get_data(copy=True)})
-                    getattr(self, 'Individual_participants')[f"Participant_{i}"].update({"Control": epochs["Control"].get_data(copy=True)})
-
+                    Participant_i.events.update({name: epochs[name].get_data(copy=True)})
+            
+            if self.individuals:
+                getattr(self, 'Individual_participants').append(Participant_i)
                 
 
         # Concatenate the control data

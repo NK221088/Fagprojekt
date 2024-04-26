@@ -20,7 +20,7 @@ import numpy as np
 data_set = "fNirs_motor_full_data" #"AudioSpeechNoise" #  
 epoch_type = "Tapping"
 combine_strategy = "mean"
-individuals = False
+individuals = True
 
 # Data processing:
 bad_channels_strategy = "all"
