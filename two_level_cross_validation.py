@@ -1,4 +1,4 @@
-from models import *
+from model import *
 from stratified_cv import StratifiedCV
 
 
@@ -26,6 +26,8 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
                     liste.append((E_val[model.name, i, param][0] * E_val[model.name, i, param][1]) / Xtrain.shape[0])
                 
                 E_gen[(model.name, param)] = sum(liste)
+                
+        print("Break")
                 
             
                 

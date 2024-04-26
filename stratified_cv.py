@@ -4,9 +4,9 @@ from mean_model_classifier import MeanModel
 from positive_negative_classifer import Positive_Negativ_classifier
 from SVM_classifier import SVM_classifier
 from ANN import ANN_classifier
-from models import model
+from model import model
 
-def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 7.81, modelList):
+def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, K = 4, freq = 7.81):
     
     E_val = {}
 
@@ -65,9 +65,10 @@ def StratifiedCV(tappingArray, controlArray, startTime, stopTime, K = 4, freq = 
         # ps_accuracy = Positive_Negativ_classifier(TappingTest = kernelTappingTest, ControlTest= kernelControlTest, TappingTrain = kernelTappingTrain, ControlTrain= kernelControlTrain,jointArray=jointArray, labelIndx = tappingArray.shape[0])
         # svm_accuracy = SVM_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)
         # ANN_error, ANN_accuracy = ANN_classifier(Xtrain = Xtrain,  ytrain = ytrain, Xtest = Xtest, ytest = ytest)        
+        
         for model in modelList:
-            for param in theta:
-                E_val[(model.name, i, param)] = (model.train(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest), len(y_test))
+            for theta in model.getTheta():
+                E_val[(model.name, i, theta)] = (model.train(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta), len(ytest))
         
         
         k0_tapping += kernelTapping #Updating kernel.

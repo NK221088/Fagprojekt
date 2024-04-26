@@ -7,22 +7,25 @@ from positive_negative_classifier import Positive_Negative_classifier
 
 
 class model:
-    def __init__(self, name, theta):
+    def __init__(self, name, theta = None):
+        
         self.name = name
         self.theta = theta
         
-        if self.name == "SVM":
-            self.theta = ["linear", "poly", "rbf", "sigmoid", "precomputed"]           
-        elif self.name == "ANN":
-            self.theta = np.linspace(103,303,9, dtype = int)
-        elif self.name == "Mean":
-            self.theta = "None"
-        elif self.name == "Baseline":
-
-        elif self.name == "PosNeg":
+        if theta == None:
+            if self.name == "SVM":
+                self.theta = ["linear", "poly", "rbf", "sigmoid", "precomputed"]           
+            elif self.name == "ANN":
+                self.theta = np.linspace(103,303,9, dtype = int)
+            elif self.name == "Mean":
+                self.theta = []
+            elif self.name == "Baseline":
+                self.theta == []
+            elif self.name == "PosNeg":
+                self.theta == []
         
         
-    def train(self, Xtrain, ytrain, Xtest, ytest):
+    def train(self, Xtrain, ytrain, Xtest, ytest, theta):
         if self.name == "SVM":
             return SVM_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
         elif self.name == "ANN":
@@ -33,5 +36,8 @@ class model:
             return BaselineModel(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
         elif self.name == "PosNeg":
             return Positive_Negative_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
+        
+    def getTheta(self):
+        return self.theta
         
         
