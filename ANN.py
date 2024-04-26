@@ -56,24 +56,28 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     decay_steps = tf.constant(50, dtype=tf.int64)
     decay_rate = 0.9
 
-    optimizer = tf.keras.optimizers.Adam(
-        learning_rate=fNirs_LRSchedule(
-            initial_learning_rate = initial_learning_rate,
-            decay_steps = decay_steps,
-            decay_rate = decay_rate,
-        )
-    )
+
+
+    optimizer = tf.keras.optimizers.Adam(learning_rate=0.001) # TEMP constant learning rate because the commented out lines below do not work on my computer
+
+    # optimizer = tf.keras.optimizers.Adam(
+    #     learning_rate=fNirs_LRSchedule(
+    #         initial_learning_rate = initial_learning_rate,
+    #         decay_steps = decay_steps,
+    #         decay_rate = decay_rate,
+    #     )
+    # )
     
     model.compile(optimizer=optimizer,
                 loss=loss_fn, 
                 metrics=['accuracy'])
     
-    plot_model(model, to_file='ANN_model_structure.png', show_shapes=True)
+    # plot_model(model, to_file='ANN_model_structure.png', show_shapes=True)
 
-    log_dir = "logs/"
-    tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
-    
-    model.fit(X_train, y_train, epochs=5, callbacks=[tensorboard_callback])
+    # log_dir = "logs/"
+    # tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
+    # , callbacks=[tensorboard_callback]
+    model.fit(X_train, y_train, epochs=5)
     
     accuracy = model.evaluate(X_test,  y_test, verbose=2)
     

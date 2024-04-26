@@ -22,7 +22,7 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
             for param in model.theta:
                 liste = []
                 for i in range(K2):
-                    liste.append((E_val[model.name, i, param][0] * E_val[model.name, i, param][1]) / Xtrain.shape[0])
+                    liste.append((E_val[model.name, i, param][0] * E_val[model.name, i, param][1]) / D_par.shape[0])
                 
                 E_gen[(model.name, param)] = sum(liste)
                 
