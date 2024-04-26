@@ -38,8 +38,9 @@ def plot_psd_individual(individual, save=False):
         # Save the plot if specified
         if save:
             current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            filename_before = f"{individual.name}_PSD_before_filtering_{current_datetime}.pdf"
-            filename_after = f"{individual.name}_PSD_after_filtering_{current_datetime}.pdf"
+            plots_folder = "Plots"
+            filename_before = os.path.join(plots_folder, f"{individual.name}_PSD_before_filtering_{current_datetime}.pdf")
+            filename_after = os.path.join(plots_folder, f"{individual.name}_PSD_after_filtering_{current_datetime}.pdf")
             fig_before.savefig(filename_before)
             fig_after.savefig(filename_after)
             print(f"Plots saved as {filename_before} and {filename_after}")

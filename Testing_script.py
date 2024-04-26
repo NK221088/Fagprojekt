@@ -20,7 +20,7 @@ import numpy as np
 data_set = "fNirs_motor_full_data" #"AudioSpeechNoise" #  
 epoch_type = "Tapping"
 combine_strategy = "mean"
-individuals = True
+individuals = False
 
 # Data processing:
 bad_channels_strategy = "all"
@@ -38,7 +38,7 @@ plot_accuracy_across_k_folds = True
 
 save_plot_epochs = False
 save_plot_std_fNIRS_response = False
-save_plot_accuracy_across_k_folds = False
+save_plot_accuracy_across_k_folds = True
 save_results = True
 
 ############################
