@@ -14,7 +14,7 @@ class model:
         
         if theta == None:
             if self.name == "SVM":
-                self.theta = ["linear", "poly", "rbf", "sigmoid", "precomputed"]           
+                self.theta = ["linear", "poly", "rbf", "sigmoid"]           
             elif self.name == "ANN":
                 self.theta = np.linspace(103,303,9, dtype = int)
             elif self.name == "Mean":
