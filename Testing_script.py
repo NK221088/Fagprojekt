@@ -24,8 +24,8 @@ individuals = False
 
 # Data processing:
 bad_channels_strategy = "all"
-short_channel_correction = False
-negative_correlation_enhancement = False
+short_channel_correction = True
+negative_correlation_enhancement = True
 threshold = 3
 startTime = 7.5
 stopTime = 12.5

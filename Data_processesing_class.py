@@ -51,22 +51,11 @@ class fNIRS_data_load:
             unwanted = np.nonzero(raw_intensity.annotations.description == "15.0")
             raw_intensity.annotations.delete(unwanted)
 
+            raw_od = mne.preprocessing.nirs.optical_density(raw_intensity)
+            
             if self.short_channel_correction:
-                raw_od = mne.preprocessing.nirs.optical_density(raw_intensity)
                 raw_od = mne_nirs.signal_enhancement.short_channel_regression(raw_od)
-
-                picks = mne.pick_types(raw_intensity.info, meg=False, fnirs=True)
-                dists = mne.preprocessing.nirs.source_detector_distances(
-                    raw_intensity.info, picks=picks
-                )
-                raw_intensity.pick(picks[dists > 0.01])
-            else:
-                picks = mne.pick_types(raw_intensity.info, meg=False, fnirs=True)
-                dists = mne.preprocessing.nirs.source_detector_distances(
-                    raw_intensity.info, picks=picks
-                )
-                raw_intensity.pick(picks[dists > 0.01])
-                raw_od = mne.preprocessing.nirs.optical_density(raw_intensity)
+            raw_od = mne_nirs.channels.get_long_channels(raw_od)
 
             sci = mne.preprocessing.nirs.scalp_coupling_index(raw_od)
 
