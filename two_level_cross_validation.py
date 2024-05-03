@@ -4,6 +4,8 @@ from stratified_cv import StratifiedCV
 
 def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq = 7.81):
 
+    dataset = {participant.name: participant.events for participant in dataset}
+
     N = sum([data[data_type].shape[0] for participant, data in dataset.items() for data_type in data])
     E_test = {model.name: {} for model in modelList}
     count = 0
@@ -69,7 +71,7 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
     E_gen_hat = {model.name: 0 for model in modelList}
     
     for model in E_test.keys():
-        for i in range(5):
+        for i in range(len(dataset)):
             E_gen_hat[model] += E_test[model][i][0] * (E_test[model][i][1] / N)
             
     return E_gen_hat

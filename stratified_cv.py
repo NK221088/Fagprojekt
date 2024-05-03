@@ -51,8 +51,8 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, K =
         train_rand_ind = np.random.choice(size = train_len, a = train_len, replace = False) # Generate random indices for the training data
         test_rand_ind = np.random.choice(size = test_len, a = test_len, replace = False) # Generate random indices for the test data
         
-        train_rand_ind = np.random.choice(size = train_len, a = train_len, replace = False)
-        test_rand_ind = np.random.choice(size = test_len, a = test_len, replace = False)
+        Xtrain = jointArray[np.concatenate((kernelTappingTrain, kernelControlTrain))[train_rand_ind]]                                           #Extracting training data using indices
+        ytrain = np.concatenate((np.ones(len(kernelTappingTrain), dtype = bool), np.zeros(len(kernelControlTrain), dtype = bool)))[train_rand_ind]
         
         Xtest = jointArray[np.concatenate((kernelTappingTest, kernelControlTest))[test_rand_ind]]                                               #Extracting test data using indices
         ytest = np.concatenate((np.ones(len(kernelTappingTest), dtype = bool), np.zeros(len(kernelControlTest), dtype = bool)))[test_rand_ind]

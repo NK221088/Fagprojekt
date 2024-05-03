@@ -25,7 +25,7 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             staircase=True)(step)
         return lr / (step + 1)
 
-def ANN_classifier(Xtrain, ytrain, Xtest, ytest):
+def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     # Allow memory growth for the GPU
     physical_devices = tf.config.list_physical_devices('GPU')
     if physical_devices:
@@ -46,8 +46,8 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest):
     # Define your model
     model = tf.keras.models.Sequential([
         tf.keras.layers.Conv1D(filters=64, kernel_size=3, activation='relu', input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),  # Convolutional layer
-        tf.keras.layers.LSTM(50, return_sequences=True),  # LSTM layer
-        tf.keras.layers.LSTM(50),  # LSTM layer
+        tf.keras.layers.LSTM(theta, return_sequences=True),  # LSTM layer
+        tf.keras.layers.LSTM(theta),  # LSTM layer
         tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer
     ])
     
@@ -56,7 +56,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest):
     initial_learning_rate = 0.009
     decay_steps = tf.constant(20, dtype=tf.int64)
     decay_rate = 0.9
-    epochs = 100
+    epochs = 5
     batch_size = 100
 
     optimizer = tf.keras.optimizers.Adam(
@@ -67,7 +67,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest):
         )
     )
     
-    model.compile(optimizer=optimizer,
+    model.compile(optimizer="adam",
                 loss=loss_fn, 
                 metrics=['accuracy'])
     
@@ -76,8 +76,8 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest):
     log_dir = "logs/"
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
     
-    history = model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size, callbacks=[tensorboard_callback])
-    
+    model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size, callbacks=[tensorboard_callback])
+    """
     # Plot the training loss
     plt.figure(figsize=(12, 6))
     plt.plot(history.history['loss'])
@@ -86,7 +86,8 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest):
     plt.xlabel('Epoch')
     plt.legend(['Train'], loc='upper right')
     plt.show()
+    """
     
-    accuracy = model.evaluate(X_test,  y_test, verbose=2)
+    loss, accuracy = model.evaluate(X_test,  y_test, verbose=2)
     
     return accuracy
