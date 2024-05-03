@@ -38,7 +38,7 @@ plot_accuracy_across_k_folds = True
 
 save_plot_epochs = False
 save_plot_std_fNIRS_response = False
-save_plot_accuracy_across_k_folds = False
+save_plot_accuracy_across_k_folds = True
 save_results = True
 
 ############################
