@@ -4,6 +4,7 @@ from SVM_classifier import SVM_classifier
 from mean_model_classifier import MeanModel
 from majority_voting_classifier import BaselineModel
 from positive_negative_classifer import Positive_Negative_classifier
+from CNN_pretrained_model import CNN_classifier
 
 
 class model:
@@ -20,9 +21,11 @@ class model:
             elif self.name == "Mean":
                 self.theta = []
             elif self.name == "Baseline":
-                self.theta == []
+                self.theta = []
             elif self.name == "PosNeg":
-                self.theta == []
+                self.theta = []
+            elif self.name == "CNN":
+                self.theta = [0.001,0.01]
         
         
     def train(self, Xtrain, ytrain, Xtest, ytest, theta):
@@ -36,6 +39,8 @@ class model:
             return BaselineModel(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
         elif self.name == "PosNeg":
             return Positive_Negative_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
+        elif self.name == "CNN":
+            return CNN_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
         
     def getTheta(self):
         return self.theta

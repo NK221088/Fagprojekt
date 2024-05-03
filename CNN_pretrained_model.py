@@ -34,13 +34,13 @@ def plot_samples(X, n=5):
     plt.show()
 
 
-def CNN_classifier(Xtrain, ytrain, Xtest, ytest):
+def CNN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     plot_samples(Xtrain[:5])
 
     train_dataset = make_dataset(Xtrain, ytrain, batch_size=64, augment=True)
     val_dataset = make_dataset(Xtest, ytest, batch_size=64)
 
-    initial_learning_rate = 0.001
+    initial_learning_rate = theta
     lr_schedule = ExponentialDecay(initial_learning_rate, decay_steps=100, decay_rate=0.96, staircase=True)
 
     # Pretrained CNN model:
@@ -60,7 +60,7 @@ def CNN_classifier(Xtrain, ytrain, Xtest, ytest):
                   loss='binary_crossentropy',
                   metrics=['accuracy'])
 
-    model.fit(train_dataset, epochs=10, validation_data=val_dataset)
+    model.fit(train_dataset, epochs= 1, validation_data=val_dataset)
     accuracy = model.evaluate(val_dataset)
     return accuracy
 
