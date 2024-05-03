@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import numpy as np
-def BaselineModel(Xtrain, ytrain, Xtest, ytest):
-    N = len(ytest)
-=======
-def BaselineModel(TappingTest, ControlTest, TappingTrain, ControlTrain, theta):
->>>>>>> 2-Level-Cross-Validation
-    
+def BaselineModel(Xtrain, ytrain, Xtest, ytest, theta):
+    N = len(ytest)    
     if sum(ytrain == 1) < sum(ytrain == 0):
         return sum(ytest == 0) / N
     else:
