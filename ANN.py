@@ -23,7 +23,7 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             staircase=True)(step)
         return lr / (step + 1)
 
-def ANN_classifier(Xtrain, ytrain, Xtest, ytest):
+def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     # tf.config.run_functions_eagerly(True)
     
     # Allow memory growth for the GPU
@@ -45,7 +45,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest):
     
     model = tf.keras.models.Sequential([
     tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
-    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(theta, activation='relu'),
     tf.keras.layers.Dropout(0.2),
     tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
     ])
@@ -56,25 +56,29 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest):
     decay_steps = tf.constant(50, dtype=tf.int64)
     decay_rate = 0.9
 
-    optimizer = tf.keras.optimizers.Adam(
-        learning_rate=fNirs_LRSchedule(
-            initial_learning_rate = initial_learning_rate,
-            decay_steps = decay_steps,
-            decay_rate = decay_rate,
-        )
-    )
+
+
+    optimizer = tf.keras.optimizers.Adam(learning_rate=0.001) # TEMP constant learning rate because the commented out lines below do not work on my computer
+
+    # optimizer = tf.keras.optimizers.Adam(
+    #     learning_rate=fNirs_LRSchedule(
+    #         initial_learning_rate = initial_learning_rate,
+    #         decay_steps = decay_steps,
+    #         decay_rate = decay_rate,
+    #     )
+    # )
     
     model.compile(optimizer=optimizer,
                 loss=loss_fn, 
                 metrics=['accuracy'])
     
-    plot_model(model, to_file='ANN_model_structure.png', show_shapes=True)
+    # plot_model(model, to_file='ANN_model_structure.png', show_shapes=True)
 
-    log_dir = "logs/"
-    tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
+    # log_dir = "logs/"
+    # tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
+    # , callbacks=[tensorboard_callback]
+    model.fit(X_train, y_train, epochs=1)
     
-    model.fit(X_train, y_train, epochs=5, callbacks=[tensorboard_callback])
-    
-    accuracy = model.evaluate(X_test,  y_test, verbose=2)
+    accuracy = model.evaluate(X_test,  y_test, verbose=2)[1]
     
     return accuracy

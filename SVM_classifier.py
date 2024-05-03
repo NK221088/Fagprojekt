@@ -4,9 +4,9 @@ from sklearn.preprocessing import StandardScaler
 import numpy as np
 import matplotlib.pyplot as plt
 
-def SVM_classifier(Xtrain, ytrain, Xtest, ytest):
+def SVM_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     
-    clf = svm.SVC(kernel='rbf')
+    clf = svm.SVC(kernel= theta)
 
     # Flatten the last two dimensions of the data
     
