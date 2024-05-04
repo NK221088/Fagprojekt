@@ -45,7 +45,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     
     # Define your model
     model = tf.keras.models.Sequential([
-        tf.keras.layers.Conv1D(filters=64, kernel_size=3, activation='relu', input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),  # Convolutional layer
+        tf.keras.layers.Conv1D(filters=np.shape(X_train)[1], kernel_size=3, activation='relu', input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),  # Convolutional layer
         tf.keras.layers.LSTM(theta, return_sequences=True),  # LSTM layer
         tf.keras.layers.LSTM(theta),  # LSTM layer
         tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer
@@ -56,7 +56,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     initial_learning_rate = 0.009
     decay_steps = tf.constant(20, dtype=tf.int64)
     decay_rate = 0.9
-    epochs = 5
+    epochs = 2
     batch_size = 100
 
     optimizer = tf.keras.optimizers.Adam(
@@ -67,7 +67,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         )
     )
     
-    model.compile(optimizer="adam",
+    model.compile(optimizer=optimizer,
                 loss=loss_fn, 
                 metrics=['accuracy'])
     
