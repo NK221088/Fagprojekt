@@ -9,6 +9,13 @@ from tensorflow.keras.callbacks import TensorBoard
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import PolynomialFeatures
 import matplotlib.pyplot as plt
+import warnings
+
+# Suppress all warnings
+warnings.filterwarnings("ignore")
+
+# Your existing code here
+
 
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
     def __init__(self, initial_learning_rate, decay_steps, decay_rate):
@@ -78,7 +85,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     log_dir = "logs/"
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
     
-    model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size, callbacks=[tensorboard_callback])
+    model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size, callbacks=[tensorboard_callback],verbose = 0)
     """
     # Plot the training loss
     plt.figure(figsize=(12, 6))
@@ -90,6 +97,6 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     plt.show()
     """
     
-    loss, accuracy = model.evaluate(X_test,  y_test, verbose=2)
+    loss, accuracy = model.evaluate(X_test,  y_test, verbose=0)
     
     return accuracy

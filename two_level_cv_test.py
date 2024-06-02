@@ -38,7 +38,7 @@ ANN = model(name = "ANN")
 
 ANN.theta = [50]
 
-modelList = [ANN]
+modelList = [ANN, SVM]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals)
@@ -68,5 +68,6 @@ if save_results:
         file.write("Results:\n")
         for models, accuracy in accuracy.items():
             file.write("For the {} classifier: {}\n".format(models, np.round(accuracy,2)))
+        file.write(f'{accuracy}')
 
     print(f"Results saved as {filename}")

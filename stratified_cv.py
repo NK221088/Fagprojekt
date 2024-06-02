@@ -5,9 +5,10 @@ from positive_negative_classifer import Positive_Negative_classifier
 from SVM_classifier import SVM_classifier
 from ANN import ANN_classifier
 from model import model
+from tqdm import tqdm
 
 
-def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, K = 4, freq = 7.81):
+def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, iter_n, K = 4, freq = 7.81):
     
     E_val = {}
 
@@ -32,42 +33,44 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, K =
     k0_control = 0 #First index of control kernel (is updated after each iteration in loop)
     k1_control = kernelControl #Last index of tapping kernel (is updated after each iteration in loop)
     
-    for i in range(K):
-        
-        if k1_tapping > dimTappingArray: #Cutting last index of tapping kernel if too long
-            k1_tapping = dimTappingArray 
-        
-        if k1_control > dimControlArray: #Cutting last index of control kernel if too long
-            k1_control = dimControlArray
-        
-        kernelTappingTest = randIndTapping[k0_tapping:k1_tapping] #Selecting tapping kernel indecies (test data)  
-        kernelTappingTrain = np.concatenate((randIndTapping[:k0_tapping],randIndTapping[k1_tapping:])) #Selecting all indecies outside of kernel (train data)
-        
-        kernelControlTest = randIndControl[k0_control:k1_control] #Selecting control kernel indecies (test data)  
-        kernelControlTrain = np.concatenate((randIndControl[:k0_control],randIndControl[k1_control:])) #Selecting control kernel indecies (train data)
+    with tqdm(total = K, desc = "Inner loop", leave = False, position= 1, ncols = 150) as inner_pbar:
+        for i in range(K):
+            if k1_tapping > dimTappingArray: #Cutting last index of tapping kernel if too long
+                k1_tapping = dimTappingArray 
+            
+            if k1_control > dimControlArray: #Cutting last index of control kernel if too long
+                k1_control = dimControlArray
+            
+            kernelTappingTest = randIndTapping[k0_tapping:k1_tapping] #Selecting tapping kernel indecies (test data)  
+            kernelTappingTrain = np.concatenate((randIndTapping[:k0_tapping],randIndTapping[k1_tapping:])) #Selecting all indecies outside of kernel (train data)
+            
+            kernelControlTest = randIndControl[k0_control:k1_control] #Selecting control kernel indecies (test data)  
+            kernelControlTrain = np.concatenate((randIndControl[:k0_control],randIndControl[k1_control:])) #Selecting control kernel indecies (train data)
 
-        train_len = len(kernelControlTrain) + len(kernelTappingTrain)
-        test_len = len(kernelTappingTest) + len(kernelControlTest)
-        
-        train_rand_ind = np.random.choice(size = train_len, a = train_len, replace = False) # Generate random indices for the training data
-        test_rand_ind = np.random.choice(size = test_len, a = test_len, replace = False) # Generate random indices for the test data
-        
-        Xtrain = jointArray[np.concatenate((kernelTappingTrain, kernelControlTrain))[train_rand_ind]]                                           #Extracting training data using indices
-        ytrain = np.concatenate((np.ones(len(kernelTappingTrain), dtype = bool), np.zeros(len(kernelControlTrain), dtype = bool)))[train_rand_ind]
-        
-        Xtest = jointArray[np.concatenate((kernelTappingTest, kernelControlTest))[test_rand_ind]]                                               #Extracting test data using indices
-        ytest = np.concatenate((np.ones(len(kernelTappingTest), dtype = bool), np.zeros(len(kernelControlTest), dtype = bool)))[test_rand_ind]
-        
+            train_len = len(kernelControlTrain) + len(kernelTappingTrain)
+            test_len = len(kernelTappingTest) + len(kernelControlTest)
+            
+            train_rand_ind = np.random.choice(size = train_len, a = train_len, replace = False) # Generate random indices for the training data
+            test_rand_ind = np.random.choice(size = test_len, a = test_len, replace = False) # Generate random indices for the test data
+            
+            Xtrain = jointArray[np.concatenate((kernelTappingTrain, kernelControlTrain))[train_rand_ind]]                                           #Extracting training data using indices
+            ytrain = np.concatenate((np.ones(len(kernelTappingTrain), dtype = bool), np.zeros(len(kernelControlTrain), dtype = bool)))[train_rand_ind]
+            
+            Xtest = jointArray[np.concatenate((kernelTappingTest, kernelControlTest))[test_rand_ind]]                                               #Extracting test data using indices
+            ytest = np.concatenate((np.ones(len(kernelTappingTest), dtype = bool), np.zeros(len(kernelControlTest), dtype = bool)))[test_rand_ind]
+            
 
-        for model in modelList:
-            for theta in model.getTheta():
-                E_val[(model.name, i, theta)] = (model.train(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta), len(ytest))
-        
-        
-        k0_tapping += kernelTapping #Updating kernel.
-        k1_tapping += kernelTapping
-        
-        k0_control += kernelControl
-        k1_control += kernelControl
+            for model in modelList:
+                for theta in model.getTheta():
+                    inner_pbar.set_description(f'Currently evaluating ' + model.name + f' on parameter ' + str(theta))
+                    E_val[(model.name, i, theta)] = (model.train(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta), len(ytest))
+            
+            
+            k0_tapping += kernelTapping #Updating kernel.
+            k1_tapping += kernelTapping
+            
+            k0_control += kernelControl
+            k1_control += kernelControl
+            inner_pbar.update(1)
     
     return E_val
