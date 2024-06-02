@@ -6,6 +6,7 @@ from SVM_classifier import SVM_classifier
 from ANN import ANN_classifier
 from model import model
 
+
 def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, K = 4, freq = 7.81):
     
     E_val = {}

@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
     def __init__(self, initial_learning_rate, decay_steps, decay_rate):
         self.initial_learning_rate = initial_learning_rate
-        self.decay_steps = decay_steps
+        self.decay_steps = 100000
         self.decay_rate = decay_rate
 
     def __call__(self, step):
@@ -40,8 +40,10 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     
     X_train = tf.convert_to_tensor(Xtrain)
     y_train = tf.convert_to_tensor(ytrain)
+    y_train = tf.cast(y_train, tf.int32)
     X_test = tf.convert_to_tensor(Xtest)
     y_test = tf.convert_to_tensor(ytest)
+    y_test = tf.cast(y_test, tf.int32)
     
     # Define your model
     model = tf.keras.models.Sequential([
@@ -71,7 +73,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
                 loss=loss_fn, 
                 metrics=['accuracy'])
     
-    plot_model(model, to_file='CRNN_model_structure.png', show_shapes=True)
+   
 
     log_dir = "logs/"
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
