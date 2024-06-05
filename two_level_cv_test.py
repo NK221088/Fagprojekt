@@ -46,7 +46,7 @@ modelList = [ANN, SVM]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals)
-accuracy, evallist = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, dataset = all_individuals)
+accuracy, evallist, E_gen = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, dataset = all_individuals)
 
 # Get current date and time
 current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -87,8 +87,12 @@ if save_results:
         file.write("Results:\n")
         for models, accuracy in accuracy.items():
             file.write("For the {} classifier: {}\n".format(models, np.round(accuracy,2)))
+            
+        file.write("E_gen/n")
+        file.write(f'{E_gen}')
         
         file.write("Fold accuracies:\n")
         file.write(format_evallist(evallist))
+
 
     print(f"Results saved as {filename}")

@@ -79,7 +79,7 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
         for i in range(len(dataset)):
             E_gen_hat[model] += E_test[model][i][0] * (E_test[model][i][1] / N)
             
-    return E_gen_hat,evalList
+    return E_gen_hat,evalList,E_gen
                 
                     
                     
