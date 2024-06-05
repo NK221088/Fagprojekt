@@ -6,13 +6,13 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
 
     dataset = {participant.name: participant.events for participant in dataset}
     
-    evalList = []
+    E_genList = []
 
     N = sum([data[data_type].shape[0] for participant, data in dataset.items() for data_type in data])
     E_test = {model.name: {} for model in modelList}
     count = 0
     
-    with tqdm(total = len(dataset), desc="Outer loop", position=0, ncols = 50) as outer_pbar:
+    with tqdm(total = len(dataset), desc="Outer loop", position=0, ncols = 100) as outer_pbar:
         for participant, data in dataset.items():
             outer_pbar.set_description(f'{participant}')
 
@@ -37,7 +37,6 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
             
             
             E_val = StratifiedCV(modelList = modelList, tappingArray = tappingArray_par, controlArray = controlArray_par, startTime = startTime, stopTime = stopTime, freq = freq, K = K2, iter_n = count + 1)
-            evalList.append(E_val)
             outer_pbar.update(1)
             E_gen = {}  # Initialize the outer dictionary
 
@@ -53,7 +52,8 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
                     # Sum the list and assign it to the inner dictionary under the key theta
                     E_gen[model.name][theta] = sum(liste)
 
-
+            E_genList.append(E_val)
+            
             theta_star = [max(E_gen[model.name], key=E_gen[model.name].get) for model in modelList]
             
             train_size = tappingArray_par.shape[0] + controlArray_par.shape[0]
@@ -79,7 +79,7 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
         for i in range(len(dataset)):
             E_gen_hat[model] += E_test[model][i][0] * (E_test[model][i][1] / N)
             
-    return E_gen_hat,evalList,E_gen
+    return E_gen_hat,E_genList
                 
                     
                     

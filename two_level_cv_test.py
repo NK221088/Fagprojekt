@@ -7,6 +7,7 @@ import os
 from collections import Counter
 from model import model
 import numpy as np
+import csv
 
 from datetime import datetime
 
@@ -46,7 +47,7 @@ modelList = [ANN, SVM]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals)
-accuracy, evallist, E_gen = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, dataset = all_individuals)
+accuracy, E_genList = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, dataset = all_individuals)
 
 # Get current date and time
 current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -55,14 +56,11 @@ def format_evallist(evallist):
     formatted_lines = []
     for idx, evaluation in enumerate(evallist):
         formatted_lines.append(f"Evaluation {idx + 1}:")
-        for key, value in evaluation.items():
-            model_name, fold_number, model_parameter = key
-            score, count = value
+        for model_name, folds in evaluation.items():
             formatted_lines.append(f"  Model: {model_name}")
-            formatted_lines.append(f"    Fold Number: {fold_number}")
-            formatted_lines.append(f"    Model Parameter: {model_parameter}")
-            formatted_lines.append(f"    Score: {score}")
-            formatted_lines.append(f"    Count: {count}")
+            for param, score in folds.items():
+                formatted_lines.append(f"    Parameter: {param}")
+                formatted_lines.append(f"    Score: {score}")
         formatted_lines.append("")  # Add a blank line for separation
     return "\n".join(formatted_lines)
 
@@ -88,11 +86,33 @@ if save_results:
         for models, accuracy in accuracy.items():
             file.write("For the {} classifier: {}\n".format(models, np.round(accuracy,2)))
             
-        file.write("E_gen/n")
-        file.write(f'{E_gen}')
-        
         file.write("Fold accuracies:\n")
-        file.write(format_evallist(evallist))
+        file.write(format_evallist(E_genList))
 
 
     print(f"Results saved as {filename}")
+
+def flatten_evallist(evallist):
+    flattened_data = []
+    for idx, evaluation in enumerate(evallist):
+        for model_name, parameters in evaluation.items():
+            for param, accuracy in parameters.items():
+                flattened_data.append({
+                    "Evaluation": idx + 1,
+                    "Model": model_name,
+                    "Parameter": param,
+                    "Accuracy": accuracy
+                })
+    return flattened_data
+
+# Flatten the evaluation list
+flat_data = flatten_evallist(E_genList)
+
+# Write the flattened data to a CSV file
+with open('output.csv', 'w', newline='') as csvfile:
+    fieldnames = ["Evaluation", "Model", "Parameter", "Accuracy"]
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    
+    writer.writeheader()
+    for row in flat_data:
+        writer.writerow(row)
