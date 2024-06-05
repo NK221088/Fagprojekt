@@ -40,7 +40,7 @@ class model:
         elif self.name == "PosNeg":
             return Positive_Negative_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
         elif self.name == "CNN":
-            return CNN_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
+            return CNN_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)[1]
         
     def getTheta(self):
         return self.theta
