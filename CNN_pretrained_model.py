@@ -35,7 +35,6 @@ def plot_samples(X, n=5):
 
 
 def CNN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
-    plot_samples(Xtrain[:5])
 
     train_dataset = make_dataset(Xtrain, ytrain, batch_size=64, augment=True)
     val_dataset = make_dataset(Xtest, ytest, batch_size=64)
