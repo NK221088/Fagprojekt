@@ -52,7 +52,7 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
                     # Sum the list and assign it to the inner dictionary under the key theta
                     E_gen[model.name][theta] = sum(liste)
 
-            E_genList.append(E_val)
+            E_genList.append(E_gen)
             
             theta_star = [max(E_gen[model.name], key=E_gen[model.name].get) for model in modelList]
             
