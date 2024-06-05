@@ -51,6 +51,21 @@ accuracy, evallist = two_level_cross_validation(modelList = modelList, K2 = K2, 
 # Get current date and time
 current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
+def format_evallist(evallist):
+    formatted_lines = []
+    for idx, evaluation in enumerate(evallist):
+        formatted_lines.append(f"Evaluation {idx + 1}:")
+        for key, value in evaluation.items():
+            model_name, fold_number, model_parameter = key
+            score, count = value
+            formatted_lines.append(f"  Model: {model_name}")
+            formatted_lines.append(f"    Fold Number: {fold_number}")
+            formatted_lines.append(f"    Model Parameter: {model_parameter}")
+            formatted_lines.append(f"    Score: {score}")
+            formatted_lines.append(f"    Count: {count}")
+        formatted_lines.append("")  # Add a blank line for separation
+    return "\n".join(formatted_lines)
+
 # Construct filename with date and time
 results_folder = "Two_level_classifier_results" # Define the folder name
 filename = os.path.join(results_folder, f"{data_name}e_{epoch_type}_results_{current_datetime}.txt")
@@ -72,6 +87,8 @@ if save_results:
         file.write("Results:\n")
         for models, accuracy in accuracy.items():
             file.write("For the {} classifier: {}\n".format(models, np.round(accuracy,2)))
-        file.write(f'{evallist}')
+        
+        file.write("Fold accuracies:\n")
+        file.write(format_evallist(evallist))
 
     print(f"Results saved as {filename}")
