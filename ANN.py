@@ -52,6 +52,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     y_test = tf.convert_to_tensor(ytest)
     y_test = tf.cast(y_test, tf.int32)
     
+    theta = int(theta)
     # Define your model
     model = tf.keras.models.Sequential([
         tf.keras.layers.Conv1D(filters=np.shape(X_train)[1], kernel_size=3, activation='relu', input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),  # Convolutional layer
