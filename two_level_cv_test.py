@@ -86,8 +86,6 @@ if save_results:
         for models, accuracy in accuracy.items():
             file.write("For the {} classifier: {}\n".format(models, np.round(accuracy,2)))
             
-        file.write("Fold accuracies:\n")
-        file.write(format_evallist(E_genList))
 
 
     print(f"Results saved as {filename}")
@@ -95,18 +93,28 @@ if save_results:
 def flatten_evallist(evallist):
     flattened_data = []
     for idx, evaluation in enumerate(evallist):
-        for model_name, parameters in evaluation.items():
-            for param, accuracy in parameters.items():
+        for model_name, folds in evaluation.items():
+            # Handle both dict and tuple cases
+            if isinstance(folds, dict):
+                for param, score in folds.items():
+                    flattened_data.append({
+                        "Evaluation": idx + 1,
+                        "Model": model_name,
+                        "Parameter": param,
+                        "Accuracy": score
+                    })
+            elif isinstance(folds, tuple):
+                param, score = folds
                 flattened_data.append({
                     "Evaluation": idx + 1,
                     "Model": model_name,
                     "Parameter": param,
-                    "Accuracy": accuracy
+                    "Accuracy": score
                 })
     return flattened_data
 
 # Flatten the evaluation list
-flat_data = flatten_evallist(E_genList)
+flat_data = flatten_evallist(evallist)
 
 # Write the flattened data to a CSV file
 with open('output.csv', 'w', newline='') as csvfile:
