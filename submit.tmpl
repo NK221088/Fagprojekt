@@ -35,8 +35,6 @@
 # activate it first:
 source fagenv/bin/activate
 
-# use this for LSF to collect the stdout & stderr
-python3 two_level_cv_test.py
 
 # use this for unbuffered output, so that you can check in real-time
 # (with tail -f Output_.out Output_.err)
@@ -46,4 +44,4 @@ python3 -u two_level_cv_test.py
 # use this for just piping everything into a file, 
 # the program knows then, that it's outputting to a file
 # and not to a screen, and also combine stdout&stderr
-python3 two_level_cv_test.py > /zhome/82/0/187089/testFolder/joboutput_$LSB_JOBID.out 2>&1
+
