@@ -17,7 +17,7 @@ class model:
             if self.name == "SVM":
                 self.theta = ["linear", "poly", "rbf", "sigmoid"]           
             elif self.name == "ANN":
-                self.theta = np.linspace(103,303,9)
+                self.theta = [103,128,153,178,203,228,253,278,303]
             elif self.name == "Mean":
                 self.theta = []
             elif self.name == "Baseline":
