@@ -7,6 +7,7 @@ import os
 from collections import Counter
 from model import model
 import numpy as np
+from datetime import datetime
 import csv
 
 from datetime import datetime
@@ -96,8 +97,13 @@ def flatten_evallist(evallist):
 # Flatten the evaluation list
 flat_data = flatten_evallist(E_genList)
 
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+# Define the filename with the timestamp
+filename = f"output_{timestamp}.csv"
+
 # Write the flattened data to a CSV file
-with open('output.csv', 'w', newline='') as csvfile:
+with open(filename, 'w', newline='') as csvfile:
     fieldnames = ["Evaluation", "Model", "Parameter", "Accuracy"]
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     
