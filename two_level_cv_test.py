@@ -52,17 +52,6 @@ accuracy, E_genList = two_level_cross_validation(modelList = modelList, K2 = K2,
 # Get current date and time
 current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-def format_evallist(evallist):
-    formatted_lines = []
-    for idx, evaluation in enumerate(evallist):
-        formatted_lines.append(f"Evaluation {idx + 1}:")
-        for model_name, folds in evaluation.items():
-            formatted_lines.append(f"  Model: {model_name}")
-            for param, score in folds.items():
-                formatted_lines.append(f"    Parameter: {param}")
-                formatted_lines.append(f"    Score: {score}")
-        formatted_lines.append("")  # Add a blank line for separation
-    return "\n".join(formatted_lines)
 
 # Construct filename with date and time
 results_folder = "Two_level_classifier_results" # Define the folder name
@@ -114,7 +103,7 @@ def flatten_evallist(evallist):
     return flattened_data
 
 # Flatten the evaluation list
-flat_data = flatten_evallist(evallist)
+flat_data = flatten_evallist(E_genList)
 
 # Write the flattened data to a CSV file
 with open('output.csv', 'w', newline='') as csvfile:
