@@ -1,15 +1,19 @@
 from load_data_function import load_data
 from two_level_cross_validation import two_level_cross_validation
+import sys
+print(sys.version)
 import mne
 import os
 from collections import Counter
 from model import model
 import numpy as np
+
 from datetime import datetime
 
 ############################
 # Settings:
 ############################
+
 
 # Data set:
 data_set = "fNirs_motor_full_data"
