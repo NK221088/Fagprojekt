@@ -33,7 +33,7 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, ite
     k0_control = 0 #First index of control kernel (is updated after each iteration in loop)
     k1_control = kernelControl #Last index of tapping kernel (is updated after each iteration in loop)
     
-    with tqdm(total = K, desc = "Inner loop", leave = False, position= 1, ncols = 150) as inner_pbar:
+    with tqdm(total = K, desc = "Inner loop", leave = False, position= 1, ncols = 80) as inner_pbar:
         for i in range(K):
             if k1_tapping > dimTappingArray: #Cutting last index of tapping kernel if too long
                 k1_tapping = dimTappingArray 
