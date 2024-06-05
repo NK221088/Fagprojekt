@@ -32,7 +32,7 @@ negative_correlation_enhancement = True
 threshold = 3
 startTime = 7.5
 stopTime = 12.5
-K2 = 2
+K2 = 5
 
 # Plotting and saving:
 save_results = True
@@ -40,11 +40,10 @@ save_results = True
 #Models
 SVM = model(name = "SVM")
 ANN = model(name = "ANN")
+CNN = model(name = "CNN")
 
 
-ANN.theta = [50]
-
-modelList = [SVM]
+modelList = [SVM,ANN,CNN]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals)
