@@ -45,18 +45,18 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     
     # Define your model
     model = tf.keras.models.Sequential([
-        tf.keras.layers.Conv1D(filters=np.shape(X_train)[1], kernel_size=3, activation='relu', input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),  # Convolutional layer
-        tf.keras.layers.LSTM(theta, return_sequences=True),  # LSTM layer
-        tf.keras.layers.LSTM(theta),  # LSTM layer
-        tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer
+    tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
+    tf.keras.layers.Dense(theta, activation='relu'),
+    tf.keras.layers.Dropout(0.2),
+    tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
     ])
     
     loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False) # We use BinaryCrossentropy as there is only two classes
     
-    initial_learning_rate = 0.009
-    decay_steps = tf.constant(20, dtype=tf.int64)
+    initial_learning_rate = 0.01
+    decay_steps = tf.constant(50, dtype=tf.int64)
     decay_rate = 0.9
-    epochs = 2
+    epochs = 300
     batch_size = 100
 
     optimizer = tf.keras.optimizers.Adam(

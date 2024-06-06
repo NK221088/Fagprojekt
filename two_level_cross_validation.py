@@ -9,6 +9,8 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
     N = sum([data[data_type].shape[0] for participant, data in dataset.items() for data_type in data])
     E_test = {model.name: {} for model in modelList}
     count = 0
+
+    theta_list = []
     
     
     for participant, data in dataset.items():
@@ -50,6 +52,7 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
 
 
         theta_star = [max(E_gen[model.name], key=E_gen[model.name].get) for model in modelList]
+        theta_list.append(theta_star)
         
         train_size = tappingArray_par.shape[0] + controlArray_par.shape[0]
         test_size =  tappingArray_test.shape[0] + controlArray_test.shape[0]           
@@ -74,7 +77,7 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
         for i in range(len(dataset)):
             E_gen_hat[model] += E_test[model][i][0] * (E_test[model][i][1] / N)
             
-    return E_gen_hat
+    return E_gen_hat, theta_list
                 
                     
                     

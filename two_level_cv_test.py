@@ -26,7 +26,7 @@ negative_correlation_enhancement = True
 threshold = 3
 startTime = 7.5
 stopTime = 12.5
-K2 = 2
+K2 = 3
 
 # Plotting and saving:
 save_results = True
@@ -36,13 +36,13 @@ SVM = model(name = "SVM")
 ANN = model(name = "ANN")
 
 
-ANN.theta = [50]
+ANN.theta = [150, 200]
 
 modelList = [ANN]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals)
-accuracy = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, dataset = all_individuals)
+accuracy, theta_list = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, dataset = all_individuals)
 
 # Get current date and time
 current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -63,6 +63,7 @@ if save_results:
         file.write("K2: {}\n".format(K2))
         file.write("Stop Time: {}\n".format(stopTime))
         file.write("Frequency: {}\n".format(round(freq,3)))
+        file.write("Theta_list: {}\n".format(theta_list))
         if individuals:
             file.write("The models were evaluated using hold one out with each patient.\n")
         file.write("Results:\n")
