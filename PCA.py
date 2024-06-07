@@ -32,7 +32,7 @@ X_combined = np.vstack((X_1, X_2))
 labels = np.hstack((np.zeros(X_1.shape[0]), np.ones(X_2.shape[0])))
 
 # Initialize PCA with desired number of components
-n_components = 10
+n_components = 2
 pca = PCA(n_components=n_components)
 
 # Fit PCA to the combined data
