@@ -1,6 +1,7 @@
 from model import *
 from stratified_cv import StratifiedCV
 from tqdm import tqdm
+import itertools
 
 def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq = 7.81):
 
@@ -44,15 +45,18 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
 
             for model in modelList:
                 E_gen[model.name] = {}  # Initialize a new dictionary for each model inside E_gen
-                for theta in model.theta:
-                    liste = []
+                param_keys = list(model.theta.keys())
+                param_values = [model.theta[key] for key in param_keys]
+                for combination in itertools.product(*param_values):
+                    theta = dict(zip(param_keys, combination))
+                    values = []
                     for i in range(K2):
                         # Calculate and append values to the list for each i
-                        liste.append((E_val[model.name, i, theta][0] * E_val[model.name, i, theta][1]) / 
+                        values.append((E_val[model.name, i, frozenset(theta.items())][0] * E_val[model.name, i, frozenset(theta.items())][1]) / 
                                     (len(tappingArray_par) + len(controlArray_par)))
                     
                     # Sum the list and assign it to the inner dictionary under the key theta
-                    E_gen[model.name][theta] = sum(liste)
+                    E_gen[model.name][frozenset(theta.items())] = sum(values)
 
             E_genList.append(E_gen)
             
@@ -71,7 +75,7 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
             ytest = np.concatenate((np.ones(tappingArray_test.shape[0]), np.zeros(controlArray_test.shape[0])))[test_randomizer] 
             
             for i, model in enumerate(modelList):
-                E_test[model.name][count] = (model.train(Xtrain = train_set, ytrain = ytrain, Xtest = test_set, ytest = ytest, theta = theta_star[i]), test_size)
+                E_test[model.name][count] = (model.train(Xtrain = train_set, ytrain = ytrain, Xtest = test_set, ytest = ytest, theta = dict(theta_star[i])), test_size)
             
             count += 1
     

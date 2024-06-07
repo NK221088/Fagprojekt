@@ -6,6 +6,7 @@ from SVM_classifier import SVM_classifier
 from ANN import ANN_classifier
 from model import model
 from tqdm import tqdm
+import itertools
 
 
 def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, iter_n, K = 4, freq = 7.81):
@@ -61,9 +62,12 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, ite
             
 
             for model in modelList:
-                for theta in model.getTheta():
+                param_keys = list(model.theta.keys())
+                param_values = [model.theta[key] for key in param_keys]
+                for combination in itertools.product(*param_values):
+                    theta = dict(zip(param_keys, combination))
                     inner_pbar.set_description(f'Currently evaluating ' + model.name + f' on parameter ' + str(theta))
-                    E_val[(model.name, i, theta)] = (model.train(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta), len(ytest))
+                    E_val[(model.name, i, frozenset(theta.items()))] = (model.train(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta), len(ytest))
             
             
             k0_tapping += kernelTapping #Updating kernel.

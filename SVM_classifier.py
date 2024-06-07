@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 def SVM_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     
-    clf = svm.SVC(kernel= theta)
+    clf = svm.SVC(kernel= theta["kernel"])
 
     # Flatten the last two dimensions of the data
     

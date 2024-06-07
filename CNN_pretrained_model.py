@@ -38,10 +38,10 @@ def CNN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     train_dataset = make_dataset(Xtrain, ytrain, batch_size=32, augment=True)
     val_dataset = make_dataset(Xtest, ytest, batch_size=32)
 
-    base_learning_rate = theta
+    base_learning_rate = theta["base_learning_rate"]
     # lr_schedule = ExponentialDecay(initial_learning_rate, decay_steps=100, decay_rate=0.96, staircase=True)
 
-    # Pretrained CNN model:
+    # Pretrained CNN model:f
     # Load MobileNetV2 pre-trained on ImageNet without the top layer
     base_model = MobileNetV2(input_shape=(224, 224, 3), include_top=False, weights='imagenet')
     base_model.trainable = False

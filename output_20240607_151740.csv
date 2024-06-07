@@ -1,0 +1,6 @@
+Evaluation,Model,Parameter,Accuracy
+1,ANN,"frozenset({('layers', 1), ('neurons', 10)})",0.8104838731308137
+2,ANN,"frozenset({('layers', 1), ('neurons', 10)})",0.8145161292725993
+3,ANN,"frozenset({('layers', 1), ('neurons', 10)})",0.8417721443538425
+4,ANN,"frozenset({('layers', 1), ('neurons', 10)})",0.8356164485624392
+5,ANN,"frozenset({('layers', 1), ('neurons', 10)})",0.78225806836159

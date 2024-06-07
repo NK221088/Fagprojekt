@@ -52,11 +52,10 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     y_test = tf.convert_to_tensor(ytest)
     y_test = tf.cast(y_test, tf.int32)
     
-    theta = int(theta)
     # Define your model
     model = tf.keras.models.Sequential([
     tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
-    tf.keras.layers.Dense(theta, activation='relu'),
+    tf.keras.layers.Dense(theta["neurons"], activation='relu'),
     tf.keras.layers.Dropout(0.2),
     tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
     ])

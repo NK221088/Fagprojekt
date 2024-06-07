@@ -39,12 +39,13 @@ interpolate_bad_channels = True
 save_results = True
 
 #Models
-SVM = model(name = "SVM")
 ANN = model(name = "ANN")
 CNN = model(name = "CNN")
 
-CNN.theta = [0.0001,0.001,0.01]
-modelList = [CNN]
+ANN.theta = {"neurons": [10]}
+# CNN.theta = {"base_learning_rate": [0.01]}
+# SVM.theta = {"kernel": []}
+modelList = [ANN]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
