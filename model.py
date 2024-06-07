@@ -17,7 +17,7 @@ class model:
             if self.name == "SVM":
                 self.theta = ["linear", "poly", "rbf", "sigmoid"]           
             elif self.name == "ANN":
-                self.theta = np.linspace(103,303,9, dtype = int)
+                self.theta = [103,128,153,178,203,228,253,278,303]
             elif self.name == "Mean":
                 self.theta = []
             elif self.name == "Baseline":
@@ -25,7 +25,7 @@ class model:
             elif self.name == "PosNeg":
                 self.theta = []
             elif self.name == "CNN":
-                self.theta = [0.001,0.01]
+                self.theta = [0.001,0.01,0.1,1]
         
         
     def train(self, Xtrain, ytrain, Xtest, ytest, theta):
@@ -40,7 +40,7 @@ class model:
         elif self.name == "PosNeg":
             return Positive_Negative_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
         elif self.name == "CNN":
-            return CNN_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
+            return CNN_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)[1]
         
     def getTheta(self):
         return self.theta

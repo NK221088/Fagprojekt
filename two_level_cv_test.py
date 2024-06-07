@@ -1,15 +1,21 @@
 from load_data_function import load_data
 from two_level_cross_validation import two_level_cross_validation
+import sys
+print(sys.version)
 import mne
 import os
 from collections import Counter
 from model import model
 import numpy as np
 from datetime import datetime
+import csv
+
+from datetime import datetime
 
 ############################
 # Settings:
 ############################
+
 
 # Data set:
 data_set = "fNirs_motor_full_data"
@@ -26,7 +32,7 @@ negative_correlation_enhancement = True
 threshold = 3
 startTime = 7.5
 stopTime = 12.5
-K2 = 3
+K2 = 5
 
 # Plotting and saving:
 save_results = True
@@ -34,18 +40,18 @@ save_results = True
 #Models
 SVM = model(name = "SVM")
 ANN = model(name = "ANN")
+CNN = model(name = "CNN")
 
 
-ANN.theta = [150, 200]
-
-modelList = [ANN]
+modelList = [CNN, ANN, SVM]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals)
-accuracy, theta_list = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, dataset = all_individuals)
+accuracy, E_genList = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, dataset = all_individuals)
 
 # Get current date and time
 current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
 
 # Construct filename with date and time
 results_folder = "Two_level_classifier_results" # Define the folder name
@@ -69,5 +75,38 @@ if save_results:
         file.write("Results:\n")
         for models, accuracy in accuracy.items():
             file.write("For the {} classifier: {}\n".format(models, np.round(accuracy,2)))
+            
+
 
     print(f"Results saved as {filename}")
+
+def flatten_evallist(evallist):
+    flattened_data = []
+    for idx, evaluation in enumerate(evallist):
+        for model_name, parameters in evaluation.items():
+            for param, accuracy in parameters.items():
+                flattened_data.append({
+                    "Evaluation": idx + 1,
+                    "Model": model_name,
+                    "Parameter": param,
+                    "Accuracy": accuracy
+                })
+    return flattened_data
+
+
+# Flatten the evaluation list
+flat_data = flatten_evallist(E_genList)
+
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+# Define the filename with the timestamp
+filename = f"output_{timestamp}.csv"
+
+# Write the flattened data to a CSV file
+with open(filename, 'w', newline='') as csvfile:
+    fieldnames = ["Evaluation", "Model", "Parameter", "Accuracy"]
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    
+    writer.writeheader()
+    for row in flat_data:
+        writer.writerow(row)

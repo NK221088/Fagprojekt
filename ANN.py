@@ -9,11 +9,18 @@ from tensorflow.keras.callbacks import TensorBoard
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import PolynomialFeatures
 import matplotlib.pyplot as plt
+import warnings
+
+# Suppress all warnings
+warnings.filterwarnings("ignore")
+
+# Your existing code here
+
 
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
     def __init__(self, initial_learning_rate, decay_steps, decay_rate):
         self.initial_learning_rate = initial_learning_rate
-        self.decay_steps = decay_steps
+        self.decay_steps = 100000
         self.decay_rate = decay_rate
 
     def __call__(self, step):
@@ -40,9 +47,12 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     
     X_train = tf.convert_to_tensor(Xtrain)
     y_train = tf.convert_to_tensor(ytrain)
+    y_train = tf.cast(y_train, tf.int32)
     X_test = tf.convert_to_tensor(Xtest)
     y_test = tf.convert_to_tensor(ytest)
+    y_test = tf.cast(y_test, tf.int32)
     
+    theta = int(theta)
     # Define your model
     model = tf.keras.models.Sequential([
     tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
@@ -71,12 +81,12 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
                 loss=loss_fn, 
                 metrics=['accuracy'])
     
-    plot_model(model, to_file='CRNN_model_structure.png', show_shapes=True)
+   
 
     log_dir = "logs/"
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
     
-    model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size, callbacks=[tensorboard_callback])
+    model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size, callbacks=[tensorboard_callback],verbose = 0)
     """
     # Plot the training loss
     plt.figure(figsize=(12, 6))
@@ -88,6 +98,6 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     plt.show()
     """
     
-    loss, accuracy = model.evaluate(X_test,  y_test, verbose=2)
+    loss, accuracy = model.evaluate(X_test,  y_test, verbose=0)
     
     return accuracy
