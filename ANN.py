@@ -10,6 +10,7 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import PolynomialFeatures
 import matplotlib.pyplot as plt
 import warnings
+from clr_callback import CyclicLR
 
 # Suppress all warnings
 warnings.filterwarnings("ignore")
@@ -53,39 +54,66 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     y_test = tf.cast(y_test, tf.int32)
     
     # Define your model
-    model = tf.keras.models.Sequential([
-    tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
-    tf.keras.layers.Dense(theta["neurons"], activation='relu'),
-    tf.keras.layers.Dropout(0.2),
-    tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
-    ])
+    if theta["layers"] == 4:
+        model = tf.keras.models.Sequential([
+        tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
+        tf.keras.layers.Dense(theta["neurons1"], activation='relu'),
+        tf.keras.layers.Dropout(0.2),
+        tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
+        ])
+    elif theta["layers"] == 6:
+        model = tf.keras.models.Sequential([
+        tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
+        tf.keras.layers.Dense(theta["neurons1"], activation='relu'),
+        tf.keras.layers.Dropout(0.2),
+        tf.keras.layers.Dense(theta["neurons2"], activation='relu'),
+        tf.keras.layers.Dropout(0.2),
+        tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
+        ])
     
     loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False) # We use BinaryCrossentropy as there is only two classes
-    
-    initial_learning_rate = 0.01
-    decay_steps = tf.constant(50, dtype=tf.int64)
-    decay_rate = 0.9
     epochs = 300
     batch_size = 100
-
-    optimizer = tf.keras.optimizers.Adam(
-        learning_rate=fNirs_LRSchedule(
-            initial_learning_rate = initial_learning_rate,
-            decay_steps = decay_steps,
-            decay_rate = decay_rate,
+    
+    if theta["learning_rate"] == "decrease":
+        initial_learning_rate = 0.001
+        decay_steps = tf.constant(50, dtype=tf.int64)
+        decay_rate = 0.9
+        
+        optimizer = tf.keras.optimizers.Adam(
+            learning_rate=fNirs_LRSchedule(
+                initial_learning_rate = initial_learning_rate,
+                decay_steps = decay_steps,
+                decay_rate = decay_rate,
+            )
         )
-    )
+        model.compile(optimizer=optimizer,
+                    loss=loss_fn, 
+                    metrics=['accuracy'])
+        log_dir = "logs/"
+        tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
+        model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size, callbacks=[tensorboard_callback],verbose = 0)
+        loss, accuracy = model.evaluate(X_test,  y_test, verbose=0)
+        
+    elif theta["learning_rate"] == "clr":
+        initial_learning_rate = 0.001
+        max_learning_rate = 0.006
+        step_size = 2000
+        
+        optimizer = tf.keras.optimizers.Adam()
     
-    model.compile(optimizer=optimizer,
-                loss=loss_fn, 
-                metrics=['accuracy'])
-    
-   
+        model.compile(optimizer=optimizer,
+                    loss=loss_fn,
+                    metrics=['accuracy'])
 
-    log_dir = "logs/"
-    tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
+        log_dir = "logs/"
+        tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
+        clr = CyclicLR(base_lr=initial_learning_rate, max_lr=max_learning_rate, step_size=step_size, mode='exp_range')
+
+        model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback, clr], verbose=0)
+        
+        loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
     
-    model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size, callbacks=[tensorboard_callback],verbose = 0)
     """
     # Plot the training loss
     plt.figure(figsize=(12, 6))
@@ -96,7 +124,5 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     plt.legend(['Train'], loc='upper right')
     plt.show()
     """
-    
-    loss, accuracy = model.evaluate(X_test,  y_test, verbose=0)
     
     return accuracy

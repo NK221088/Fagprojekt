@@ -1,0 +1,6 @@
+Evaluation,Model,Parameter,Accuracy
+1,ANN,"neurons1=1, neurons2=1, layers=4",0.7499999956738563
+2,ANN,"neurons1=1, neurons2=1, layers=4",0.78225806836159
+3,ANN,"neurons1=1, neurons2=1, layers=4",0.7626582255846337
+4,ANN,"neurons1=1, neurons2=1, layers=4",0.7328766910997155
+5,ANN,"neurons1=1, neurons2=1, layers=4",0.7903225806451613

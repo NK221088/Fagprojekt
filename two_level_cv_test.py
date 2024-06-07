@@ -40,9 +40,9 @@ save_results = True
 
 #Models
 ANN = model(name = "ANN")
-CNN = model(name = "CNN")
+# CNN = model(name = "CNN")
 
-ANN.theta = {"neurons": [10]}
+ANN.theta = {"neurons1": [50, 60, 70], "neurons2": [50, 100, 150, 200], "layers" : [4,6], "learning_rate": ["decrease", "clr"]}
 # CNN.theta = {"base_learning_rate": [0.01]}
 # SVM.theta = {"kernel": []}
 modelList = [ANN]
@@ -81,6 +81,11 @@ if save_results:
 
     print(f"Results saved as {filename}")
 
+def format_parameter(param):
+    # Convert frozenset to a string representation
+    param_str = ", ".join([f"{k}={v}" for k, v in dict(param).items()])
+    return param_str
+
 def flatten_evallist(evallist):
     flattened_data = []
     for idx, evaluation in enumerate(evallist):
@@ -89,11 +94,10 @@ def flatten_evallist(evallist):
                 flattened_data.append({
                     "Evaluation": idx + 1,
                     "Model": model_name,
-                    "Parameter": param,
+                    "Parameter": format_parameter(param),
                     "Accuracy": accuracy
                 })
     return flattened_data
-
 
 # Flatten the evaluation list
 flat_data = flatten_evallist(E_genList)

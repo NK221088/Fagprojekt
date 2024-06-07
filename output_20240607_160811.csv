@@ -1,0 +1,11 @@
+Evaluation,Model,Parameter,Accuracy
+1,ANN,"neurons2=1, neurons1=1, layers=4",0.7862903245033755
+1,ANN,"neurons2=1, layers=6, neurons1=1",0.6854838620751134
+2,ANN,"neurons2=1, neurons1=1, layers=4",0.7540322635923662
+2,ANN,"neurons2=1, layers=6, neurons1=1",0.7177419229861228
+3,ANN,"neurons2=1, neurons1=1, layers=4",0.705696219507652
+3,ANN,"neurons2=1, layers=6, neurons1=1",0.6487342017360881
+4,ANN,"neurons2=1, neurons1=1, layers=4",0.6883561488700239
+4,ANN,"neurons2=1, layers=6, neurons1=1",0.7397260216817464
+5,ANN,"neurons2=1, neurons1=1, layers=4",0.7500000074505806
+5,ANN,"neurons2=1, layers=6, neurons1=1",0.6854838620751135
