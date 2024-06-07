@@ -1,6 +1,7 @@
 from tensorflow.keras.callbacks import *
 from tensorflow.keras import backend as K
 import numpy as np
+import tensorflow as tf
 
 class CyclicLR(tf.keras.callbacks.Callback):
     """This callback implements a cyclical learning rate policy (CLR)."""
