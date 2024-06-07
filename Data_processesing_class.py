@@ -11,7 +11,7 @@ class fNIRS_data_load:
     def __init__(self, file_path, number_of_participants=1, annotation_names=None, stimulus_duration=5,
                  short_channel_correction=True, negative_correlation_enhancement=True, scalp_coupling_threshold=0.8,
                  reject_criteria=dict(hbo=80e-6), tmin=-5, tmax=15, baseline=(None, 0), data_types=[], number_of_data_types=2,
-                 data_name="None", individuals = False):
+                 data_name="None", individuals = False, interpolate_bad_channels=False):
         self.number_of_participants = number_of_participants
         self.file_path = file_path
         self.annotation_names = annotation_names
@@ -29,6 +29,7 @@ class fNIRS_data_load:
         self.number_of_data_types = len(data_types)
         self.data_name = data_name
         self.individuals = individuals
+        self.interpolate_bad_channels = interpolate_bad_channels
         if individuals:
             setattr(self, 'Individual_participants', [])
         for name in self.data_types:
@@ -60,6 +61,8 @@ class fNIRS_data_load:
             sci = mne.preprocessing.nirs.scalp_coupling_index(raw_od)
 
             raw_od.info["bads"] = list(compress(raw_od.ch_names, sci < self.scalp_coupling_threshold))
+            if self.interpolate_bad_channels:
+                raw_od.interpolate_bads()
 
             raw_haemo = mne.preprocessing.nirs.beer_lambert_law(raw_od, ppf=0.1)
 
@@ -130,7 +133,7 @@ class fNIRS_data_load:
 
         
 class AudioSpeechNoise_data_load(fNIRS_data_load):
-    def __init__(self, short_channel_correction : bool, negative_correlation_enhancement : bool, individuals :bool = False):
+    def __init__(self, short_channel_correction : bool, negative_correlation_enhancement : bool, individuals :bool = False, interpolate_bad_channels:bool=False):
         self.number_of_participants = 17
         self.all_speech = []
         self.all_noise = []
@@ -150,6 +153,7 @@ class AudioSpeechNoise_data_load(fNIRS_data_load):
         self.number_of_data_types = 2
         self.data_name = "AudioSpeechNoise"
         self.individuals = individuals
+        self.interpolate_bad_channels = interpolate_bad_channels
         super().__init__(
                         number_of_participants = self.number_of_participants,
                         file_path = self.file_path,
@@ -165,7 +169,8 @@ class AudioSpeechNoise_data_load(fNIRS_data_load):
                         data_types = self.data_types,
                         number_of_data_types = self.number_of_data_types,
                         data_name = self.data_name,
-                        individuals = self.individuals)
+                        individuals = self.individuals,
+                        interpolate_bad_channels = self.interpolate_bad_channels)
 
     def define_raw_intensity(self, sub_id):
         fnirs_snirf_file_path = os.path.join(self.file_path, f"sub-{sub_id}", "ses-01", "nirs", f"sub-{sub_id}_ses-01_task-AudioSpeechNoise_nirs.snirf")
@@ -174,7 +179,7 @@ class AudioSpeechNoise_data_load(fNIRS_data_load):
         return raw_intensity
 
 class fNIRS_motor_data_load(fNIRS_data_load):
-    def __init__(self, short_channel_correction: bool, negative_correlation_enhancement: bool, individuals :bool = False):
+    def __init__(self, short_channel_correction: bool, negative_correlation_enhancement: bool, individuals :bool = False, interpolate_bad_channels:bool=False):
         self.number_of_participants = 1
         self.all_tapping = []
         self.all_control = []
@@ -194,6 +199,7 @@ class fNIRS_motor_data_load(fNIRS_data_load):
         self.number_of_data_types = 2
         self.data_name = "fnirs_motor_plus_anti"
         self.individuals = individuals
+        self.interpolate_bad_channels = interpolate_bad_channels
         super().__init__(
             number_of_participants=self.number_of_participants,
             file_path=self.file_path,
@@ -209,8 +215,8 @@ class fNIRS_motor_data_load(fNIRS_data_load):
             data_types=self.data_types,
             number_of_data_types=self.number_of_data_types,
             data_name=self.data_name,
-            individuals = self.individuals
-        )
+            individuals = self.individuals,
+            interpolate_bad_channels = self.interpolate_bad_channels)
 
     def define_raw_intensity(self, sub_id):
         fnirs_data_folder = mne.datasets.fnirs_motor.data_path()
@@ -220,7 +226,7 @@ class fNIRS_motor_data_load(fNIRS_data_load):
         return raw_intensity
 
 class fNIRS_full_motor_data_load(fNIRS_data_load):
-    def __init__(self, short_channel_correction: bool, negative_correlation_enhancement: bool, individuals : bool = False):
+    def __init__(self, short_channel_correction: bool, negative_correlation_enhancement: bool, individuals : bool = False, interpolate_bad_channels:bool=False):
         self.number_of_participants = 5
         self.all_tapping = []
         self.all_control = []
@@ -240,6 +246,7 @@ class fNIRS_full_motor_data_load(fNIRS_data_load):
         self.number_of_data_types = 2
         self.data_name = "fnirs_full_motor"
         self.individuals = individuals
+        self.interpolate_bad_channels = interpolate_bad_channels
         super().__init__(
             number_of_participants=self.number_of_participants,
             file_path=self.file_path,
@@ -256,7 +263,7 @@ class fNIRS_full_motor_data_load(fNIRS_data_load):
             number_of_data_types=self.number_of_data_types,
             data_name=self.data_name,
             individuals = self.individuals,
-        )
+            interpolate_bad_channels = self.interpolate_bad_channels)
 
     def define_raw_intensity(self, sub_id):
         raw_intensity = mne.io.read_raw_snirf(f"Dataset/rob-luke/rob-luke-BIDS-NIRS-Tapping-e262df8/sub-{sub_id}/nirs/sub-{sub_id}_task-tapping_nirs.snirf", verbose=True)

@@ -33,6 +33,7 @@ threshold = 3
 startTime = 7.5
 stopTime = 12.5
 K2 = 5
+interpolate_bad_channels = True
 
 # Plotting and saving:
 save_results = True
@@ -46,7 +47,7 @@ ANN.theta = [303]
 modelList = [ANN]
 
 
-all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals)
+all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
 accuracy, E_genList = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, dataset = all_individuals)
 
 # Get current date and time
