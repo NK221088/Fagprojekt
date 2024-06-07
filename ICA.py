@@ -5,24 +5,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib.gridspec import GridSpec
 
-############################
-# Settings:
-############################
-
-# Data set:
-data_set = "fNirs_motor_full_data"
-
-# Data processing:
-short_channel_correction = True
-negative_correlation_enhancement = True
-
-# Plotting and saving:
-
-############################
-
-all_epochs, data_name, all_data, freq, data_types = load_data(data_set=data_set, short_channel_correction=short_channel_correction, negative_correlation_enhancement=negative_correlation_enhancement)
-
-
 def ICA(all_data, data_types: list, n_components: int, plot: bool, save_plot: bool):
     
     X_1 = all_data[data_types[0]][-1, :, :]
