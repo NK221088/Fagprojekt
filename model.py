@@ -25,7 +25,7 @@ class model:
             elif self.name == "PosNeg":
                 self.theta = []
             elif self.name == "CNN":
-                self.theta = [0.001,0.01,0.1,1]
+                self.theta = [0.0001,0.001,0.01]
         
         
     def train(self, Xtrain, ytrain, Xtest, ytest, theta):

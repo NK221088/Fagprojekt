@@ -35,12 +35,11 @@ def plot_samples(X, n=5):
 
 
 def CNN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
+    train_dataset = make_dataset(Xtrain, ytrain, batch_size=32, augment=True)
+    val_dataset = make_dataset(Xtest, ytest, batch_size=32)
 
-    train_dataset = make_dataset(Xtrain, ytrain, batch_size=64, augment=True)
-    val_dataset = make_dataset(Xtest, ytest, batch_size=64)
-
-    initial_learning_rate = theta
-    lr_schedule = ExponentialDecay(initial_learning_rate, decay_steps=100, decay_rate=0.96, staircase=True)
+    base_learning_rate = theta
+    # lr_schedule = ExponentialDecay(initial_learning_rate, decay_steps=100, decay_rate=0.96, staircase=True)
 
     # Pretrained CNN model:
     # Load MobileNetV2 pre-trained on ImageNet without the top layer
@@ -55,45 +54,30 @@ def CNN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     outputs = Dense(1, activation='sigmoid')(x)
     model = Model(inputs, outputs)
 
-    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=lr_schedule),
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=base_learning_rate),
                   loss='binary_crossentropy',
                   metrics=['accuracy'])
 
-    model.fit(train_dataset, epochs= 1, validation_data=val_dataset)
-    accuracy = model.evaluate(val_dataset)
-    return accuracy
+    # Initial training
+    model.fit(train_dataset, epochs=5, validation_data=val_dataset)
 
-    """
-    # Fine-Tuning
-    # Unfreeze the base model
-    base_model.trainable = False
+    # Unfreeze the base model for fine-tuning
+    base_model.trainable = True
 
     # Fine-tune from this layer onwards
-    fine_tune_at = 50
+    fine_tune_at = 100
 
     # Freeze all the layers before the `fine_tune_at` layer
     for layer in base_model.layers[:fine_tune_at]:
         layer.trainable = False
 
-    # Compile the model
-    model.compile(
-        optimizer=tf.keras.optimizers.Adam(learning_rate=lr_schedule),
-        loss='binary_crossentropy',
-        metrics=['accuracy'])
+    # Re-compile the model for fine-tuning
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=base_learning_rate / 10),
+                  loss='binary_crossentropy',
+                  metrics=['accuracy'])
 
-    # Generate visualization of the model
-    plot_model(model, to_file='CNN_model_structure.png', show_shapes=True)
+    # Fine-tuning
+    model.fit(train_dataset, epochs=5, initial_epoch=5, validation_data=val_dataset)
 
-    # Define TensorBoard callback
-    log_dir = "logs/"
-    tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
-
-    # Train the model with the TensorBoard callback
-    model.fit(train_generator, epochs=10, validation_data=validation_generator, callbacks=[tensorboard_callback])
-
-    # Evaluate model post fine-tuning
-    val_loss, val_accuracy = model.evaluate(validation_generator)
-    return (val_loss, val_accuracy)
-    """
-
-# print(f"Post-Fine-Tuning Validation Loss: {val_loss:.4f}, Validation Accuracy: {val_accuracy*100:.2f}%")
+    accuracy = model.evaluate(val_dataset)
+    return accuracy
