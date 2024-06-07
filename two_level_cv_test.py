@@ -43,8 +43,8 @@ SVM = model(name = "SVM")
 ANN = model(name = "ANN")
 CNN = model(name = "CNN")
 
-ANN.theta = [303]
-modelList = [ANN]
+CNN.theta = [0.0001,0.001,0.01]
+modelList = [CNN]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
@@ -70,7 +70,6 @@ if save_results:
         file.write("K2: {}\n".format(K2))
         file.write("Stop Time: {}\n".format(stopTime))
         file.write("Frequency: {}\n".format(round(freq,3)))
-        file.write("Theta_list: {}\n".format(theta_list))
         if individuals:
             file.write("The models were evaluated using hold one out with each patient.\n")
         file.write("Results:\n")
