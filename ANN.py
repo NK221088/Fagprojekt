@@ -11,6 +11,7 @@ from sklearn.preprocessing import PolynomialFeatures
 import matplotlib.pyplot as plt
 import warnings
 from clr_callback import CyclicLR
+import gc
 
 # Suppress all warnings
 warnings.filterwarnings("ignore")
