@@ -7,7 +7,7 @@ from matplotlib.gridspec import GridSpec
 import os
 from datetime import datetime
 
-def ICA(all_data, data_types: list, n_components: int, plot: bool, save_plot: bool, components: tuple = (0, 1)):
+def ICA(Xtrain , Xtest, n_components: int, plot: bool, save_plot: bool, components: tuple = (0, 1)):
     """
     Perform Independent Component Analysis (ICA) on the given data and optionally plot the results.
 
@@ -23,24 +23,19 @@ def ICA(all_data, data_types: list, n_components: int, plot: bool, save_plot: bo
     - X_ica (numpy.ndarray): The data transformed into the independent component space.
     """
     
-    X_1 = all_data[data_types[0]][-1, :, :]
-    X_2 = all_data[data_types[1]][-1, :, :]
-
-    # Combine the data from both classes
-    X_combined = np.vstack((X_1, X_2))
-
-    # Create labels for the classes
-    labels = np.hstack((np.zeros(X_1.shape[0]), np.ones(X_2.shape[0])))
-
     # Initialize ICA with desired number of components
     ica = FastICA(n_components=n_components)
 
     # Fit ICA to the combined data
-    ica.fit(X_combined)
+    ica.fit(Xtrain)
 
     # Transform the combined data into the independent component space
-    X_ica = ica.transform(X_combined)
+    ica_train = ica.transform(Xtrain)
+    ica_test = ica.transfrom(Xtest)
     
+    
+    return ica_train, ica_test, ica
+"""    
     if plot or save_plot:
         comp1, comp2 = components
         
@@ -83,5 +78,4 @@ def ICA(all_data, data_types: list, n_components: int, plot: bool, save_plot: bo
             fig.savefig(filename)
             print(f"Plot saved as {filename}")
             plt.close(fig)  # Close the figure after saving
-    
-    return X_ica
+"""
