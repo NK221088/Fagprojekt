@@ -42,7 +42,8 @@ save_results = True
 ANN = model(name = "ANN")
 # CNN = model(name = "CNN")
 
-ANN.theta = {"neurons1": [50, 60, 70], "neurons2": [50, 100, 150, 200], "layers" : [4,6], "learning_rate": ["decrease", "clr"]}
+ANN.theta = {"neurons1": [50], "neurons2": [50], "layers" : [4], "learning_rate": ["clr"]}
+# ANN.theta = {"neurons1": [50, 60, 70], "neurons2": [50, 100, 150, 200], "layers" : [4,6], "learning_rate": ["decrease", "clr"]}
 # CNN.theta = {"base_learning_rate": [0.01]}
 # SVM.theta = {"kernel": []}
 modelList = [ANN]

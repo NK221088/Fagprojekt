@@ -61,7 +61,7 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, ite
             ytest = np.concatenate((np.ones(len(kernelTappingTest), dtype = bool), np.zeros(len(kernelControlTest), dtype = bool)))[test_rand_ind]
             
 
-            for model in modelList:
+            for model in modelList:                
                 param_keys = list(model.theta.keys())
                 param_values = [model.theta[key] for key in param_keys]
                 for combination in itertools.product(*param_values):
