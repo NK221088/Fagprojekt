@@ -125,4 +125,9 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     plt.show()
     """
     
+    # Clear session and delete model to free up memory
+    tf.keras.backend.clear_session()
+    del model
+    gc.collect()
+    
     return accuracy
