@@ -65,6 +65,7 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_f
             if use_ica == True:
                 for model in modelList:
                     model.useICA = True
+                Xtrain, Xtest = ICA(Xtrain = Xtrain, Xtest = Xtest, n_components=n_features, plot = False, save_plot = False)
             
             if bayes_opt:
                 
@@ -72,7 +73,7 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_f
 
                     model.load(Xtest = Xtest, Xtrain = Xtrain, ytrain = ytrain, ytest = ytest, n = n_features)
                     pbounds = {**model.gaussian_bound,**{f'Feature_{i}': (0,1) for i in range(n_features)}}   
-                    optimizer = BayesianOptimization(f = model.objective_function, pbounds = pbounds, random_state = 1)
+                    optimizer = BayesianOptimization(f = model.objective_function, pbounds = pbounds)
                     optimizer.maximize(init_points=0,n_iter=10)
                     E_val[(model.name, i, optimizer.max['params'].items())] = (optimizer.max['target'], len(ytest))
             

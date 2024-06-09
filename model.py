@@ -20,7 +20,7 @@ class model:
 
         
         if self.name == "ANN":
-            self.gaussian_bound = {'neurons1': (50,70), 'neurons2': (50,200), 'layers': (0.5,3.5), 'learning_rate': (0.5,2.5)}
+            self.gaussian_bound = {'neurons1': (50,70), 'neurons2': (50,200), 'layers': (0.51,3.49), 'learning_rate': (0.51,2.49)}
         if self.name == 'SVM':
             self.gaussian_bound = {'kernel': (0.5,4.5)}
         if self.name == 'CNN':
@@ -82,6 +82,7 @@ class model:
         #Loading data with selected features
         self.useMask = True
         self.mask = tuple(i for i in range(self.n) if int(np.rint(kwargs[f'Feature_{i}'])) == 1)
+        
         
         if self.name == 'ANN':
             
