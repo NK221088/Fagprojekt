@@ -62,6 +62,8 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_f
             Xtest = jointArray[np.concatenate((kernelTappingTest, kernelControlTest))[test_rand_ind]]                                               #Extracting test data using indices
             ytest = np.concatenate((np.ones(len(kernelTappingTest), dtype = bool), np.zeros(len(kernelControlTest), dtype = bool)))[test_rand_ind]
             
+            
+            
             """
             for model in modelList:
                 param_keys = list(model.theta.keys())

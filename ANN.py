@@ -53,23 +53,65 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta, use_ica):
     y_test = tf.convert_to_tensor(ytest)
     y_test = tf.cast(y_test, tf.int32)
     
-    # Define your model
-    if theta["layers"] == 4:
-        model = tf.keras.models.Sequential([
-        tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
-        tf.keras.layers.Dense(theta["neurons1"], activation='relu'),
-        tf.keras.layers.Dropout(0.2),
-        tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
-        ])
-    elif theta["layers"] == 6:
-        model = tf.keras.models.Sequential([
-        tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
-        tf.keras.layers.Dense(theta["neurons1"], activation='relu'),
-        tf.keras.layers.Dropout(0.2),
-        tf.keras.layers.Dense(theta["neurons2"], activation='relu'),
-        tf.keras.layers.Dropout(0.2),
-        tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
-        ])
+    if use_ica:
+        # Define your model
+        if theta["layers"] == 4:
+            model = tf.keras.models.Sequential([
+            tf.keras.layers.Flatten(input_shape=(np.shape(X_train))),
+            tf.keras.layers.Dense(theta["neurons1"], activation='relu'),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
+            ])
+        elif theta["layers"] == 6:
+            model = tf.keras.models.Sequential([
+            tf.keras.layers.Flatten(input_shape=(np.shape(X_train))),
+            tf.keras.layers.Dense(theta["neurons1"], activation='relu'),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(theta["neurons2"], activation='relu'),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
+            ])
+        elif theta["layers"] == 8:
+            model = tf.keras.models.Sequential([
+            tf.keras.layers.Flatten(input_shape=(np.shape(X_train))),
+            tf.keras.layers.Dense(theta["neurons1"], activation='relu'),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(theta["neurons2"], activation='relu'),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(theta["neurons1"], activation='relu'),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
+            ])
+    else:
+        # Define your model
+        if theta["layers"] == 4:
+            model = tf.keras.models.Sequential([
+            tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
+            tf.keras.layers.Dense(theta["neurons1"], activation='relu'),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
+            ])
+        elif theta["layers"] == 6:
+            model = tf.keras.models.Sequential([
+            tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
+            tf.keras.layers.Dense(theta["neurons1"], activation='relu'),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(theta["neurons2"], activation='relu'),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
+            ])
+        elif theta["layers"] == 8:
+            model = tf.keras.models.Sequential([
+            tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
+            tf.keras.layers.Dense(theta["neurons1"], activation='relu'),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(theta["neurons2"], activation='relu'),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(theta["neurons1"], activation='relu'),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
+            ])
+        
     
     loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False) # We use BinaryCrossentropy as there is only two classes
     epochs = 300
