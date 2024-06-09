@@ -11,7 +11,7 @@ from bayes_opt import BayesianOptimization
 from ICA import ICA
 
 
-def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_features, K = 4, freq = 7.81):
+def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_features, bayes_opt,use_ica, K = 4, freq = 7.81):
     
     E_val = {}
 
@@ -62,32 +62,38 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_f
             Xtest = jointArray[np.concatenate((kernelTappingTest, kernelControlTest))[test_rand_ind]]                                               #Extracting test data using indices
             ytest = np.concatenate((np.ones(len(kernelTappingTest), dtype = bool), np.zeros(len(kernelControlTest), dtype = bool)))[test_rand_ind]
             
-            
-            
-            """
-            for model in modelList:
-                param_keys = list(model.theta.keys())
-                param_values = [model.theta[key] for key in param_keys]
-                for combination in itertools.product(*param_values):
-                    theta = dict(zip(param_keys, combination))
-                    inner_pbar.set_description(f'Currently evaluating ' + model.name + f' on parameter ' + str(theta))
-                    E_val[(model.name, i, frozenset(theta.items()))] = (model.train(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta), len(ytest))
-            """
-            
-            Xtrain, Xtest = ICA(Xtest = Xtest, Xtrain = Xtrain, n_components = n_features, save_plot = False, plot = False)
-            
-           
-            for model in modelList:
+            if use_ica == True:
+                for model in modelList:
                     model.useICA = True
+            
+            if bayes_opt:
+                
+                for model in modelList:
 
                     model.load(Xtest = Xtest, Xtrain = Xtrain, ytrain = ytrain, ytest = ytest, n = n_features)
-            
-                    pbounds = {**model.gaussian_bound,**{f'Feature_{i}': (0,1) for i in range(n_features)}}                    
+                    pbounds = {**model.gaussian_bound,**{f'Feature_{i}': (0,1) for i in range(n_features)}}   
                     optimizer = BayesianOptimization(f = model.objective_function, pbounds = pbounds, random_state = 1)
                     optimizer.maximize(init_points=0,n_iter=10)
-                    
-                    
-    
+                    E_val[(model.name, i, optimizer.max['params'].items())] = (optimizer.max['target'], len(ytest))
+            
+                     
+            
+            else:
+                
+                for model in modelList:
+                    param_keys = list(model.theta.keys())
+                    param_values = [model.theta[key] for key in param_keys]
+                    for combination in itertools.product(*param_values):
+                        theta = dict(zip(param_keys, combination))
+                        inner_pbar.set_description(f'Currently evaluating ' + model.name + f' on parameter ' + str(theta))
+                        E_val[(model.name, i, frozenset(theta.items()))] = (model.train(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta), len(ytest))
+            
+            
+            
+            
+            
+            
+           
            
             k0_tapping += kernelTapping #Updating kernel.
             k1_tapping += kernelTapping

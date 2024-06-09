@@ -3,7 +3,7 @@ from stratified_cv import StratifiedCV
 from tqdm import tqdm
 import itertools
 
-def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq = 7.81):
+def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq = 7.81, use_ica = True):
 
     dataset = {participant.name: participant.events for participant in dataset}
     
@@ -39,7 +39,7 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
             controlArray_test = D_test["Control"]
             
             
-            E_val = StratifiedCV(modelList = modelList, tappingArray = tappingArray_par, controlArray = controlArray_par, startTime = startTime, stopTime = stopTime, freq = freq, K = K2, n_features=5)
+            E_val = StratifiedCV(modelList = modelList, tappingArray = tappingArray_par, controlArray = controlArray_par, startTime = startTime, stopTime = stopTime, freq = freq, K = K2, n_features=5, use_ica = use_ica, bayes_opt=True)
             
             outer_pbar.update(1)
             E_gen = {}  # Initialize the outer dictionary

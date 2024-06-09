@@ -6,6 +6,7 @@ import seaborn as sns
 from matplotlib.gridspec import GridSpec
 import os
 from datetime import datetime
+from sklearn.preprocessing import StandardScaler
 
 def ICA(Xtrain , Xtest, n_components: int, plot: bool, save_plot: bool, components: tuple = (0, 1)):
     """
@@ -22,6 +23,10 @@ def ICA(Xtrain , Xtest, n_components: int, plot: bool, save_plot: bool, componen
     Returns:
     - X_ica (numpy.ndarray): The data transformed into the independent component space.
     """
+    
+    scaler = StandardScaler()
+    Xtrain = scaler.fit_transform(Xtrain)
+    Xtest = scaler.transform(Xtest)
     
     Xtrain = Xtrain.reshape(Xtrain.shape[0], -1)
     Xtest = Xtest.reshape(Xtest.shape[0], -1)
