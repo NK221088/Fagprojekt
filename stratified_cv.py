@@ -14,6 +14,10 @@ from ICA import ICA
 def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_features, bayes_opt,use_ica, K = 4, freq = 7.81):
     
     E_val = {}
+    
+    if bayes_opt:
+        for model in modelList:
+            E_val[model.name] = {}
 
     dimTappingArray = tappingArray.shape[0] #Amount of tapping epochs 
     dimControlArray = controlArray.shape[0] #Amount of control epochs
@@ -75,7 +79,8 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_f
                     pbounds = {**model.gaussian_bound,**{f'Feature_{i}': (0,1) for i in range(n_features)}}   
                     optimizer = BayesianOptimization(f = model.objective_function, pbounds = pbounds)
                     optimizer.maximize(init_points=0,n_iter=10)
-                    E_val[(model.name, i, optimizer.max['params'].items())] = (optimizer.max['target'], len(ytest))
+                    E_val[model.name][i] = (optimizer.max['target'],frozenset(optimizer.max['params']))
+                    
             
                      
             
@@ -89,13 +94,7 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_f
                         inner_pbar.set_description(f'Currently evaluating ' + model.name + f' on parameter ' + str(theta))
                         E_val[(model.name, i, frozenset(theta.items()))] = (model.train(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta), len(ytest))
             
-            
-            
-            
-            
-            
-           
-           
+
             k0_tapping += kernelTapping #Updating kernel.
             k1_tapping += kernelTapping
             k0_control += kernelControl
