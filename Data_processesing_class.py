@@ -317,7 +317,7 @@ class fNIRS_Alexandros_DoC_data_load(fNIRS_data_load):
             unwanted = self.unwanted)
 
     def define_raw_intensity(self, sub_id):
-        raw_intensity = mne.io.read_raw_snirf(f"Dataset\Alexandros\DoC\_2024-04-29_{sub_id}.snirf", verbose=True)
+        raw_intensity = mne.io.read_raw_snirf(f"Dataset/Alexandros/DoC/_2024-04-29_{sub_id}.snirf", verbose=True)
         raw_intensity.load_data()
         return raw_intensity
 
@@ -365,6 +365,6 @@ class fNIRS_Alexandros_Healthy_data_load(fNIRS_data_load):
             unwanted = self.unwanted)
 
     def define_raw_intensity(self, sub_id):
-        raw_intensity = mne.io.read_raw_snirf(f"Dataset\Alexandros\Healthy\_2024-04-29_{sub_id}.snirf", verbose=True)
+        raw_intensity = mne.io.read_raw_snirf(f"Dataset/Alexandros/Healthy/_2024-04-29_{sub_id}.snirf", verbose=True)
         raw_intensity.load_data()
         return raw_intensity
