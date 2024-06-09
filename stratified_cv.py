@@ -82,10 +82,9 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_f
 
                     model.load(Xtest = Xtest, Xtrain = Xtrain, ytrain = ytrain, ytest = ytest, n = n_features)
             
-                    pbounds = {**model.gaussian_bound,**{f'Feature_{i}': (0,1) for i in range(n_features)}}
-                    model.objective_function(neurons1 = 50, neurons2 = 50, layers = 1, learning_rate = 1, Feature_0 = 1, Feature_1 = 1, Feature_2 = 1, Feature_3 = 1, Feature_4 = 0)
-                    
+                    pbounds = {**model.gaussian_bound,**{f'Feature_{i}': (0,1) for i in range(n_features)}}                    
                     optimizer = BayesianOptimization(f = model.objective_function, pbounds = pbounds, random_state = 1)
+                    optimizer.maximize(init_points=0,n_iter=10)
                     
                     
     

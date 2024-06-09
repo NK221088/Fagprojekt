@@ -45,7 +45,6 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta, use_ica):
     
     #Xtest = (Xtest - np.mean(Xtrain, axis = 0)) / np.std(Xtrain, axis = 0)
     #Xtrain = (Xtrain - np.mean(Xtrain, axis = 0)) / np.std(Xtrain, axis = 0)
-    print(theta)
     X_train = tf.convert_to_tensor(Xtrain)
     y_train = tf.convert_to_tensor(ytrain)
     y_train = tf.cast(y_train, tf.int32)
@@ -57,14 +56,14 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta, use_ica):
         # Define your model
         if theta["layers"] == 4:
             model = tf.keras.models.Sequential([
-            tf.keras.layers.Flatten(input_shape=(np.shape(X_train))),
+            tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1],)),
             tf.keras.layers.Dense(theta["neurons1"], activation='relu'),
             tf.keras.layers.Dropout(0.2),
             tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
             ])
         elif theta["layers"] == 6:
             model = tf.keras.models.Sequential([
-            tf.keras.layers.Flatten(input_shape=(np.shape(X_train))),
+            tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1],)),
             tf.keras.layers.Dense(theta["neurons1"], activation='relu'),
             tf.keras.layers.Dropout(0.2),
             tf.keras.layers.Dense(theta["neurons2"], activation='relu'),
@@ -73,7 +72,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta, use_ica):
             ])
         elif theta["layers"] == 8:
             model = tf.keras.models.Sequential([
-            tf.keras.layers.Flatten(input_shape=(np.shape(X_train))),
+            tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1],)),
             tf.keras.layers.Dense(theta["neurons1"], activation='relu'),
             tf.keras.layers.Dropout(0.2),
             tf.keras.layers.Dense(theta["neurons2"], activation='relu'),
