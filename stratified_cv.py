@@ -7,9 +7,11 @@ from ANN import ANN_classifier
 from model import model
 from tqdm import tqdm
 import itertools
+from bayes_opt import BayesianOptimization
+from ICA import ICA
 
 
-def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, iter_n, K = 4, freq = 7.81):
+def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_features, K = 4, freq = 7.81):
     
     E_val = {}
 
@@ -60,7 +62,7 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, ite
             Xtest = jointArray[np.concatenate((kernelTappingTest, kernelControlTest))[test_rand_ind]]                                               #Extracting test data using indices
             ytest = np.concatenate((np.ones(len(kernelTappingTest), dtype = bool), np.zeros(len(kernelControlTest), dtype = bool)))[test_rand_ind]
             
-
+            """
             for model in modelList:
                 param_keys = list(model.theta.keys())
                 param_values = [model.theta[key] for key in param_keys]
@@ -68,11 +70,25 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, ite
                     theta = dict(zip(param_keys, combination))
                     inner_pbar.set_description(f'Currently evaluating ' + model.name + f' on parameter ' + str(theta))
                     E_val[(model.name, i, frozenset(theta.items()))] = (model.train(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta), len(ytest))
+            """
             
+            Xtrain, Xtest = ICA(Xtest = Xtest, Xtrain = Xtrain, n_components = n_features, save_plot = False, plot = False)
             
+           
+            for model in modelList:
+
+                    model.load(Xtest = Xtest, Xtrain = Xtrain, ytrain = ytrain, ytest = ytest, n = n_features)
+            
+                    pbounds = {**model.gaussian_bound,**{f'Feature_{i}': (0,1) for i in range(n_features)}}
+                    model.objective_function(neurons1 = 50, neurons2 = 50, layers = 1, learning_rate = 1, Feature_0 = 1, Feature_1 = 1, Feature_2 = 1, Feature_3 = 1, Feature_4 = 0)
+                    
+                    optimizer = BayesianOptimization(f = model.objective_function, pbounds = pbounds, random_state = 1)
+                    
+                    
+    
+           
             k0_tapping += kernelTapping #Updating kernel.
             k1_tapping += kernelTapping
-            
             k0_control += kernelControl
             k1_control += kernelControl
             inner_pbar.update(1)

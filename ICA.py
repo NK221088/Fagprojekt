@@ -23,18 +23,14 @@ def ICA(Xtrain , Xtest, n_components: int, plot: bool, save_plot: bool, componen
     - X_ica (numpy.ndarray): The data transformed into the independent component space.
     """
     
+    Xtrain = Xtrain.reshape(Xtrain.shape[0], -1)
+    Xtest = Xtest.reshape(Xtest.shape[0], -1)
     # Initialize ICA with desired number of components
     ica = FastICA(n_components=n_components)
 
-    # Fit ICA to the combined data
-    ica.fit(Xtrain)
-
-    # Transform the combined data into the independent component space
-    ica_train = ica.transform(Xtrain)
-    ica_test = ica.transfrom(Xtest)
-    
-    
-    return ica_train, ica_test, ica
+    Xtrain_ica = ica.fit_transform(Xtrain)
+    Xtest_ica = ica.transform(Xtest)
+    return Xtrain_ica, Xtest_ica
 """    
     if plot or save_plot:
         comp1, comp2 = components

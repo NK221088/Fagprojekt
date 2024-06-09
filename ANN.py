@@ -45,7 +45,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     
     Xtest = (Xtest - np.mean(Xtrain, axis = 0)) / np.std(Xtrain, axis = 0)
     Xtrain = (Xtrain - np.mean(Xtrain, axis = 0)) / np.std(Xtrain, axis = 0)
-    
+    print(theta)
     X_train = tf.convert_to_tensor(Xtrain)
     y_train = tf.convert_to_tensor(ytrain)
     y_train = tf.cast(y_train, tf.int32)
