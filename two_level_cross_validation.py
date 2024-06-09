@@ -3,7 +3,7 @@ from stratified_cv import StratifiedCV
 from tqdm import tqdm
 import itertools
 
-def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq = 7.81):
+def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq = 7.81, data_types = [""]):
 
     dataset = {participant.name: participant.events for participant in dataset}
     
@@ -22,7 +22,7 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
             D_test = {data_type: data[data_type] for data_type in data}
             tappingArray_par = np.array([])
             controlArray_par = np.array([])
-            D_par = {'Tapping': [], 'Control': []}
+            D_par = {data_type: [] for data_type in data.keys()}
             for patient, pdata in dataset.items():
                 if patient != participant:
                     for data_type in pdata:
@@ -31,11 +31,12 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
             for data_type in data:
                 D_par[data_type] = np.vstack(D_par[data_type])
                     
-            
-            tappingArray_par = D_par["Tapping"]
+            data_types_without_control = data_types.copy()
+            data_types_without_control.remove("Control") 
+            tappingArray_par = D_par[data_types_without_control[0]]
             controlArray_par = D_par["Control"]
             
-            tappingArray_test = D_test["Tapping"]
+            tappingArray_test = D_test[data_types_without_control[0]]
             controlArray_test = D_test["Control"]
             
             

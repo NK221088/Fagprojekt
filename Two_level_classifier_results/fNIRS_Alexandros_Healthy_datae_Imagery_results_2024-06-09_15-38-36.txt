@@ -1,0 +1,14 @@
+Classifier Results:
+====================
+Data obtained at: 2024-06-09_15-38-36
+Dataset: fNIRS_Alexandros_Healthy_data
+Epoch type used for classification: Imagery
+Combine Strategy: mean
+Bad Channels Strategy: all
+Start Time: 7.5
+K2: 2
+Stop Time: 12.5
+Frequency: 10.173
+The models were evaluated using hold one out with each patient.
+Results:
+For the ANN classifier: 0.61

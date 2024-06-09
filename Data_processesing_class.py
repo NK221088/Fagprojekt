@@ -11,7 +11,7 @@ class fNIRS_data_load:
     def __init__(self, file_path, number_of_participants=1, annotation_names=None, stimulus_duration=5,
                  short_channel_correction=True, negative_correlation_enhancement=True, scalp_coupling_threshold=0.8,
                  reject_criteria=dict(hbo=80e-6), tmin=-5, tmax=15, baseline=(None, 0), data_types=[], number_of_data_types=2,
-                 data_name="None", individuals = False, interpolate_bad_channels=False):
+                 data_name="None", individuals = False, interpolate_bad_channels=False, unwanted = "15.0"):
         self.number_of_participants = number_of_participants
         self.file_path = file_path
         self.annotation_names = annotation_names
@@ -30,6 +30,7 @@ class fNIRS_data_load:
         self.data_name = data_name
         self.individuals = individuals
         self.interpolate_bad_channels = interpolate_bad_channels
+        self.unwanted = unwanted
         if individuals:
             setattr(self, 'Individual_participants', [])
         for name in self.data_types:
@@ -49,7 +50,7 @@ class fNIRS_data_load:
 
             raw_intensity.annotations.set_durations(5)
             raw_intensity.annotations.rename(self.annotation_names)
-            unwanted = np.nonzero(raw_intensity.annotations.description == "15.0")
+            unwanted = np.nonzero(raw_intensity.annotations.description == self.unwanted)
             raw_intensity.annotations.delete(unwanted)
 
             raw_od = mne.preprocessing.nirs.optical_density(raw_intensity)
@@ -71,8 +72,6 @@ class fNIRS_data_load:
 
             if self.negative_correlation_enhancement:
                 raw_haemo = mne_nirs.signal_enhancement.enhance_negative_correlation(raw_haemo)
-
-            events, event_dict = mne.events_from_annotations(raw_haemo)
 
             events, event_dict = mne.events_from_annotations(raw_haemo)
 
@@ -154,6 +153,7 @@ class AudioSpeechNoise_data_load(fNIRS_data_load):
         self.data_name = "AudioSpeechNoise"
         self.individuals = individuals
         self.interpolate_bad_channels = interpolate_bad_channels
+        self.unwanted = "15.0"
         super().__init__(
                         number_of_participants = self.number_of_participants,
                         file_path = self.file_path,
@@ -170,7 +170,8 @@ class AudioSpeechNoise_data_load(fNIRS_data_load):
                         number_of_data_types = self.number_of_data_types,
                         data_name = self.data_name,
                         individuals = self.individuals,
-                        interpolate_bad_channels = self.interpolate_bad_channels)
+                        interpolate_bad_channels = self.interpolate_bad_channels,
+                        unwanted = self.unwanted)
 
     def define_raw_intensity(self, sub_id):
         fnirs_snirf_file_path = os.path.join(self.file_path, f"sub-{sub_id}", "ses-01", "nirs", f"sub-{sub_id}_ses-01_task-AudioSpeechNoise_nirs.snirf")
@@ -200,6 +201,7 @@ class fNIRS_motor_data_load(fNIRS_data_load):
         self.data_name = "fnirs_motor_plus_anti"
         self.individuals = individuals
         self.interpolate_bad_channels = interpolate_bad_channels
+        self.unwanted = "15.0"
         super().__init__(
             number_of_participants=self.number_of_participants,
             file_path=self.file_path,
@@ -216,7 +218,8 @@ class fNIRS_motor_data_load(fNIRS_data_load):
             number_of_data_types=self.number_of_data_types,
             data_name=self.data_name,
             individuals = self.individuals,
-            interpolate_bad_channels = self.interpolate_bad_channels)
+            interpolate_bad_channels = self.interpolate_bad_channels,
+            unwanted = self.unwanted)
 
     def define_raw_intensity(self, sub_id):
         fnirs_data_folder = mne.datasets.fnirs_motor.data_path()
@@ -247,6 +250,7 @@ class fNIRS_full_motor_data_load(fNIRS_data_load):
         self.data_name = "fnirs_full_motor"
         self.individuals = individuals
         self.interpolate_bad_channels = interpolate_bad_channels
+        self.unwanted = "15.0"
         super().__init__(
             number_of_participants=self.number_of_participants,
             file_path=self.file_path,
@@ -263,9 +267,104 @@ class fNIRS_full_motor_data_load(fNIRS_data_load):
             number_of_data_types=self.number_of_data_types,
             data_name=self.data_name,
             individuals = self.individuals,
-            interpolate_bad_channels = self.interpolate_bad_channels)
+            interpolate_bad_channels = self.interpolate_bad_channels,
+            unwanted = self.unwanted)
 
     def define_raw_intensity(self, sub_id):
         raw_intensity = mne.io.read_raw_snirf(f"Dataset/rob-luke/rob-luke-BIDS-NIRS-Tapping-e262df8/sub-{sub_id}/nirs/sub-{sub_id}_task-tapping_nirs.snirf", verbose=True)
+        raw_intensity.load_data()
+        return raw_intensity
+
+class fNIRS_Alexandros_DoC_data_load(fNIRS_data_load):
+    def __init__(self, short_channel_correction: bool, negative_correlation_enhancement: bool, individuals : bool = False, interpolate_bad_channels:bool=False):
+        self.number_of_participants = 4
+        self.all_tapping = []
+        self.all_control = []
+        self.annotation_names = {"1": "Tongue",
+                                }
+        self.file_path = mne.datasets.fnirs_motor.data_path()
+        self.short_channel_correction = short_channel_correction
+        self.negative_correlation_enhancement = negative_correlation_enhancement
+        self.stimulus_duration = 10
+        self.scalp_coupling_threshold = 0.5  # Change this value if needed
+        self.reject_criteria = dict(hbo=80e-6)
+        self.tmin = -5
+        self.tmax = 15
+        self.baseline = (None, 0)
+        self.data_types = ["Tongue"]
+        self.number_of_data_types = 2
+        self.data_name = "fNIRS_Alexandros_DoC_data"
+        self.individuals = individuals
+        self.interpolate_bad_channels = interpolate_bad_channels
+        self.unwanted = "15.0"
+        super().__init__(
+            number_of_participants=self.number_of_participants,
+            file_path=self.file_path,
+            annotation_names=self.annotation_names,
+            stimulus_duration=self.stimulus_duration,
+            short_channel_correction=self.short_channel_correction,
+            negative_correlation_enhancement=self.negative_correlation_enhancement,
+            scalp_coupling_threshold=self.scalp_coupling_threshold,
+            reject_criteria=self.reject_criteria,
+            baseline=self.baseline,
+            tmin=self.tmin,
+            tmax=self.tmax,
+            data_types=self.data_types,
+            number_of_data_types=self.number_of_data_types,
+            data_name=self.data_name,
+            individuals = self.individuals,
+            interpolate_bad_channels = self.interpolate_bad_channels,
+            unwanted = self.unwanted)
+
+    def define_raw_intensity(self, sub_id):
+        raw_intensity = mne.io.read_raw_snirf(f"Dataset\Alexandros\DoC\_2024-04-29_{sub_id}.snirf", verbose=True)
+        raw_intensity.load_data()
+        return raw_intensity
+
+class fNIRS_Alexandros_Healthy_data_load(fNIRS_data_load):
+    def __init__(self, short_channel_correction: bool, negative_correlation_enhancement: bool, individuals : bool = False, interpolate_bad_channels:bool=False):
+        self.number_of_participants = 7
+        self.all_tapping = []
+        self.all_control = []
+        self.annotation_names = {"1": "Physical_movement",
+                                 "2": "Control",
+                                 "3": "Imagery",
+                                }
+        self.file_path = mne.datasets.fnirs_motor.data_path()
+        self.short_channel_correction = short_channel_correction
+        self.negative_correlation_enhancement = negative_correlation_enhancement
+        self.stimulus_duration = 10
+        self.scalp_coupling_threshold = 0.5  # Change this value if needed
+        self.reject_criteria = dict(hbo=80e-4)
+        self.tmin = -5
+        self.tmax = 15
+        self.baseline = (None, 0)
+        self.data_types = ["Imagery"]
+        self.number_of_data_types = 2
+        self.data_name = "fNIRS_Alexandros_Healthy_data"
+        self.individuals = individuals
+        self.interpolate_bad_channels = interpolate_bad_channels
+        self.unwanted = "1"
+        super().__init__(
+            number_of_participants=self.number_of_participants,
+            file_path=self.file_path,
+            annotation_names=self.annotation_names,
+            stimulus_duration=self.stimulus_duration,
+            short_channel_correction=self.short_channel_correction,
+            negative_correlation_enhancement=self.negative_correlation_enhancement,
+            scalp_coupling_threshold=self.scalp_coupling_threshold,
+            reject_criteria=self.reject_criteria,
+            baseline=self.baseline,
+            tmin=self.tmin,
+            tmax=self.tmax,
+            data_types=self.data_types,
+            number_of_data_types=self.number_of_data_types,
+            data_name=self.data_name,
+            individuals = self.individuals,
+            interpolate_bad_channels = self.interpolate_bad_channels,
+            unwanted = self.unwanted)
+
+    def define_raw_intensity(self, sub_id):
+        raw_intensity = mne.io.read_raw_snirf(f"Dataset\Alexandros\Healthy\_2024-04-29_{sub_id}.snirf", verbose=True)
         raw_intensity.load_data()
         return raw_intensity
