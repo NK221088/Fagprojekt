@@ -33,7 +33,7 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             staircase=True)(step)
         return lr / (step + 1)
 
-def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
+def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta, use_ica):
     # Allow memory growth for the GPU
     physical_devices = tf.config.list_physical_devices('GPU')
     if physical_devices:
@@ -43,8 +43,8 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         except RuntimeError as e:
             print(e)
     
-    Xtest = (Xtest - np.mean(Xtrain, axis = 0)) / np.std(Xtrain, axis = 0)
-    Xtrain = (Xtrain - np.mean(Xtrain, axis = 0)) / np.std(Xtrain, axis = 0)
+    #Xtest = (Xtest - np.mean(Xtrain, axis = 0)) / np.std(Xtrain, axis = 0)
+    #Xtrain = (Xtrain - np.mean(Xtrain, axis = 0)) / np.std(Xtrain, axis = 0)
     print(theta)
     X_train = tf.convert_to_tensor(Xtrain)
     y_train = tf.convert_to_tensor(ytrain)

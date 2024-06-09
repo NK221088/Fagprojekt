@@ -16,6 +16,9 @@ class model:
         self.mask = ()
         self.useMask = False
         
+        self.useICA = False
+
+        
         if self.name == "ANN":
             self.gaussian_bound = {'neurons1': (50,70), 'neurons2': (50,200), 'layers': (0.5,3.5), 'learning_rate': (0.5,2.5)}
         if self.name == 'SVM':
@@ -47,7 +50,7 @@ class model:
                 return SVM_classifier(Xtrain = self.Xtrain, ytrain = self.ytrain, Xtest = self.Xtest, ytest = self.ytest, theta = theta)
         elif self.name == "ANN":
             if self.useMask:
-                return ANN_classifier(Xtrain = self.Xtrain[:,self.mask], ytrain = self.ytrain, Xtest = self.Xtest[:,self.mask], ytest = self.ytest, theta = theta)
+                return ANN_classifier(Xtrain = self.Xtrain[:,self.mask], ytrain = self.ytrain, Xtest = self.Xtest[:,self.mask], ytest = self.ytest, theta = theta, use_ica = self.useICA)
             else:
                 return ANN_classifier(Xtrain = self.Xtrain, ytrain = self.ytrain, Xtest = self.Xtest, ytest = self.ytest, theta = theta)
         elif self.name == "Mean":
