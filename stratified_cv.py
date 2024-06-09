@@ -78,6 +78,7 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_f
             
            
             for model in modelList:
+                    model.useICA = True
 
                     model.load(Xtest = Xtest, Xtrain = Xtrain, ytrain = ytrain, ytest = ytest, n = n_features)
             
