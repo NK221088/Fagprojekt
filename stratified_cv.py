@@ -79,11 +79,8 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_f
                     pbounds = {**model.gaussian_bound,**{f'Feature_{i}': (0,1) for i in range(n_features)}}   
                     optimizer = BayesianOptimization(f = model.objective_function, pbounds = pbounds)
                     optimizer.maximize(init_points=0,n_iter=10)
-                    E_val[model.name][i] = (optimizer.max['target'],frozenset(optimizer.max['params']))
+                    E_val[model.name][i] = (optimizer.max['target'],optimizer.max['params'])
                     
-            
-                     
-            
             else:
                 
                 for model in modelList:
