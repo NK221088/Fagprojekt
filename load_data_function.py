@@ -26,7 +26,7 @@ def load_data(data_set : str, short_channel_correction : bool = None, negative_c
             return all_epochs, data_name, all_data, all_freq, data_types
     if data_set ==  "fNIRS_Alexandros_DoC_data":
         if individuals:
-            all_epochs, data_name, all_data, all_freq, data_types, individual_data = fNIRS_Alexandros_group_2_DoC_data_load(short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels).load_data()
+            all_epochs, data_name, all_data, all_freq, data_types, individual_data = fNIRS_Alexandros_DoC_data_load(short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels).load_data()
             return all_epochs, data_name, all_data, all_freq, data_types, individual_data
         else:
             all_epochs, data_name, all_data, all_freq, data_types = fNIRS_Alexandros_DoC_data_load(short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels).load_data()

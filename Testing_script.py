@@ -17,8 +17,9 @@ import numpy as np
 ############################
 
 # Data set:
-data_set = "fNIRS_Alexandros_Healthy_data" #"AudioSpeechNoise" #  
-epoch_type = "Imagery"
+data_set = "fNIRS_Alexandros_Healthy_data" # "fNIrs_motor" # "fNirs_motor_full_data" #     "AudioSpeechNoise" #  
+
+epoch_type = "Tapping"
 combine_strategy = "mean"
 individuals = True
 
