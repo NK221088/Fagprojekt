@@ -67,4 +67,7 @@ sns.kdeplot(X_pca[labels == 0, 1], ax=ax_y_density, color='red', fill=True, alph
 sns.kdeplot(X_pca[labels == 1, 1], ax=ax_y_density, color='blue', fill=True, alpha=0.3, vertical=True)
 ax_y_density.axis('off')
 
+# Save the plot as a PDF file
+plt.savefig('pca_plot.pdf', format='pdf')
+
 plt.show()

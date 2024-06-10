@@ -17,10 +17,10 @@ import numpy as np
 ############################
 
 # Data set:
-data_set = "fNirs_motor_full_data" #"AudioSpeechNoise" #  
-epoch_type = "Tapping"
+data_set = "fNIRS_Alexandros_Healthy_data" #"AudioSpeechNoise" #  
+epoch_type = "Imagery"
 combine_strategy = "mean"
-individuals = False
+individuals = True
 
 # Data processing:
 bad_channels_strategy = "all"
@@ -29,11 +29,12 @@ negative_correlation_enhancement = True
 threshold = 3
 startTime = 7.5
 stopTime = 12.5
-K = 15
+K = 5
+interpolate_bad_channels = False
 
 # Plotting and saving:
-plot_epochs = False
-plot_std_fNIRS_response = False
+plot_epochs = True
+plot_std_fNIRS_response = True
 plot_accuracy_across_k_folds = True
 
 save_plot_epochs = False
@@ -44,9 +45,9 @@ save_results = True
 ############################
 
 if individuals:
-    all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals)
+    all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
 else:
-    all_epochs, data_name, all_data, freq, data_types = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals)
+    all_epochs, data_name, all_data, freq, data_types = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
     
 # Plot epochs and save results
 if plot_epochs:

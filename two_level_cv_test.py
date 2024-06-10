@@ -27,14 +27,14 @@ if not individuals:
     raise Warning("This script can't run when the individual parameter is set to False.")
 
 # Data processing:
-bad_channels_strategy = "all"
+bad_channels_strategy = "mean"
 short_channel_correction = True
 negative_correlation_enhancement = True
 threshold = 3
-startTime = 7.5
-stopTime = 12.5
-K2 = 2
-interpolate_bad_channels = False
+startTime = 0
+stopTime = 7
+K2 = 5
+interpolate_bad_channels = True
 
 # Plotting and saving:
 save_results = True

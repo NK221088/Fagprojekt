@@ -48,7 +48,7 @@ class fNIRS_data_load:
             sub_id = str(i).zfill(2)  # Pad with zeros to get "01", "02", etc.
             raw_intensity = self.define_raw_intensity(sub_id)
 
-            raw_intensity.annotations.set_durations(5)
+            raw_intensity.annotations.set_durations(self.stimulus_duration)
             raw_intensity.annotations.rename(self.annotation_names)
             unwanted = np.nonzero(raw_intensity.annotations.description == self.unwanted)
             raw_intensity.annotations.delete(unwanted)
@@ -333,12 +333,12 @@ class fNIRS_Alexandros_Healthy_data_load(fNIRS_data_load):
         self.file_path = mne.datasets.fnirs_motor.data_path()
         self.short_channel_correction = short_channel_correction
         self.negative_correlation_enhancement = negative_correlation_enhancement
-        self.stimulus_duration = 10
+        self.stimulus_duration = 15
         self.scalp_coupling_threshold = 0.5  # Change this value if needed
-        self.reject_criteria = dict(hbo=80e-4)
-        self.tmin = -5
+        self.reject_criteria = dict(hbo=80e-6)
+        self.tmin = 0
         self.tmax = 15
-        self.baseline = (None, 0)
+        self.baseline = (0, 0)
         self.data_types = ["Imagery"]
         self.number_of_data_types = 2
         self.data_name = "fNIRS_Alexandros_Healthy_data"
