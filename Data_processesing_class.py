@@ -90,24 +90,25 @@ class fNIRS_data_load:
                 verbose=True,
             )
 
-            self.all_epochs.append(epochs)
-            self.all_control.append(epochs["Control"].get_data(copy=True))
-            
-            if self.individuals:
-                Participant_i = individual_participant_class(f"Participant_{i}")
-                Participant_i.events.update({"Control": epochs["Control"].get_data(copy=True)})
-                Participant_i.raw_intensity = raw_intensity
-                Participant_i.raw_od = raw_od
-                Participant_i.raw_haemo_unfiltered = raw_haemo_unfiltered
-                Participant_i.raw_haemo = raw_haemo
-            
-            for name in self.data_types:
-                getattr(self, f'all_{name}').append(epochs[name].get_data(copy=True))
+            if len(epochs) != 0:
+                self.all_epochs.append(epochs)
+                self.all_control.append(epochs["Control"].get_data(copy=True))
+                
                 if self.individuals:
-                    Participant_i.events.update({name: epochs[name].get_data(copy=True)})
-            
-            if self.individuals:
-                getattr(self, 'Individual_participants').append(Participant_i)
+                    Participant_i = individual_participant_class(f"Participant_{i}")
+                    Participant_i.events.update({"Control": epochs["Control"].get_data(copy=True)})
+                    Participant_i.raw_intensity = raw_intensity
+                    Participant_i.raw_od = raw_od
+                    Participant_i.raw_haemo_unfiltered = raw_haemo_unfiltered
+                    Participant_i.raw_haemo = raw_haemo
+                
+                for name in self.data_types:
+                    getattr(self, f'all_{name}').append(epochs[name].get_data(copy=True))
+                    if self.individuals:
+                        Participant_i.events.update({name: epochs[name].get_data(copy=True)})
+                
+                if self.individuals:
+                    getattr(self, 'Individual_participants').append(Participant_i)
                 
 
         # Concatenate the control data

@@ -34,7 +34,7 @@ threshold = 3
 startTime = 0
 stopTime = 7
 K2 = 5
-interpolate_bad_channels = True
+interpolate_bad_channels = False
 
 # Plotting and saving:
 save_results = True
