@@ -32,7 +32,7 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             staircase=True)(step)
         return lr / (step + 1)
 def extract_features(X, model):
-    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[3].output)
+    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
     features = feature_extractor.predict(X)
     return features
 
@@ -138,6 +138,9 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         clr = CyclicLR(base_lr=initial_learning_rate, max_lr=max_learning_rate, step_size=step_size, mode='exp_range')
         model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback, clr], verbose=0)
 
+    # Run a dummy forward pass to build the model
+    model.predict(X_train[:1])
+    
     # Extract features from the trained network
     train_features = extract_features(X_train, model)
     test_features = extract_features(X_test, model)
