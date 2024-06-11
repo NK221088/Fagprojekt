@@ -108,21 +108,21 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
 
     if theta["learning_rate"] == "decrease":
         initial_learning_rate = 0.01
-        decay_steps = 10
+        decay_steps = 10 #tf.constant(10, dtype=tf.int64)
         decay_rate = 0.9
         
         optimizer = tf.keras.optimizers.Adam(
             learning_rate=fNirs_LRSchedule(
-                initial_learning_rate=initial_learning_rate,
-                decay_steps=decay_steps,
-                decay_rate=decay_rate,
+                initial_learning_rate = initial_learning_rate,
+                decay_steps = decay_steps,
+                decay_rate = decay_rate,
             )
         )
         
         model.compile(optimizer=optimizer,
                     loss=loss_fn, 
                     metrics=['accuracy'])
-        model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback], verbose=0)
+        model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size, callbacks=[tensorboard_callback],verbose = 0)
                 
     elif theta["learning_rate"] == "clr":
         initial_learning_rate = 0.001
@@ -130,6 +130,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         step_size = 10
         
         optimizer = tf.keras.optimizers.Adam()
+    
         model.compile(optimizer=optimizer,
                     loss=loss_fn,
                     metrics=['accuracy'])
