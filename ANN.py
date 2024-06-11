@@ -93,7 +93,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         
 
     # Add the output layer for binary classification
-    # model.add(tf.keras.layers.Dense(1, activation='sigmoid')) 
+    model.add(tf.keras.layers.Dense(1, activation='sigmoid')) 
 
     # Load pretrained weights if provided
     if weights_path:
