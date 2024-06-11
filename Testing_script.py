@@ -19,7 +19,7 @@ import numpy as np
 # Data set:
 data_set = "fNIRS_Alexandros_Healthy_data" # "fNIrs_motor" # "fNirs_motor_full_data" #     "AudioSpeechNoise" #  
 
-epoch_type = "Tapping"
+epoch_type = "Imagery"
 combine_strategy = "mean"
 individuals = True
 
@@ -28,8 +28,8 @@ bad_channels_strategy = "all"
 short_channel_correction = True
 negative_correlation_enhancement = True
 threshold = 3
-startTime = 7.5
-stopTime = 12.5
+startTime = 0
+stopTime = 15
 K = 5
 interpolate_bad_channels = False
 
