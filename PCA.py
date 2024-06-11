@@ -22,17 +22,11 @@ negative_correlation_enhancement = True
 
 all_epochs, data_name, all_data, freq, data_types = load_data(data_set=data_set, short_channel_correction=short_channel_correction, negative_correlation_enhancement=negative_correlation_enhancement)
 
-X_1 = all_data[data_types[0]].reshape(all_data[data_types[0]].shape[0], -1)
-X_2 = all_data[data_types[1]].reshape(all_data[data_types[1]].shape[0], -1)
-
+X_1 = all_data[data_types[0]][-4, :, :]
+X_2 = all_data[data_types[1]][-4, :, :]
 
 # Combine the data from both classes
 X_combined = np.vstack((X_1, X_2))
-
-mean = np.mean(X_combined, axis=1, keepdims=True)
-std = np.std(X_combined, axis=1, keepdims=True)
-X_normalized = (X_combined - mean) / std
-
 
 # Create labels for the classes
 labels = np.hstack((np.zeros(X_1.shape[0]), np.ones(X_2.shape[0])))
