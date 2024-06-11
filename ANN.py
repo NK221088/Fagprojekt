@@ -22,7 +22,7 @@ warnings.filterwarnings("ignore")
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
     def __init__(self, initial_learning_rate, decay_steps, decay_rate):
         self.initial_learning_rate = initial_learning_rate
-        self.decay_steps = 100000
+        self.decay_steps = decay_steps
         self.decay_rate = decay_rate
 
     def __call__(self, step):
@@ -73,12 +73,12 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         ])
     
     loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False) # We use BinaryCrossentropy as there is only two classes
-    epochs = 300
+    epochs = 150
     batch_size = 100
     
     if theta["learning_rate"] == "decrease":
-        initial_learning_rate = 0.001
-        decay_steps = tf.constant(50, dtype=tf.int64)
+        initial_learning_rate = 0.01
+        decay_steps = tf.constant(20, dtype=tf.int64)
         decay_rate = 0.9
         
         optimizer = tf.keras.optimizers.Adam(
@@ -98,8 +98,8 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         
     elif theta["learning_rate"] == "clr":
         initial_learning_rate = 0.001
-        max_learning_rate = 0.006
-        step_size = 2000
+        max_learning_rate = 0.01
+        step_size = 100
         
         optimizer = tf.keras.optimizers.Adam()
     

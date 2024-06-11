@@ -31,8 +31,8 @@ bad_channels_strategy = "mean"
 short_channel_correction = True
 negative_correlation_enhancement = True
 threshold = 3
-startTime = 1
-stopTime = 5.5
+startTime = 0
+stopTime = 15
 K2 = 5
 interpolate_bad_channels = False
 
