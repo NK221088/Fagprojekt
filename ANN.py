@@ -32,7 +32,7 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             staircase=True)(step)
         return lr / (step + 1)
 def extract_features(X, model):
-    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
+    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[3].output)
     features = feature_extractor.predict(X)
     return features
 
