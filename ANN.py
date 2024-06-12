@@ -148,24 +148,26 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         clr = CyclicLR(base_lr=initial_learning_rate, max_lr=max_learning_rate, step_size=step_size, mode='exp_range')
         model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback, clr], verbose=0)
 
-    # Ensure the model is built
-    dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
-    model(dummy_data)  # This will build the model
+    # # Ensure the model is built
+    # dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
+    # model(dummy_data)  # This will build the model
 
-    # Create the feature extractor model
-    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
+    # # Create the feature extractor model
+    # feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
     
-    # Extract features from the trained network
-    train_features = feature_extractor.predict(X_train)
-    test_features = feature_extractor.predict(X_test)
+    # # Extract features from the trained network
+    # train_features = feature_extractor.predict(X_train)
+    # test_features = feature_extractor.predict(X_test)
 
-    # Train an SVM on the extracted features
-    svm = SVC(kernel='rbf')
-    svm.fit(train_features, ytrain)
+    # # Train an SVM on the extracted features
+    # svm = SVC(kernel='rbf')
+    # svm.fit(train_features, ytrain)
 
-    # Evaluate the SVM
-    y_pred = svm.predict(test_features)
-    accuracy = accuracy_score(ytest, y_pred)
+    # # Evaluate the SVM
+    # y_pred = svm.predict(test_features)
+    # accuracy = accuracy_score(ytest, y_pred)
+    
+    loss, accuracy = model.evaluate(X_test,  y_test, verbose=0)
 
     # Clear session and delete model to free up memory
     tf.keras.backend.clear_session()
