@@ -10,6 +10,7 @@ from sklearn.metrics import accuracy_score
 import warnings
 from clr_callback import CyclicLR
 import gc
+import tensorflow as tf
 
 # Suppress all warnings
 warnings.filterwarnings("ignore")
@@ -44,8 +45,6 @@ def extract_features(X, model):
     feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
     features = feature_extractor.predict(X)
     return features
-
-import tensorflow as tf
 
 def load_pretrained_weights(model, weights_path):
     try:
