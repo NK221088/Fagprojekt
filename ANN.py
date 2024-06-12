@@ -40,6 +40,7 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
         }
     
 def extract_features(X, model):
+    model.predict(X)
     feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
     features = feature_extractor.predict(X)
     return features
