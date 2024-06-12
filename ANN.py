@@ -97,6 +97,9 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
 
     # Load pretrained weights if provided
     if weights_path:
+        # Build the model first by calling it on some dummy data
+        dummy_data = tf.zeros((1, np.shape(X_train)[1], np.shape(X_train)[2]))
+        model(dummy_data)  # This will build the model
         load_pretrained_weights(model, weights_path)
         
     loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False) # We use BinaryCrossentropy as there is only two classes
