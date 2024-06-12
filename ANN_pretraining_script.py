@@ -6,7 +6,7 @@ def pretrain_model(X, save_path):
     input_shape = X.shape[1:]
     
     model = tf.keras.models.Sequential([
-        tf.keras.layers.Flatten(input_shape=input_shape),
+        tf.keras.layers.Flatten(shape=input_shape),
         tf.keras.layers.Dense(60, activation='relu'),
         tf.keras.layers.Dropout(0.2),
         tf.keras.layers.Dense(150, activation='relu'),

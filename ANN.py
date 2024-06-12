@@ -88,7 +88,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     
     # Define your model
     model = tf.keras.models.Sequential()
-    model.add(tf.keras.layers.Flatten(input_shape=(X_train.shape[1], X_train.shape[2])))
+    model.add(tf.keras.layers.Flatten(shape=(X_train.shape[1], X_train.shape[2])))
     model.add(tf.keras.layers.Dense(60, activation='relu'))
     model.add(tf.keras.layers.Dropout(0.2))
     model.add(tf.keras.layers.Dense(150, activation='relu'))
