@@ -35,8 +35,8 @@ def plot_samples(X, n=5):
 
 
 def CNN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
-    train_dataset = make_dataset(Xtrain, ytrain, batch_size=32, augment=True)
-    val_dataset = make_dataset(Xtest, ytest, batch_size=32)
+    train_dataset = make_dataset(Xtrain, ytrain, batch_size=theta["batch_size"], augment=True)
+    val_dataset = make_dataset(Xtest, ytest, batch_size=theta["batch_size"])
 
     base_learning_rate = theta["base_learning_rate"]
     # lr_schedule = ExponentialDecay(initial_learning_rate, decay_steps=100, decay_rate=0.96, staircase=True)
@@ -65,7 +65,7 @@ def CNN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     base_model.trainable = True
 
     # Fine-tune from this layer onwards
-    fine_tune_at = 100
+    fine_tune_at = theta["number_of_layers"]
 
     # Freeze all the layers before the `fine_tune_at` layer
     for layer in base_model.layers[:fine_tune_at]:
