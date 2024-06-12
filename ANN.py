@@ -41,10 +41,17 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
         }
     
 def extract_features(X, model):
-    model.predict(X)
+    # Build the model by making a dummy prediction
+    dummy_data = tf.zeros((1, *X.shape[1:]))
+    model.predict(dummy_data)
+    
+    # Create the feature extractor model
     feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
+    
+    # Extract features
     features = feature_extractor.predict(X)
     return features
+
 
 def load_pretrained_weights(model, weights_path):
     try:
@@ -60,8 +67,6 @@ def load_pretrained_weights(model, weights_path):
         print("Pretrained weights loaded successfully.")
     except Exception as e:
         print(f"Error loading pretrained weights: {e}")
-
-
 
 
 def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
@@ -148,9 +153,6 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
 
         clr = CyclicLR(base_lr=initial_learning_rate, max_lr=max_learning_rate, step_size=step_size, mode='exp_range')
         model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback, clr], verbose=0)
-
-    # Run a dummy forward pass to build the model
-    model.predict(X_train)
     
     # Extract features from the trained network
     train_features = extract_features(X_train, model)
