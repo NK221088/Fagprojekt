@@ -70,20 +70,18 @@ def load_pretrained_weights(model, weights_path):
 
 
 def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
-    
     weights_path = "encoder_weights.h5"
     
     # Allow memory growth for the GPU
     physical_devices = tf.config.list_physical_devices('GPU')
     if physical_devices:
         try:
-            # Set memory growth to avoid allocating all GPU memory at once
             tf.config.experimental.set_memory_growth(physical_devices[0], True)
         except RuntimeError as e:
             print(e)
     
-    Xtest = (Xtest - np.mean(Xtrain, axis = 0)) / np.std(Xtrain, axis = 0)
-    Xtrain = (Xtrain - np.mean(Xtrain, axis = 0)) / np.std(Xtrain, axis = 0)
+    Xtest = (Xtest - np.mean(Xtrain, axis=0)) / np.std(Xtrain, axis=0)
+    Xtrain = (Xtrain - np.mean(Xtrain, axis=0)) / np.std(Xtrain, axis=0)
     
     X_train = tf.convert_to_tensor(Xtrain)
     y_train = tf.convert_to_tensor(ytrain)
@@ -94,8 +92,8 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     
     # Define your model
     model = tf.keras.models.Sequential()
-    model.add(tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])))
-    model.add(tf.keras.layers.Dense(60, activation='relu'))  # Match the pretrained model's architecture
+    model.add(tf.keras.layers.Flatten(input_shape=(X_train.shape[1], X_train.shape[2])))
+    model.add(tf.keras.layers.Dense(60, activation='relu'))
     model.add(tf.keras.layers.Dropout(0.2))
     model.add(tf.keras.layers.Dense(150, activation='relu'))
     model.add(tf.keras.layers.Dropout(0.2))
@@ -103,19 +101,19 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     if theta["layers"] == 8:
         model.add(tf.keras.layers.Dense(theta["neurons2"], activation='relu'))
         model.add(tf.keras.layers.Dropout(0.2))
-        
-
+    
     # Add the output layer for binary classification
-    model.add(tf.keras.layers.Dense(1, activation='sigmoid')) 
-
+    model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
+    
+    # Build the model with dummy data
+    dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
+    model(dummy_data)  # This will build the model
+    
     # Load pretrained weights if provided
     if weights_path:
-        # Build the model first by calling it on some dummy data
-        dummy_data = tf.zeros((1, np.shape(X_train)[1], np.shape(X_train)[2]))
-        model(dummy_data)  # This will build the model
         load_pretrained_weights(model, weights_path)
         
-    loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False) # We use BinaryCrossentropy as there is only two classes
+    loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False)
     epochs = 150
     batch_size = 100
 
@@ -124,21 +122,21 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
 
     if theta["learning_rate"] == "decrease":
         initial_learning_rate = 0.01
-        decay_steps = 10 #tf.constant(10, dtype=tf.int64)
+        decay_steps = 10
         decay_rate = 0.9
         
         optimizer = tf.keras.optimizers.Adam(
             learning_rate=fNirs_LRSchedule(
-                initial_learning_rate = initial_learning_rate,
-                decay_steps = decay_steps,
-                decay_rate = decay_rate,
+                initial_learning_rate=initial_learning_rate,
+                decay_steps=decay_steps,
+                decay_rate=decay_rate,
             )
         )
         
         model.compile(optimizer=optimizer,
-                    loss=loss_fn, 
-                    metrics=['accuracy'])
-        model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size, callbacks=[tensorboard_callback],verbose = 0)
+                      loss=loss_fn,
+                      metrics=['accuracy'])
+        model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback], verbose=0)
                 
     elif theta["learning_rate"] == "clr":
         initial_learning_rate = 0.001
@@ -148,12 +146,12 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         optimizer = tf.keras.optimizers.Adam()
     
         model.compile(optimizer=optimizer,
-                    loss=loss_fn,
-                    metrics=['accuracy'])
+                      loss=loss_fn,
+                      metrics=['accuracy'])
 
         clr = CyclicLR(base_lr=initial_learning_rate, max_lr=max_learning_rate, step_size=step_size, mode='exp_range')
         model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback, clr], verbose=0)
-    
+
     # Extract features from the trained network
     train_features = extract_features(X_train, model)
     test_features = extract_features(X_test, model)
@@ -172,14 +170,3 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     gc.collect()
 
     return accuracy
-
-"""
-# Plot the training loss
-plt.figure(figsize=(12, 6))
-plt.plot(history.history['loss'])
-plt.title('Model loss')
-plt.ylabel('Loss')
-plt.xlabel('Epoch')
-plt.legend(['Train'], loc='upper right')
-plt.show()
-"""
