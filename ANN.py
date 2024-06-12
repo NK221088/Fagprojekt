@@ -101,9 +101,9 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     # Add the output layer for binary classification
     model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
     
-    # Build the model with dummy data
-    dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
-    model(dummy_data)  # This will build the model
+    # # Build the model with dummy data
+    # dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
+    # model(dummy_data)  # This will build the model
     
     # Load pretrained weights if provided
     if weights_path:
@@ -160,7 +160,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     test_features = feature_extractor.predict(X_test)
 
     # Train an SVM on the extracted features
-    svm = SVC(kernel='RBF')
+    svm = SVC(kernel='rbf')
     svm.fit(train_features, ytrain)
 
     # Evaluate the SVM
