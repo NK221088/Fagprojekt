@@ -32,6 +32,13 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             staircase=True)(step)
         return lr / (step + 1)
     
+    def get_config(self):
+        return {
+            "initial_learning_rate": self.initial_learning_rate,
+            "decay_steps": self.decay_steps,
+            "decay_rate": self.decay_rate,
+        }
+    
 def extract_features(X, model):
     feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
     features = feature_extractor.predict(X)
