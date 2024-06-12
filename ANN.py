@@ -160,7 +160,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     test_features = feature_extractor.predict(X_test)
 
     # Train an SVM on the extracted features
-    svm = SVC(kernel='linear')
+    svm = SVC(kernel='RBF')
     svm.fit(train_features, ytrain)
 
     # Evaluate the SVM
