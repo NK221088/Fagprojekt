@@ -51,13 +51,18 @@ def extract_features(X, model):
 
 def load_pretrained_weights(model, weights_path):
     try:
-        # Load the weights directly into the model
-        model.load_weights(weights_path)
+        # Load the model without loading its architecture
+        pretrained_model = tf.keras.models.load_model(weights_path, compile=False)
+
+        # Extract weights from the pretrained model
+        pretrained_weights = pretrained_model.layers[3].get_weights()
+
+        # Set the weights of the specific layer in the main model
+        model.layers[3].set_weights(pretrained_weights)
 
         print("Pretrained weights loaded successfully.")
     except Exception as e:
         print(f"Error loading pretrained weights: {e}")
-
 
 # Define your ANN_classifier function (main part of the script)
 def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
