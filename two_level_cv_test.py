@@ -9,17 +9,14 @@ from model import model
 import numpy as np
 from datetime import datetime
 import csv
-
-from datetime import datetime
+import pandas as pd
 
 ############################
 # Settings:
 ############################
 
-
 # Data set:
 data_set = "fNIRS_Alexandros_Healthy_data"
-# data_set = "fNirs_motor_full_data"
 epoch_type = "Imagery"
 combine_strategy = "mean"
 individuals = True # CANNOT BE CHANGED IN THIS SCRIPT
@@ -31,31 +28,26 @@ bad_channels_strategy = "mean"
 short_channel_correction = True
 negative_correlation_enhancement = True
 threshold = 3
-startTime = 7
-stopTime = 13
+startTime = 5
+stopTime = 10
 K2 = 5
 interpolate_bad_channels = False
 
 # Plotting and saving:
 save_results = True
 
-#Models
+# Models
 ANN = model(name = "ANN")
 # CNN = model(name = "CNN")
 
-# ANN.theta = {"neurons1": [1], "neurons2": [1], "layers" : [4], "learning_rate": ["clr"]}
-ANN.theta = {"neurons2": [100, 200, 300], "layers" : [6,8], "learning_rate": ["decrease", "clr"]}
-# CNN.theta = {"base_learning_rate": [0.001, 0.01, 0.1], "number_of_layers": [50, 75, 100, 125], "batch_size": [32, 64, 128]}
-# SVM.theta = {"kernel": []}
+ANN.theta = {"neurons1": [60, 70], "neurons2": [100, 150, 200, 300], "layers" : [4,6], "learning_rate": ["decrease", "clr"]}
 modelList = [ANN]
-4
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
-accuracy, E_genList = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, freq=freq, dataset = all_individuals, data_types=data_types)
+accuracy, E_genList, E_test = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, freq=freq, dataset = all_individuals, data_types=data_types)
 
 # Get current date and time
 current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-
 
 # Construct filename with date and time
 results_folder = "Two_level_classifier_results" # Define the folder name
@@ -75,17 +67,13 @@ if save_results:
         file.write("Frequency: {}\n".format(round(freq,3)))
         if individuals:
             file.write("The models were evaluated using hold one out with each patient.\n")
+        file.write("Theta parameters:\n")
+        for model in modelList:
+            file.write("{}: {}\n".format(model.name, model.theta))
         file.write("Results:\n")
         for models, accuracy in accuracy.items():
             file.write("For the {} classifier: {}\n".format(models, np.round(accuracy,2)))
-            
-
-
     print(f"Results saved as {filename}")
-
-import pandas as pd
-import csv
-from datetime import datetime
 
 # Function to format parameters as strings
 def format_parameter(param):
@@ -105,19 +93,16 @@ def flatten_evallist(evallist):
                 })
     return flattened_data
 
-# Example evaluation list (E_genList should be defined elsewhere in your script)
-# E_genList = [...] 
-
 # Flatten the evaluation list
 flat_data = flatten_evallist(E_genList)
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
 # Define the filename with the timestamp
-filename = f"output_{timestamp}.csv"
+filename_gen = f"E_genList_output_{timestamp}.csv"
 
 # Write the flattened data to a CSV file
-with open(filename, 'w', newline='') as csvfile:
+with open(filename_gen, 'w', newline='') as csvfile:
     fieldnames = ["Evaluation", "Model", "Parameter", "Accuracy"]
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     
@@ -125,16 +110,16 @@ with open(filename, 'w', newline='') as csvfile:
     for row in flat_data:
         writer.writerow(row)
 
-# Read the CSV file into a DataFrame
-df = pd.read_csv(filename)
+# Create a new CSV file for E_test
+filename_test = f"E_test_output_{timestamp}.csv"
 
-# Convert the Accuracy column to numeric (in case it's read as string)
-df['Accuracy'] = pd.to_numeric(df['Accuracy'])
+# Write the E_test dictionary to a CSV file
+with open(filename_test, 'w', newline='') as csvfile:
+    fieldnames = ["Model", "E_test_Accuracy"]
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    
+    writer.writeheader()
+    for model_name, accuracy in E_test.items():
+        writer.writerow({"Model": model_name, "E_test_Accuracy": accuracy})
 
-# Group by Evaluation and get the row with the maximum Accuracy for each fold
-best_per_evaluation = df.loc[df.groupby('Evaluation')['Accuracy'].idxmax()]
-
-# Save the result to a new CSV file if needed
-best_per_evaluation.to_csv(f'best_hyperparameters_per_evaluation_{timestamp}.csv', index=False)
-
-print(best_per_evaluation)
+print(f"E_test results saved as {filename_test}")
