@@ -143,7 +143,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback, clr], verbose=0)
 
     # Run a dummy forward pass to build the model
-    model.predict(X_train[:1])
+    model.predict(X_train)
     
     # Extract features from the trained network
     train_features = extract_features(X_train, model)
