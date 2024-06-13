@@ -337,7 +337,7 @@ class fNIRS_Alexandros_Healthy_data_load(fNIRS_data_load):
         self.stimulus_duration = 15
         self.scalp_coupling_threshold = 0.5  # Change this value if needed
         self.reject_criteria = dict(hbo=80e-6)
-        self.tmin = -2.5
+        self.tmin = -5
         self.tmax = 15
         self.baseline = (None, 0)
         self.data_types = ["Imagery"]
