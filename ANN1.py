@@ -9,8 +9,8 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 from clr_callback import CyclicLR
 import gc
-import tensorflow as tf
-import os as os
+import os
+import shutil
 
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
     def __init__(self, initial_learning_rate, decay_steps, decay_rate):
@@ -34,18 +34,6 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             "decay_rate": self.decay_rate,
         }
 
-def extract_features(X, model):
-    # Build the model by making a dummy prediction
-    dummy_data = tf.zeros((1, *X.shape[1:]))
-    model.predict(dummy_data)
-    
-    # Create the feature extractor model
-    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
-    
-    # Extract features
-    features = feature_extractor.predict(X)
-    return features
-
 def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     # Allow memory growth for the GPU
     physical_devices = tf.config.list_physical_devices('GPU')
@@ -56,8 +44,8 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         except RuntimeError as e:
             print(e)
     
-    Xtest = (Xtest - np.mean(Xtrain, axis = 0)) / np.std(Xtrain, axis = 0)
-    Xtrain = (Xtrain - np.mean(Xtrain, axis = 0)) / np.std(Xtrain, axis = 0)
+    Xtest = (Xtest - np.mean(Xtrain, axis=0)) / np.std(Xtrain, axis=0)
+    Xtrain = (Xtrain - np.mean(Xtrain, axis=0)) / np.std(Xtrain, axis=0)
     
     X_train = tf.convert_to_tensor(Xtrain)
     y_train = tf.convert_to_tensor(ytrain)
@@ -108,16 +96,16 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         
         optimizer = tf.keras.optimizers.Adam(
             learning_rate=fNirs_LRSchedule(
-                initial_learning_rate = initial_learning_rate,
-                decay_steps = decay_steps,
-                decay_rate = decay_rate,
+                initial_learning_rate=initial_learning_rate,
+                decay_steps=decay_steps,
+                decay_rate=decay_rate,
             )
         )
         model.compile(optimizer=optimizer,
-                    loss=loss_fn, 
-                    metrics=['accuracy'])
+                      loss=loss_fn, 
+                      metrics=['accuracy'])
         
-        model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size, callbacks=[tensorboard_callback],verbose = 0)
+        model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback], verbose=0)
         
     elif theta["learning_rate"] == "clr":
         initial_learning_rate = 0.0001
@@ -127,36 +115,17 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         optimizer = tf.keras.optimizers.Adam()
     
         model.compile(optimizer=optimizer,
-                    loss=loss_fn,
-                    metrics=['accuracy'])
+                      loss=loss_fn,
+                      metrics=['accuracy'])
 
         clr = CyclicLR(base_lr=initial_learning_rate, max_lr=max_learning_rate, step_size=step_size, mode='exp_range')
         model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback, clr], verbose=0)
     
-    # Ensure the model is built
-    dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
-    model(dummy_data)  # This will build the model
-
-    # Create the feature extractor model
-    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
+    loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
     
-    # Extract features from the trained network
-    train_features = feature_extractor.predict(X_train)
-    test_features = feature_extractor.predict(X_test)
-
-    # Train an SVM on the extracted features
-    svm = SVC(kernel='rbf')
-    svm.fit(train_features, ytrain)
-
-    # Evaluate the SVM
-    y_pred = svm.predict(test_features)
-    accuracy = accuracy_score(ytest, y_pred)
-    
-    # loss, accuracy = model.evaluate(X_test,  y_test, verbose=0)
-
     # Clear session and delete model to free up memory
     tf.keras.backend.clear_session()
     del model
     gc.collect()
-
+    
     return accuracy
