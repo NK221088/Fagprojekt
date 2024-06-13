@@ -76,6 +76,16 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     epochs = 300
     batch_size = 100
     log_dir = "logs/"
+    # Clear old logs
+    for file in os.listdir(log_dir):
+        file_path = os.path.join(log_dir, file)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print(f'Failed to delete {file_path}. Reason: {e}')
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
     
     if theta["learning_rate"] == "decrease":
