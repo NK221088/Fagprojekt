@@ -40,7 +40,7 @@ save_results = True
 ANN = model(name = "ANN")
 # CNN = model(name = "CNN")
 
-ANN.theta = {"neuron1": [60, 128], "neuron2": [100, 150, 200, 300], "layers" : [4,6,8], "learning_rate": ["decrease", "clr"]}
+ANN.theta = {"neuron1": [60, 128], "neuron2": [100, 150, 300], "layers" : [6,8], "learning_rate": ["decrease"]}
 modelList = [ANN]
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
