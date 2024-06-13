@@ -1,0 +1,7 @@
+Evaluation,Model,Parameter,Accuracy
+1,ANN,"learning_rate=clr, neuron2=300, layers=4, neuron1=60",0.4642857142857142
+2,ANN,"learning_rate=decrease, layers=4, neuron2=100, neuron1=60",0.4285714285714285
+3,ANN,"learning_rate=decrease, layers=6, neuron1=70, neuron2=150",0.4482758620689655
+4,ANN,"learning_rate=decrease, layers=6, neuron2=100, neuron1=60",0.5172413793103449
+5,ANN,"learning_rate=decrease, layers=6, neuron2=100, neuron1=60",0.4827586206896552
+6,ANN,"learning_rate=decrease, layers=4, neuron2=150, neuron1=60",0.3125

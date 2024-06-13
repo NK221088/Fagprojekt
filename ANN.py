@@ -63,6 +63,12 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         model.add(tf.keras.layers.Dense(theta["neuron2"], activation='relu'))
         model.add(tf.keras.layers.Dropout(0.2))
     
+    if theta["layers"] == 8:
+        model.add(tf.keras.layers.Dense(theta["neuron2"], activation='relu'))
+        model.add(tf.keras.layers.Dropout(0.2))
+        model.add(tf.keras.layers.Dense(theta["neuron1"], activation='relu'))
+        model.add(tf.keras.layers.Dropout(0.2))
+    
     # Add the output layer for binary classification
     model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
     
@@ -91,9 +97,9 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size, callbacks=[tensorboard_callback],verbose = 0)
         
     elif theta["learning_rate"] == "clr":
-        initial_learning_rate = 0.001
-        max_learning_rate = 0.006
-        step_size = 2000
+        initial_learning_rate = 0.0001
+        max_learning_rate = 0.001
+        step_size = 20
         
         optimizer = tf.keras.optimizers.Adam()
     
