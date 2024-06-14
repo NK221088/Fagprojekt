@@ -1,0 +1,16 @@
+Classifier Results:
+====================
+Data obtained at: 2024-06-14_16-08-04
+Dataset: fNIRS_Alexandros_Healthy_data
+Epoch type used for classification: Imagery
+Combine Strategy: mean
+Bad Channels Strategy: mean
+Start Time: 7.5
+K2: 10
+Stop Time: 12
+Frequency: 10.173
+The models were evaluated using hold one out with each patient.
+Theta parameters:
+SVM: {'kernel': ['rbf'], 'C': [0.01, 0.1, 1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, 10000000.0, 100000000.0, 1000000000.0, 10000000000.0], 'gamma': [1e-09, 1e-08, 1e-07, 1e-06, 1e-05, 0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0]}
+Results:
+For the SVM classifier: 0.53

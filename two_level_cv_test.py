@@ -37,8 +37,9 @@ interpolate_bad_channels = False
 save_results = True
 
 # Models
-ANN = model(name = "ANN")
+# ANN = model(name = "ANN")
 # CNN = model(name = "CNN")
+SVM = model(name = "SVM")
 
 ANN.theta = {"neuron1": [60, 128], "neuron2": [100, 150, 300], "layers" : [6,8], "learning_rate": ["decrease", "clr"]}
 ANN_AND_SVM = True
