@@ -5,8 +5,20 @@ import itertools
 from ICA import ICA
 
 def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, bayes_opt, freq = 7.81, use_ica = True):
+    
+    
 
     dataset = {participant.name: participant.events for participant in dataset}
+    
+    
+    dataset_array = {'Tapping': [], 'Control': []}
+    
+    for patient, pdata in dataset.items():
+              
+        for data_type in pdata:
+            dataset_array[data_type].append(pdata[data_type])
+    
+    
     
     E_genList = []
 

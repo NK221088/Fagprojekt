@@ -8,7 +8,7 @@ import os
 from datetime import datetime
 from sklearn.preprocessing import StandardScaler
 
-def ICA(Xtrain , Xtest, n_components: int, plot: bool, save_plot: bool, components: tuple = (0, 1)):
+def ICA(data, n_components: int, plot: bool, save_plot: bool, components: tuple = (0, 1)):
     """
     Perform Independent Component Analysis (ICA) on the given data and optionally plot the results.
 
@@ -24,11 +24,7 @@ def ICA(Xtrain , Xtest, n_components: int, plot: bool, save_plot: bool, componen
     - X_ica (numpy.ndarray): The data transformed into the independent component space.
     """
     
-    
-    
-    Xtrain = Xtrain.reshape(Xtrain.shape[0], -1)
-    Xtest = Xtest.reshape(Xtest.shape[0], -1)
-    # Initialize ICA with desired number of components
+    data.reshape
     
     scaler = StandardScaler()
     Xtrain = scaler.fit_transform(Xtrain)
