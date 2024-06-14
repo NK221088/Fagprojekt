@@ -41,7 +41,15 @@ save_results = True
 # CNN = model(name = "CNN")
 SVM = model(name = "SVM")
 
-ANN.theta = {"neuron1": [60, 128], "neuron2": [100, 150, 300], "layers" : [6,8], "learning_rate": ["decrease", "clr"]}
+ANN.theta = {
+    "neuron1": [60, 128],
+    "neuron2": [100, 150, 300],
+    "layers": [6, 8],
+    "learning_rate": ["decrease", "clr"],
+    "layer_type": ["dense", "conv1d", "lstm", "gru"],
+    "activation_function": ["relu", "leakyrelu", "elu"],
+    "dropout_rate": [0.3]
+}
 ANN_AND_SVM = True
 modelList = [ANN]
 
