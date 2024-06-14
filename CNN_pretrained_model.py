@@ -2,9 +2,21 @@ import tensorflow as tf
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Resizing
 from tensorflow.keras.models import Model
-from tensorflow.keras.optimizers.schedules import ExponentialDecay
 import numpy as np
 import matplotlib.pyplot as plt
+
+gpus = tf.config.list_physical_devices('GPU')
+print("Num GPUs Available: ", len(gpus))
+if gpus:
+    try:
+        # Currently, memory growth needs to be the same across GPUs
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+        logical_gpus = tf.config.experimental.list_logical_devices('GPU')
+        print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
+    except RuntimeError as e:
+        # Memory growth must be set before GPUs have been initialized
+        print(e)
 
 def make_dataset(X, y, batch_size=32, augment=False):
     min_val = np.min(X)
