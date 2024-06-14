@@ -37,11 +37,13 @@ interpolate_bad_channels = False
 save_results = True
 
 # Models
-ANN = model(name = "ANN")
+# ANN = model(name = "ANN")
 # CNN = model(name = "CNN")
+SVM = model(name = "SVM")
 
-ANN.theta = {"neuron1": [60, 128], "neuron2": [100, 150, 300], "layers" : [6,8], "learning_rate": ["decrease", "clr"]}
-modelList = [ANN]
+# ANN.theta = {"neuron1": [60, 128], "neuron2": [100, 150, 300], "layers" : [6,8], "learning_rate": ["decrease", "clr"]}
+SVM.theta = {"kernel": ["linear","poly","rbf","sigmoid"], "C" : list(np.logspace(-2, 10, 13)), "gamma": list(np.logspace(-9, 3, 13)), "degree" : list(np.arange(1,11)), "coef0" : list(np.linspace(-1,8,10))}
+modelList = [SVM]
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
 accuracy, E_genList, E_test = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, freq=freq, dataset = all_individuals, data_types=data_types)
