@@ -41,6 +41,7 @@ ANN = model(name = "ANN")
 # CNN = model(name = "CNN")
 
 ANN.theta = {"neuron1": [60, 128], "neuron2": [100, 150, 300], "layers" : [6,8], "learning_rate": ["decrease", "clr"]}
+ANN_AND_SVM = True
 modelList = [ANN]
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
@@ -70,6 +71,8 @@ if save_results:
         file.write("Theta parameters:\n")
         for model in modelList:
             file.write("{}: {}\n".format(model.name, model.theta))
+        if ANN_AND_SVM == True:
+            file.write("The architecture used the SVM instead of last layers.\n")
         file.write("Results:\n")
         for models, accuracy in accuracy.items():
             file.write("For the {} classifier: {}\n".format(models, np.round(accuracy,2)))

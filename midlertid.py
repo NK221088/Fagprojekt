@@ -54,8 +54,8 @@ X_2_new_time = X_2[:,:,int(np.floor(startTime * freq)):int(np.floor(stopTime * f
 # X_2_downsampled = downsample_median(X_2_new_time)
 
 
-X_1_reshaped = X_1_new_time.reshape(-1, all_data[data_types[0]].shape[1]) #Tapping
-X_2_reshaped = X_2_new_time.reshape(-1, all_data[data_types[1]].shape[1]) #Control
+# X_1_reshaped = X_1_new_time.reshape(-1, all_data[data_types[0]].shape[1]) #Tapping
+# X_2_reshaped = X_2_new_time.reshape(-1, all_data[data_types[1]].shape[1]) #Control
 
 X_1_reshaped = np.median(X_1_new_time, axis=2) #Tapping
 X_2_reshaped = np.median(X_2_new_time, axis=2) #Control

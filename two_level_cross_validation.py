@@ -6,6 +6,7 @@ import itertools
 def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq = 7.81, data_types = [""]):
 
     dataset = {participant.name: participant.events for participant in dataset}
+    Control
     
     E_genList = []
 
