@@ -62,7 +62,7 @@ ANN.theta = {
     "learning_rate": ["decrease", "clr"],
 }
 CNN.theta = {"base_learning_rate": [0.001, 0.1], "number_of_layers": [50, 75, 100], "batch_size": [32]}
-SVM.theta = {"kernel": ["rbf"], "C": [1.0], "gamma": ['scale'], "degree": [3], "coef0": [0.0]}
+SVM.theta = {"kernel": ["rbf", "linear"], "C": [1.0, 10], "gamma": ['scale', 'auto'], "degree": [3, 5], "coef0": [0.0, 0.5]}
 Mean.theta = {}
 Baseline.theta = {}
 PosNeg.theta = {}

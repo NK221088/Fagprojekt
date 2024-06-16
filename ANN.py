@@ -79,7 +79,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
     
     initial_learning_rate = 0.01
-    decay_steps = tf.constant(50, dtype=tf.int64)
+    decay_steps = 50
     decay_rate = 0.9
     
     optimizer = tf.keras.optimizers.Adam(
