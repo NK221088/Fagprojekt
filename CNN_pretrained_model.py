@@ -64,7 +64,7 @@ def CNN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     x = base_model(inputs, training=False)
     x = GlobalAveragePooling2D()(x)
     x = tf.keras.layers.Dropout(0.2)(x)
-    outputs = Dense(1, activation='sigmoid')(x)
+    outputs = Dense(1, activation='sigmoid', dtype=tf.float32)(x)
     model = Model(inputs, outputs)
 
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=base_learning_rate),
