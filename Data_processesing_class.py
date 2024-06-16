@@ -243,9 +243,9 @@ class fNIRS_full_motor_data_load(fNIRS_data_load):
         self.stimulus_duration = 5
         self.scalp_coupling_threshold = 0.5  # Change this value if needed
         self.reject_criteria = dict(hbo=80e-6)
-        self.tmin = 0
-        self.tmax = 25
-        self.baseline = (0, 0)
+        self.tmin = -5
+        self.tmax = 15
+        self.baseline = (None, 0)
         self.data_types = ["Tapping"]
         self.number_of_data_types = 2
         self.data_name = "fnirs_full_motor"

@@ -1,9 +1,9 @@
 import numpy as np
 from majority_voting_classifier import BaselineModel
 from mean_model_classifier import MeanModel
-# from positive_negative_classifer import Positive_Negativ_classifier
-# from SVM_classifier import SVM_classifier
-# from ANN import ANN_classifier
+from positive_negative_classifer import Positive_Negative_classifier
+from SVM_classifier import SVM_classifier
+from ANN import ANN_classifier
 from load_data_function import load_data
 
 def individualKFold(individual_data, epoch_type, startTime, stopTime, freq = 7.81):

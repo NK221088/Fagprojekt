@@ -11,25 +11,27 @@ import mne
 import os
 from collections import Counter
 import numpy as np
+from model import model
+
 
 ############################
 # Settings:
 ############################
 
 # Data set:
-data_set = "fNIRS_Alexandros_Healthy_data" # "fNIrs_motor" # "fNirs_motor_full_data" #     "AudioSpeechNoise" #  
+data_set = "AudioSpeechNoise" #   "fNirs_motor_full_data" # "fNIRS_Alexandros_Healthy_data" # "fNIrs_motor" #      
 
-epoch_type = "Imagery"
+epoch_type = "Speech"
 combine_strategy = "mean"
-individuals = True
+individuals = False
 
 # Data processing:
 bad_channels_strategy = "all"
 short_channel_correction = True
 negative_correlation_enhancement = True
 threshold = 3
-startTime = 0
-stopTime = 15
+startTime = 7.5
+stopTime = 12.5
 K = 5
 interpolate_bad_channels = False
 
@@ -38,10 +40,28 @@ plot_epochs = True
 plot_std_fNIRS_response = True
 plot_accuracy_across_k_folds = True
 
-save_plot_epochs = False
-save_plot_std_fNIRS_response = False
+save_plot_epochs = True
+save_plot_std_fNIRS_response = True
 save_plot_accuracy_across_k_folds = True
 save_results = True
+
+
+# Models
+SVM = model(name = "SVM")
+ANN = model(name = "ANN")
+Mean = model(name = "Mean")
+Baseline = model(name = "Baseline")
+PosNeg = model(name = "PosNeg")
+CNN = model(name = "CNN")
+
+SVM.theta = {"kernel": ["rbf"], "C": [1.0], "gamma": ['scale'], "degree": [3], "coef0": [0.0]}
+ANN.theta = {}
+Mean.theta = {}
+Baseline.theta = {}
+PosNeg.theta = {}
+CNN.theta = {"base_learning_rate": [0.01], "number_of_layers": [100], "batch_size": [32]}
+
+modelList = [SVM, ANN, Mean, Baseline, PosNeg, CNN]
 
 ############################
 
@@ -61,39 +81,46 @@ if plot_std_fNIRS_response:
 if individuals:
     results = individualKFold(individual_data = all_individuals, epoch_type=epoch_type, startTime = startTime, stopTime = stopTime)
 else:
-    results = StratifiedCV(all_data[epoch_type], all_data["Control"], startTime = startTime, K = K, stopTime = stopTime, freq = freq)
+    results = StratifiedCV(modelList, all_data[epoch_type], all_data["Control"], startTime = startTime, K = K, stopTime = stopTime, freq = freq)
 
 if plot_accuracy_across_k_folds:
     plot_of_accuracy_across_k_folds(results_across_k_folds =  results, save_plot = save_plot_accuracy_across_k_folds)
 
-results_string_format = {classifier: str(np.round(np.mean(result), 3)) + u"\u00B1" + str(np.round(1.96 * np.std(result)/np.sqrt(len(result)),3)) for (classifier, result) in results.items()}
+# Extract and format the results for each classifier
+results_string_format = {}
+for key, value in results.items():
+    classifier = key[0]
+    if classifier not in results_string_format:
+        results_string_format[classifier] = []
+    results_string_format[classifier].append(value[0])  # Append the accuracy
+
+# Format the results with mean and confidence intervals
+formatted_results = {classifier: f"{np.mean(acc):.3f} ± {1.96 * np.std(acc) / np.sqrt(len(acc)):.3f}" for classifier, acc in results_string_format.items()}
 
 # Get current date and time
 current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 # Construct filename with date and time
-results_folder = "Classifier_results" # Define the folder name
-filename = os.path.join(results_folder, f"{data_name}e_{epoch_type}_results_{current_datetime}.txt")
+results_folder = "Classifier_results"  # Define the folder name
+os.makedirs(results_folder, exist_ok=True)  # Create the directory if it does not exist
+filename = os.path.join(results_folder, f"{data_name}_{epoch_type}_results_{current_datetime}.txt")
 if save_results:
     with open(filename, "w") as file:
         file.write("Classifier Results:\n")
         file.write("====================\n")
-        file.write("Data obtained at: {}\n".format(current_datetime))
-        file.write("Dataset: {}\n".format(data_name))
-        file.write("Epoch type used for classification: {}\n".format(epoch_type))
-        file.write("Combine Strategy: {}\n".format(combine_strategy))
-        file.write("Bad Channels Strategy: {}\n".format(bad_channels_strategy))
-        file.write("Start Time: {}\n".format(startTime))
-        file.write("K: {}\n".format(K))
-        file.write("Stop Time: {}\n".format(stopTime))
-        file.write("Frequency: {}\n".format(round(freq,3)))
+        file.write(f"Data obtained at: {current_datetime}\n")
+        file.write(f"Dataset: {data_name}\n")
+        file.write(f"Epoch type used for classification: {epoch_type}\n")
+        file.write(f"Combine Strategy: {combine_strategy}\n")
+        file.write(f"Bad Channels Strategy: {bad_channels_strategy}\n")
+        file.write(f"Start Time: {startTime}\n")
+        file.write(f"K: {K}\n")
+        file.write(f"Stop Time: {stopTime}\n")
+        file.write(f"Frequency: {round(freq, 3)}\n")
         if individuals:
             file.write("The models were evaluated using hold one out with each patient.\n")
         file.write("Results:\n")
-        file.write("For the majority voting classifier: {}\n".format(results_string_format["MajorityVoting"],2))
-        file.write("For the mean model classifier: {}\n".format(results_string_format["MeanModel"],2))
-        file.write("For the mean ps model classifier: {}\n".format(results_string_format["PSModel"],2))
-        file.write("For the mean SVM model classifier: {}\n".format(results_string_format["SVMModel"],2))
-        file.write("For the ANN classifier: {}\n".format(results_string_format["ANNModel"],2))
+        for classifier, result in formatted_results.items():
+            file.write(f"For the {classifier} classifier: {result}\n")
 
     print(f"Results saved as {filename}")

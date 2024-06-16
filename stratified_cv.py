@@ -9,7 +9,7 @@ from tqdm import tqdm
 import itertools
 
 
-def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, iter_n, K = 4, freq = 7.81):
+def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, iter_n=0, K = 4, freq = 7.81):
     
     E_val = {}
 
