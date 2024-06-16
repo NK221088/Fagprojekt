@@ -4,6 +4,7 @@ from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Resizing
 from tensorflow.keras.models import Model
 import numpy as np
 import matplotlib.pyplot as plt
+import gc
 
 gpus = tf.config.list_physical_devices('GPU')
 print("Num GPUs Available: ", len(gpus))
@@ -92,4 +93,10 @@ def CNN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     model.fit(train_dataset, epochs=5, initial_epoch=5, validation_data=val_dataset)
 
     accuracy = model.evaluate(val_dataset)
+    
+    # Clear session and delete model to free up memory
+    tf.keras.backend.clear_session()
+    del model
+    gc.collect()
+    
     return accuracy
