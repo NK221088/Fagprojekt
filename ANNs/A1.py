@@ -92,7 +92,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     
     if theta["learning_rate"] == "decrease":
         initial_learning_rate = 0.001
-        decay_steps = tf.constant(50, dtype=tf.int64)
+        decay_steps = 50
         decay_rate = 0.9
         
         optimizer = tf.keras.optimizers.Adam(
