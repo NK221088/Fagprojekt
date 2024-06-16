@@ -39,7 +39,7 @@ save_results = True
 
 # Models
 # ANN = model(name = "ANN")
-# CNN = model(name = "CNN")
+CNN = model(name = "CNN")
 # SVM = model(name = "SVM")
 
 # ANN.theta = {
