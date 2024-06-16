@@ -17,8 +17,8 @@ import pandas as pd
 ############################
 
 # Data set:
-data_set = "fNIRS_Alexandros_Healthy_data"
-epoch_type = "Imagery"
+data_set = "fNirs_motor_full_data"
+epoch_type = "Tapping"
 combine_strategy = "mean"
 individuals = True # CANNOT BE CHANGED IN THIS SCRIPT
 if not individuals:
@@ -38,9 +38,12 @@ interpolate_bad_channels = False
 save_results = True
 
 # Models
-# ANN = model(name = "ANN")
+SVM = model(name = "SVM")
+ANN = model(name = "ANN")
+Mean = model(name = "Mean")
+Baseline = model(name = "Baseline")
+PosNeg = model(name = "PosNeg")
 CNN = model(name = "CNN")
-# SVM = model(name = "SVM")
 
 # ANN.theta = {
 #     "neuron1": [60, 128],
@@ -52,16 +55,20 @@ CNN = model(name = "CNN")
 #     "dropout_rate": [0.3]
 # }
 
-# ANN.theta = {
-#     "neuron1": [60, 128],
-#     "neuron2": [100, 150, 300],
-#     "layers": [6, 8],
-#     "learning_rate": ["decrease", "clr"],
-# }
-CNN.theta = {"base_learning_rate": [0.001, 0.01, 0.1], "number_of_layers": [50, 75, 100, 125], "batch_size": [32, 64, 128]}
+ANN.theta = {
+    "neuron1": [60, 128],
+    "neuron2": [100, 150, 300],
+    "layers": [6, 8],
+    "learning_rate": ["decrease", "clr"],
+}
+CNN.theta = {"base_learning_rate": [0.001, 0.1], "number_of_layers": [50, 75, 100], "batch_size": [32]}
+SVM.theta = {"kernel": ["rbf"], "C": [1.0], "gamma": ['scale'], "degree": [3], "coef0": [0.0]}
+Mean.theta = {}
+Baseline.theta = {}
+PosNeg.theta = {}
 
 ANN_AND_SVM = False
-modelList = [CNN]
+modelList = [SVM, ANN, Mean, Baseline, PosNeg, CNN]
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
 accuracy, E_genList, E_test = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, freq=freq, dataset = all_individuals, data_types=data_types)
