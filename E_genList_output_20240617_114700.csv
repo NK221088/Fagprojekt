@@ -1,0 +1,321 @@
+Evaluation,Model,Parameter,Accuracy
+1,SVM,"C=1.0, coef0=0.0, degree=3, kernel=rbf, gamma=scale",0.8024193548387097
+1,SVM,"C=1.0, coef0=0.5, degree=3, kernel=rbf, gamma=scale",0.8024193548387097
+1,SVM,"degree=5, C=1.0, coef0=0.0, kernel=rbf, gamma=scale",0.8024193548387097
+1,SVM,"degree=5, C=1.0, coef0=0.5, kernel=rbf, gamma=scale",0.8024193548387097
+1,SVM,"C=1.0, coef0=0.0, degree=3, kernel=rbf, gamma=auto",0.6451612903225805
+1,SVM,"C=1.0, coef0=0.5, degree=3, kernel=rbf, gamma=auto",0.6451612903225805
+1,SVM,"degree=5, C=1.0, coef0=0.0, kernel=rbf, gamma=auto",0.6451612903225805
+1,SVM,"degree=5, C=1.0, coef0=0.5, kernel=rbf, gamma=auto",0.6451612903225805
+1,SVM,"C=10, coef0=0.0, degree=3, kernel=rbf, gamma=scale",0.810483870967742
+1,SVM,"C=10, coef0=0.5, degree=3, kernel=rbf, gamma=scale",0.810483870967742
+1,SVM,"degree=5, C=10, coef0=0.0, kernel=rbf, gamma=scale",0.810483870967742
+1,SVM,"degree=5, C=10, coef0=0.5, kernel=rbf, gamma=scale",0.810483870967742
+1,SVM,"C=10, coef0=0.0, degree=3, kernel=rbf, gamma=auto",0.6451612903225805
+1,SVM,"C=10, coef0=0.5, degree=3, kernel=rbf, gamma=auto",0.6451612903225805
+1,SVM,"degree=5, C=10, coef0=0.0, kernel=rbf, gamma=auto",0.6451612903225805
+1,SVM,"degree=5, C=10, coef0=0.5, kernel=rbf, gamma=auto",0.6451612903225805
+1,SVM,"C=1.0, coef0=0.0, degree=3, gamma=scale, kernel=linear",0.6451612903225805
+1,SVM,"C=1.0, coef0=0.5, degree=3, gamma=scale, kernel=linear",0.6451612903225805
+1,SVM,"degree=5, C=1.0, coef0=0.0, gamma=scale, kernel=linear",0.6451612903225805
+1,SVM,"degree=5, C=1.0, coef0=0.5, gamma=scale, kernel=linear",0.6451612903225805
+1,SVM,"C=1.0, coef0=0.0, degree=3, gamma=auto, kernel=linear",0.6451612903225805
+1,SVM,"C=1.0, coef0=0.5, degree=3, gamma=auto, kernel=linear",0.6451612903225805
+1,SVM,"degree=5, C=1.0, coef0=0.0, gamma=auto, kernel=linear",0.6451612903225805
+1,SVM,"degree=5, C=1.0, coef0=0.5, gamma=auto, kernel=linear",0.6451612903225805
+1,SVM,"C=10, coef0=0.0, degree=3, gamma=scale, kernel=linear",0.6451612903225805
+1,SVM,"C=10, coef0=0.5, degree=3, gamma=scale, kernel=linear",0.6451612903225805
+1,SVM,"degree=5, C=10, coef0=0.0, gamma=scale, kernel=linear",0.6451612903225805
+1,SVM,"degree=5, C=10, coef0=0.5, gamma=scale, kernel=linear",0.6451612903225805
+1,SVM,"C=10, coef0=0.0, degree=3, gamma=auto, kernel=linear",0.6451612903225805
+1,SVM,"C=10, coef0=0.5, degree=3, gamma=auto, kernel=linear",0.6451612903225805
+1,SVM,"degree=5, C=10, coef0=0.0, gamma=auto, kernel=linear",0.6451612903225805
+1,SVM,"degree=5, C=10, coef0=0.5, gamma=auto, kernel=linear",0.6451612903225805
+1,ANN,"neuron1=60, neuron2=100, learning_rate=decrease, layers=6",0.8185483909422351
+1,ANN,"neuron1=60, neuron2=100, layers=6, learning_rate=clr",0.806451605212304
+1,ANN,"neuron1=60, neuron2=100, learning_rate=decrease, layers=8",0.8145161309549886
+1,ANN,"neuron1=60, learning_rate=clr, neuron2=100, layers=8",0.8145161309549886
+1,ANN,"neuron1=60, neuron2=150, learning_rate=decrease, layers=6",0.810483870967742
+1,ANN,"neuron1=60, neuron2=150, layers=6, learning_rate=clr",0.8225806451612904
+1,ANN,"neuron1=60, neuron2=150, learning_rate=decrease, layers=8",0.810483870967742
+1,ANN,"neuron1=60, neuron2=150, learning_rate=clr, layers=8",0.7983870967741935
+1,ANN,"neuron1=60, learning_rate=decrease, layers=6, neuron2=300",0.794354836786947
+1,ANN,"neuron1=60, learning_rate=clr, layers=6, neuron2=300",0.8266129051485369
+1,ANN,"neuron1=60, learning_rate=decrease, layers=8, neuron2=300",0.7862903225806451
+1,ANN,"neuron1=60, learning_rate=clr, layers=8, neuron2=300",0.8064516167486867
+1,ANN,"neuron1=128, neuron2=100, learning_rate=decrease, layers=6",0.7943548425551383
+1,ANN,"neuron1=128, neuron2=100, layers=6, learning_rate=clr",0.8024193567614402
+1,ANN,"neuron1=128, neuron2=100, learning_rate=decrease, layers=8",0.8064516052123039
+1,ANN,"neuron1=128, learning_rate=clr, neuron2=100, layers=8",0.7983870967741936
+1,ANN,"neuron1=128, neuron2=150, learning_rate=decrease, layers=6",0.7903225825678918
+1,ANN,"neuron1=128, neuron2=150, layers=6, learning_rate=clr",0.798387091006002
+1,ANN,"neuron1=128, neuron2=150, learning_rate=decrease, layers=8",0.8306451651357835
+1,ANN,"neuron1=128, neuron2=150, learning_rate=clr, layers=8",0.8306451651357836
+1,ANN,"neuron1=128, learning_rate=decrease, layers=6, neuron2=300",0.7903225825678917
+1,ANN,"neuron1=128, learning_rate=clr, layers=6, neuron2=300",0.7943548310187556
+1,ANN,"neuron1=128, learning_rate=decrease, layers=8, neuron2=300",0.8024193509932488
+1,ANN,"neuron1=128, learning_rate=clr, layers=8, neuron2=300",0.810483870967742
+1,Baseline,,0.6451612903225805
+1,PosNeg,,0.7056451612903225
+1,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.6572580664388595
+1,CNN,"number_of_layers=75, batch_size=32, base_learning_rate=0.001",0.6572580664388594
+1,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=100",0.657258060670668
+1,CNN,"base_learning_rate=0.1, batch_size=32, number_of_layers=50",0.6814516205941477
+1,CNN,"base_learning_rate=0.1, number_of_layers=75, batch_size=32",0.6572580606706682
+1,CNN,"base_learning_rate=0.1, batch_size=32, number_of_layers=100",0.6451612951294068
+2,SVM,"C=1.0, coef0=0.0, degree=3, kernel=rbf, gamma=scale",0.8266129032258065
+2,SVM,"C=1.0, coef0=0.5, degree=3, kernel=rbf, gamma=scale",0.8266129032258065
+2,SVM,"degree=5, C=1.0, coef0=0.0, kernel=rbf, gamma=scale",0.8266129032258065
+2,SVM,"degree=5, C=1.0, coef0=0.5, kernel=rbf, gamma=scale",0.8266129032258065
+2,SVM,"C=1.0, coef0=0.0, degree=3, kernel=rbf, gamma=auto",0.6451612903225805
+2,SVM,"C=1.0, coef0=0.5, degree=3, kernel=rbf, gamma=auto",0.6451612903225805
+2,SVM,"degree=5, C=1.0, coef0=0.0, kernel=rbf, gamma=auto",0.6451612903225805
+2,SVM,"degree=5, C=1.0, coef0=0.5, kernel=rbf, gamma=auto",0.6451612903225805
+2,SVM,"C=10, coef0=0.0, degree=3, kernel=rbf, gamma=scale",0.8306451612903227
+2,SVM,"C=10, coef0=0.5, degree=3, kernel=rbf, gamma=scale",0.8306451612903227
+2,SVM,"degree=5, C=10, coef0=0.0, kernel=rbf, gamma=scale",0.8306451612903227
+2,SVM,"degree=5, C=10, coef0=0.5, kernel=rbf, gamma=scale",0.8306451612903227
+2,SVM,"C=10, coef0=0.0, degree=3, kernel=rbf, gamma=auto",0.6451612903225805
+2,SVM,"C=10, coef0=0.5, degree=3, kernel=rbf, gamma=auto",0.6451612903225805
+2,SVM,"degree=5, C=10, coef0=0.0, kernel=rbf, gamma=auto",0.6451612903225805
+2,SVM,"degree=5, C=10, coef0=0.5, kernel=rbf, gamma=auto",0.6451612903225805
+2,SVM,"C=1.0, coef0=0.0, degree=3, gamma=scale, kernel=linear",0.6451612903225805
+2,SVM,"C=1.0, coef0=0.5, degree=3, gamma=scale, kernel=linear",0.6451612903225805
+2,SVM,"degree=5, C=1.0, coef0=0.0, gamma=scale, kernel=linear",0.6451612903225805
+2,SVM,"degree=5, C=1.0, coef0=0.5, gamma=scale, kernel=linear",0.6451612903225805
+2,SVM,"C=1.0, coef0=0.0, degree=3, gamma=auto, kernel=linear",0.6451612903225805
+2,SVM,"C=1.0, coef0=0.5, degree=3, gamma=auto, kernel=linear",0.6451612903225805
+2,SVM,"degree=5, C=1.0, coef0=0.0, gamma=auto, kernel=linear",0.6451612903225805
+2,SVM,"degree=5, C=1.0, coef0=0.5, gamma=auto, kernel=linear",0.6451612903225805
+2,SVM,"C=10, coef0=0.0, degree=3, gamma=scale, kernel=linear",0.6451612903225805
+2,SVM,"C=10, coef0=0.5, degree=3, gamma=scale, kernel=linear",0.6451612903225805
+2,SVM,"degree=5, C=10, coef0=0.0, gamma=scale, kernel=linear",0.6451612903225805
+2,SVM,"degree=5, C=10, coef0=0.5, gamma=scale, kernel=linear",0.6451612903225805
+2,SVM,"C=10, coef0=0.0, degree=3, gamma=auto, kernel=linear",0.6451612903225805
+2,SVM,"C=10, coef0=0.5, degree=3, gamma=auto, kernel=linear",0.6451612903225805
+2,SVM,"degree=5, C=10, coef0=0.0, gamma=auto, kernel=linear",0.6451612903225805
+2,SVM,"degree=5, C=10, coef0=0.5, gamma=auto, kernel=linear",0.6451612903225805
+2,ANN,"neuron1=60, neuron2=100, learning_rate=decrease, layers=6",0.8508064535356337
+2,ANN,"neuron1=60, neuron2=100, layers=6, learning_rate=clr",0.8185483851740437
+2,ANN,"neuron1=60, neuron2=100, learning_rate=decrease, layers=8",0.8225806451612903
+2,ANN,"neuron1=60, learning_rate=clr, neuron2=100, layers=8",0.8306451535994007
+2,ANN,"neuron1=60, neuron2=150, learning_rate=decrease, layers=6",0.830645159367592
+2,ANN,"neuron1=60, neuron2=150, layers=6, learning_rate=clr",0.8185483909422351
+2,ANN,"neuron1=60, neuron2=150, learning_rate=decrease, layers=8",0.8266129109167283
+2,ANN,"neuron1=60, neuron2=150, learning_rate=clr, layers=8",0.8266129051485369
+2,ANN,"neuron1=60, learning_rate=decrease, layers=6, neuron2=300",0.8346774193548387
+2,ANN,"neuron1=60, learning_rate=clr, layers=6, neuron2=300",0.8266129051485369
+2,ANN,"neuron1=60, learning_rate=decrease, layers=8, neuron2=300",0.8387096735738938
+2,ANN,"neuron1=60, learning_rate=clr, layers=8, neuron2=300",0.8266129051485368
+2,ANN,"neuron1=128, neuron2=100, learning_rate=decrease, layers=6",0.8104838767359333
+2,ANN,"neuron1=128, neuron2=100, layers=6, learning_rate=clr",0.8185483851740437
+2,ANN,"neuron1=128, neuron2=100, learning_rate=decrease, layers=8",0.8266128993803454
+2,ANN,"neuron1=128, learning_rate=clr, neuron2=100, layers=8",0.8225806509294816
+2,ANN,"neuron1=128, neuron2=150, learning_rate=decrease, layers=6",0.8185483851740436
+2,ANN,"neuron1=128, neuron2=150, layers=6, learning_rate=clr",0.8225806451612903
+2,ANN,"neuron1=128, neuron2=150, learning_rate=decrease, layers=8",0.8306451593675921
+2,ANN,"neuron1=128, neuron2=150, learning_rate=clr, layers=8",0.8346774251230301
+2,ANN,"neuron1=128, learning_rate=decrease, layers=6, neuron2=300",0.8306451593675921
+2,ANN,"neuron1=128, learning_rate=clr, layers=6, neuron2=300",0.8266128993803455
+2,ANN,"neuron1=128, learning_rate=decrease, layers=8, neuron2=300",0.8346774193548386
+2,ANN,"neuron1=128, learning_rate=clr, layers=8, neuron2=300",0.8427419450975233
+2,Baseline,,0.6451612903225805
+2,PosNeg,,0.685483870967742
+2,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.6733871006196545
+2,CNN,"number_of_layers=75, batch_size=32, base_learning_rate=0.001",0.6814516205941477
+2,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=100",0.6612903321942976
+2,CNN,"base_learning_rate=0.1, batch_size=32, number_of_layers=50",0.5604838757745683
+2,CNN,"base_learning_rate=0.1, number_of_layers=75, batch_size=32",0.6653225921815442
+2,CNN,"base_learning_rate=0.1, batch_size=32, number_of_layers=100",0.6370967780390093
+3,SVM,"C=1.0, coef0=0.0, degree=3, kernel=rbf, gamma=scale",0.7816455696202532
+3,SVM,"C=1.0, coef0=0.5, degree=3, kernel=rbf, gamma=scale",0.7816455696202532
+3,SVM,"degree=5, C=1.0, coef0=0.0, kernel=rbf, gamma=scale",0.7816455696202532
+3,SVM,"degree=5, C=1.0, coef0=0.5, kernel=rbf, gamma=scale",0.7816455696202532
+3,SVM,"C=1.0, coef0=0.0, degree=3, kernel=rbf, gamma=auto",0.6329113924050633
+3,SVM,"C=1.0, coef0=0.5, degree=3, kernel=rbf, gamma=auto",0.6329113924050633
+3,SVM,"degree=5, C=1.0, coef0=0.0, kernel=rbf, gamma=auto",0.6329113924050633
+3,SVM,"degree=5, C=1.0, coef0=0.5, kernel=rbf, gamma=auto",0.6329113924050633
+3,SVM,"C=10, coef0=0.0, degree=3, kernel=rbf, gamma=scale",0.819620253164557
+3,SVM,"C=10, coef0=0.5, degree=3, kernel=rbf, gamma=scale",0.819620253164557
+3,SVM,"degree=5, C=10, coef0=0.0, kernel=rbf, gamma=scale",0.819620253164557
+3,SVM,"degree=5, C=10, coef0=0.5, kernel=rbf, gamma=scale",0.819620253164557
+3,SVM,"C=10, coef0=0.0, degree=3, kernel=rbf, gamma=auto",0.6329113924050633
+3,SVM,"C=10, coef0=0.5, degree=3, kernel=rbf, gamma=auto",0.6329113924050633
+3,SVM,"degree=5, C=10, coef0=0.0, kernel=rbf, gamma=auto",0.6329113924050633
+3,SVM,"degree=5, C=10, coef0=0.5, kernel=rbf, gamma=auto",0.6329113924050633
+3,SVM,"C=1.0, coef0=0.0, degree=3, gamma=scale, kernel=linear",0.6329113924050633
+3,SVM,"C=1.0, coef0=0.5, degree=3, gamma=scale, kernel=linear",0.6329113924050633
+3,SVM,"degree=5, C=1.0, coef0=0.0, gamma=scale, kernel=linear",0.6329113924050633
+3,SVM,"degree=5, C=1.0, coef0=0.5, gamma=scale, kernel=linear",0.6329113924050633
+3,SVM,"C=1.0, coef0=0.0, degree=3, gamma=auto, kernel=linear",0.6329113924050633
+3,SVM,"C=1.0, coef0=0.5, degree=3, gamma=auto, kernel=linear",0.6329113924050633
+3,SVM,"degree=5, C=1.0, coef0=0.0, gamma=auto, kernel=linear",0.6329113924050633
+3,SVM,"degree=5, C=1.0, coef0=0.5, gamma=auto, kernel=linear",0.6329113924050633
+3,SVM,"C=10, coef0=0.0, degree=3, gamma=scale, kernel=linear",0.6329113924050633
+3,SVM,"C=10, coef0=0.5, degree=3, gamma=scale, kernel=linear",0.6329113924050633
+3,SVM,"degree=5, C=10, coef0=0.0, gamma=scale, kernel=linear",0.6329113924050633
+3,SVM,"degree=5, C=10, coef0=0.5, gamma=scale, kernel=linear",0.6329113924050633
+3,SVM,"C=10, coef0=0.0, degree=3, gamma=auto, kernel=linear",0.6329113924050633
+3,SVM,"C=10, coef0=0.5, degree=3, gamma=auto, kernel=linear",0.6329113924050633
+3,SVM,"degree=5, C=10, coef0=0.0, gamma=auto, kernel=linear",0.6329113924050633
+3,SVM,"degree=5, C=10, coef0=0.5, gamma=auto, kernel=linear",0.6329113924050633
+3,ANN,"neuron1=60, neuron2=100, learning_rate=decrease, layers=6",0.813291133204593
+3,ANN,"neuron1=60, neuron2=100, layers=6, learning_rate=clr",0.8101265792605242
+3,ANN,"neuron1=60, neuron2=100, learning_rate=decrease, layers=8",0.8132911275459241
+3,ANN,"neuron1=60, learning_rate=clr, neuron2=100, layers=8",0.8164556814899926
+3,ANN,"neuron1=60, neuron2=150, learning_rate=decrease, layers=6",0.8101265792605243
+3,ANN,"neuron1=60, neuron2=150, layers=6, learning_rate=clr",0.8354430334477486
+3,ANN,"neuron1=60, neuron2=150, learning_rate=decrease, layers=8",0.8006329004523121
+3,ANN,"neuron1=60, neuron2=150, learning_rate=clr, layers=8",0.8101265849191931
+3,ANN,"neuron1=60, learning_rate=decrease, layers=6, neuron2=300",0.8164556814899928
+3,ANN,"neuron1=60, learning_rate=clr, layers=6, neuron2=300",0.8069620139991179
+3,ANN,"neuron1=60, learning_rate=decrease, layers=8, neuron2=300",0.8196202524100679
+3,ANN,"neuron1=60, learning_rate=clr, layers=8, neuron2=300",0.8037974600550494
+3,ANN,"neuron1=128, neuron2=100, learning_rate=decrease, layers=6",0.825949360298205
+3,ANN,"neuron1=128, neuron2=100, layers=6, learning_rate=clr",0.8164556871486615
+3,ANN,"neuron1=128, neuron2=100, learning_rate=decrease, layers=8",0.813291133204593
+3,ANN,"neuron1=128, learning_rate=clr, neuron2=100, layers=8",0.829113908583605
+3,ANN,"neuron1=128, neuron2=150, learning_rate=decrease, layers=6",0.8006329061109809
+3,ANN,"neuron1=128, neuron2=150, layers=6, learning_rate=clr",0.8291139142422737
+3,ANN,"neuron1=128, neuron2=150, learning_rate=decrease, layers=8",0.7974683521669121
+3,ANN,"neuron1=128, neuron2=150, learning_rate=clr, layers=8",0.8354430277890798
+3,ANN,"neuron1=128, learning_rate=decrease, layers=6, neuron2=300",0.8164556871486615
+3,ANN,"neuron1=128, learning_rate=clr, layers=6, neuron2=300",0.8196202410927302
+3,ANN,"neuron1=128, learning_rate=decrease, layers=8, neuron2=300",0.8132911388632619
+3,ANN,"neuron1=128, learning_rate=clr, layers=8, neuron2=300",0.8227848120128053
+3,Baseline,,0.6329113924050633
+3,PosNeg,,0.689873417721519
+3,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.661392402422579
+3,CNN,"number_of_layers=75, batch_size=32, base_learning_rate=0.001",0.6518987349317045
+3,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=100",0.6329113942912863
+3,CNN,"base_learning_rate=0.1, batch_size=32, number_of_layers=50",0.6044303805013247
+3,CNN,"base_learning_rate=0.1, number_of_layers=75, batch_size=32",0.626582286403149
+3,CNN,"base_learning_rate=0.1, batch_size=32, number_of_layers=100",0.6107594940481307
+4,SVM,"C=1.0, coef0=0.0, degree=3, kernel=rbf, gamma=scale",0.7945205479452053
+4,SVM,"C=1.0, coef0=0.5, degree=3, kernel=rbf, gamma=scale",0.7945205479452053
+4,SVM,"degree=5, C=1.0, coef0=0.0, kernel=rbf, gamma=scale",0.7945205479452053
+4,SVM,"degree=5, C=1.0, coef0=0.5, kernel=rbf, gamma=scale",0.7945205479452053
+4,SVM,"C=1.0, coef0=0.0, degree=3, kernel=rbf, gamma=auto",0.6506849315068494
+4,SVM,"C=1.0, coef0=0.5, degree=3, kernel=rbf, gamma=auto",0.6506849315068494
+4,SVM,"degree=5, C=1.0, coef0=0.0, kernel=rbf, gamma=auto",0.6506849315068494
+4,SVM,"degree=5, C=1.0, coef0=0.5, kernel=rbf, gamma=auto",0.6506849315068494
+4,SVM,"C=10, coef0=0.0, degree=3, kernel=rbf, gamma=scale",0.7945205479452054
+4,SVM,"C=10, coef0=0.5, degree=3, kernel=rbf, gamma=scale",0.7945205479452054
+4,SVM,"degree=5, C=10, coef0=0.0, kernel=rbf, gamma=scale",0.7945205479452054
+4,SVM,"degree=5, C=10, coef0=0.5, kernel=rbf, gamma=scale",0.7945205479452054
+4,SVM,"C=10, coef0=0.0, degree=3, kernel=rbf, gamma=auto",0.6506849315068494
+4,SVM,"C=10, coef0=0.5, degree=3, kernel=rbf, gamma=auto",0.6506849315068494
+4,SVM,"degree=5, C=10, coef0=0.0, kernel=rbf, gamma=auto",0.6506849315068494
+4,SVM,"degree=5, C=10, coef0=0.5, kernel=rbf, gamma=auto",0.6506849315068494
+4,SVM,"C=1.0, coef0=0.0, degree=3, gamma=scale, kernel=linear",0.6506849315068494
+4,SVM,"C=1.0, coef0=0.5, degree=3, gamma=scale, kernel=linear",0.6506849315068494
+4,SVM,"degree=5, C=1.0, coef0=0.0, gamma=scale, kernel=linear",0.6506849315068494
+4,SVM,"degree=5, C=1.0, coef0=0.5, gamma=scale, kernel=linear",0.6506849315068494
+4,SVM,"C=1.0, coef0=0.0, degree=3, gamma=auto, kernel=linear",0.6506849315068494
+4,SVM,"C=1.0, coef0=0.5, degree=3, gamma=auto, kernel=linear",0.6506849315068494
+4,SVM,"degree=5, C=1.0, coef0=0.0, gamma=auto, kernel=linear",0.6506849315068494
+4,SVM,"degree=5, C=1.0, coef0=0.5, gamma=auto, kernel=linear",0.6506849315068494
+4,SVM,"C=10, coef0=0.0, degree=3, gamma=scale, kernel=linear",0.6506849315068494
+4,SVM,"C=10, coef0=0.5, degree=3, gamma=scale, kernel=linear",0.6506849315068494
+4,SVM,"degree=5, C=10, coef0=0.0, gamma=scale, kernel=linear",0.6506849315068494
+4,SVM,"degree=5, C=10, coef0=0.5, gamma=scale, kernel=linear",0.6506849315068494
+4,SVM,"C=10, coef0=0.0, degree=3, gamma=auto, kernel=linear",0.6506849315068494
+4,SVM,"C=10, coef0=0.5, degree=3, gamma=auto, kernel=linear",0.6506849315068494
+4,SVM,"degree=5, C=10, coef0=0.0, gamma=auto, kernel=linear",0.6506849315068494
+4,SVM,"degree=5, C=10, coef0=0.5, gamma=auto, kernel=linear",0.6506849315068494
+4,ANN,"neuron1=60, neuron2=100, learning_rate=decrease, layers=6",0.797945207928958
+4,ANN,"neuron1=60, neuron2=100, layers=6, learning_rate=clr",0.8356164399891683
+4,ANN,"neuron1=60, neuron2=100, learning_rate=decrease, layers=8",0.8082191813481997
+4,ANN,"neuron1=60, learning_rate=clr, neuron2=100, layers=8",0.797945202213444
+4,ANN,"neuron1=60, neuron2=150, learning_rate=decrease, layers=6",0.8253424665699266
+4,ANN,"neuron1=60, neuron2=150, layers=6, learning_rate=clr",0.8013698581146868
+4,ANN,"neuron1=60, neuron2=150, learning_rate=decrease, layers=8",0.8013698638302005
+4,ANN,"neuron1=60, neuron2=150, learning_rate=clr, layers=8",0.8219178163841979
+4,ANN,"neuron1=60, learning_rate=decrease, layers=6, neuron2=300",0.8184931433364137
+4,ANN,"neuron1=60, learning_rate=clr, layers=6, neuron2=300",0.821917810668684
+4,ANN,"neuron1=60, learning_rate=decrease, layers=8, neuron2=300",0.8253424665699266
+4,ANN,"neuron1=60, learning_rate=clr, layers=8, neuron2=300",0.821917810668684
+4,ANN,"neuron1=128, neuron2=100, learning_rate=decrease, layers=6",0.8150684988661987
+4,ANN,"neuron1=128, neuron2=100, layers=6, learning_rate=clr",0.8082191927792274
+4,ANN,"neuron1=128, neuron2=100, learning_rate=decrease, layers=8",0.8219177992376563
+4,ANN,"neuron1=128, learning_rate=clr, neuron2=100, layers=8",0.821917810668684
+4,ANN,"neuron1=128, neuron2=150, learning_rate=decrease, layers=6",0.8219178049531701
+4,ANN,"neuron1=128, neuron2=150, layers=6, learning_rate=clr",0.8150684988661988
+4,ANN,"neuron1=128, neuron2=150, learning_rate=decrease, layers=8",0.8321917726568979
+4,ANN,"neuron1=128, neuron2=150, learning_rate=clr, layers=8",0.815068487435171
+4,ANN,"neuron1=128, learning_rate=decrease, layers=6, neuron2=300",0.804794525446957
+4,ANN,"neuron1=128, learning_rate=clr, layers=6, neuron2=300",0.8013698638302006
+4,ANN,"neuron1=128, learning_rate=decrease, layers=8, neuron2=300",0.8047945254469572
+4,ANN,"neuron1=128, learning_rate=clr, layers=8, neuron2=300",0.8184931547674414
+4,Baseline,,0.6506849315068494
+4,PosNeg,,0.6883561643835615
+4,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.6712328709968148
+4,CNN,"number_of_layers=75, batch_size=32, base_learning_rate=0.001",0.6780821942303278
+4,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=100",0.6883561562185418
+4,CNN,"base_learning_rate=0.1, batch_size=32, number_of_layers=50",0.6506849184428176
+4,CNN,"base_learning_rate=0.1, number_of_layers=75, batch_size=32",0.5924657481173946
+4,CNN,"base_learning_rate=0.1, batch_size=32, number_of_layers=100",0.6575342359608167
+5,SVM,"C=1.0, coef0=0.0, degree=3, kernel=rbf, gamma=scale",0.7862903225806452
+5,SVM,"C=1.0, coef0=0.5, degree=3, kernel=rbf, gamma=scale",0.7862903225806452
+5,SVM,"degree=5, C=1.0, coef0=0.0, kernel=rbf, gamma=scale",0.7862903225806452
+5,SVM,"degree=5, C=1.0, coef0=0.5, kernel=rbf, gamma=scale",0.7862903225806452
+5,SVM,"C=1.0, coef0=0.0, degree=3, kernel=rbf, gamma=auto",0.6451612903225805
+5,SVM,"C=1.0, coef0=0.5, degree=3, kernel=rbf, gamma=auto",0.6451612903225805
+5,SVM,"degree=5, C=1.0, coef0=0.0, kernel=rbf, gamma=auto",0.6451612903225805
+5,SVM,"degree=5, C=1.0, coef0=0.5, kernel=rbf, gamma=auto",0.6451612903225805
+5,SVM,"C=10, coef0=0.0, degree=3, kernel=rbf, gamma=scale",0.8185483870967744
+5,SVM,"C=10, coef0=0.5, degree=3, kernel=rbf, gamma=scale",0.8185483870967744
+5,SVM,"degree=5, C=10, coef0=0.0, kernel=rbf, gamma=scale",0.8185483870967744
+5,SVM,"degree=5, C=10, coef0=0.5, kernel=rbf, gamma=scale",0.8185483870967744
+5,SVM,"C=10, coef0=0.0, degree=3, kernel=rbf, gamma=auto",0.6451612903225805
+5,SVM,"C=10, coef0=0.5, degree=3, kernel=rbf, gamma=auto",0.6451612903225805
+5,SVM,"degree=5, C=10, coef0=0.0, kernel=rbf, gamma=auto",0.6451612903225805
+5,SVM,"degree=5, C=10, coef0=0.5, kernel=rbf, gamma=auto",0.6451612903225805
+5,SVM,"C=1.0, coef0=0.0, degree=3, gamma=scale, kernel=linear",0.6451612903225805
+5,SVM,"C=1.0, coef0=0.5, degree=3, gamma=scale, kernel=linear",0.6451612903225805
+5,SVM,"degree=5, C=1.0, coef0=0.0, gamma=scale, kernel=linear",0.6451612903225805
+5,SVM,"degree=5, C=1.0, coef0=0.5, gamma=scale, kernel=linear",0.6451612903225805
+5,SVM,"C=1.0, coef0=0.0, degree=3, gamma=auto, kernel=linear",0.6451612903225805
+5,SVM,"C=1.0, coef0=0.5, degree=3, gamma=auto, kernel=linear",0.6451612903225805
+5,SVM,"degree=5, C=1.0, coef0=0.0, gamma=auto, kernel=linear",0.6451612903225805
+5,SVM,"degree=5, C=1.0, coef0=0.5, gamma=auto, kernel=linear",0.6451612903225805
+5,SVM,"C=10, coef0=0.0, degree=3, gamma=scale, kernel=linear",0.6451612903225805
+5,SVM,"C=10, coef0=0.5, degree=3, gamma=scale, kernel=linear",0.6451612903225805
+5,SVM,"degree=5, C=10, coef0=0.0, gamma=scale, kernel=linear",0.6451612903225805
+5,SVM,"degree=5, C=10, coef0=0.5, gamma=scale, kernel=linear",0.6451612903225805
+5,SVM,"C=10, coef0=0.0, degree=3, gamma=auto, kernel=linear",0.6451612903225805
+5,SVM,"C=10, coef0=0.5, degree=3, gamma=auto, kernel=linear",0.6451612903225805
+5,SVM,"degree=5, C=10, coef0=0.0, gamma=auto, kernel=linear",0.6451612903225805
+5,SVM,"degree=5, C=10, coef0=0.5, gamma=auto, kernel=linear",0.6451612903225805
+5,ANN,"neuron1=60, neuron2=100, learning_rate=decrease, layers=6",0.8024193567614402
+5,ANN,"neuron1=60, neuron2=100, layers=6, learning_rate=clr",0.7983870967741936
+5,ANN,"neuron1=60, neuron2=100, learning_rate=decrease, layers=8",0.8185483909422351
+5,ANN,"neuron1=60, learning_rate=clr, neuron2=100, layers=8",0.794354836786947
+5,ANN,"neuron1=60, neuron2=150, learning_rate=decrease, layers=6",0.8064516109804953
+5,ANN,"neuron1=60, neuron2=150, layers=6, learning_rate=clr",0.798387102542385
+5,ANN,"neuron1=60, neuron2=150, learning_rate=decrease, layers=8",0.8024193567614402
+5,ANN,"neuron1=60, neuron2=150, learning_rate=clr, layers=8",0.7983870967741935
+5,ANN,"neuron1=60, learning_rate=decrease, layers=6, neuron2=300",0.806451605212304
+5,ANN,"neuron1=60, learning_rate=clr, layers=6, neuron2=300",0.8104838651995505
+5,ANN,"neuron1=60, learning_rate=decrease, layers=8, neuron2=300",0.8064516167486867
+5,ANN,"neuron1=60, learning_rate=clr, layers=8, neuron2=300",0.7903225767997003
+5,ANN,"neuron1=128, neuron2=100, learning_rate=decrease, layers=6",0.8145161251867971
+5,ANN,"neuron1=128, neuron2=100, layers=6, learning_rate=clr",0.7983870910060021
+5,ANN,"neuron1=128, neuron2=100, learning_rate=decrease, layers=8",0.7903225883360833
+5,ANN,"neuron1=128, learning_rate=clr, neuron2=100, layers=8",0.7983870910060021
+5,ANN,"neuron1=128, neuron2=150, learning_rate=decrease, layers=6",0.8104838767359334
+5,ANN,"neuron1=128, neuron2=150, layers=6, learning_rate=clr",0.7983870967741935
+5,ANN,"neuron1=128, neuron2=150, learning_rate=decrease, layers=8",0.7822580568252071
+5,ANN,"neuron1=128, neuron2=150, learning_rate=clr, layers=8",0.8024193625296315
+5,ANN,"neuron1=128, learning_rate=decrease, layers=6, neuron2=300",0.8185483851740437
+5,ANN,"neuron1=128, learning_rate=clr, layers=6, neuron2=300",0.8225806451612904
+5,ANN,"neuron1=128, learning_rate=decrease, layers=8, neuron2=300",0.8104838651995505
+5,ANN,"neuron1=128, learning_rate=clr, layers=8, neuron2=300",0.7862903168124538
+5,Baseline,,0.6451612903225805
+5,PosNeg,,0.7217741935483871
+5,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.6532258064516129
+5,CNN,"number_of_layers=75, batch_size=32, base_learning_rate=0.001",0.6693548348642164
+5,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=100",0.641129038026256
+5,CNN,"base_learning_rate=0.1, batch_size=32, number_of_layers=50",0.6330645295881456
+5,CNN,"base_learning_rate=0.1, number_of_layers=75, batch_size=32",0.6290322609486119
+5,CNN,"base_learning_rate=0.1, batch_size=32, number_of_layers=100",0.6370967751549137

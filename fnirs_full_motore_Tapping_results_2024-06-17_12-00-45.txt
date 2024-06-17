@@ -1,0 +1,24 @@
+Classifier Results:
+====================
+Data obtained at: 2024-06-17_12-00-45
+Dataset: fnirs_full_motor
+Epoch type used for classification: Tapping
+Combine Strategy: mean
+Bad Channels Strategy: mean
+Start Time: 7.5
+K2: 10
+Stop Time: 12
+Frequency: 7.812
+The models were evaluated using hold one out with each patient.
+Theta parameters:
+SVM: {'kernel': ['rbf', 'linear'], 'C': [1.0, 10], 'gamma': ['scale', 'auto'], 'degree': [3, 5], 'coef0': [0.0, 0.5]}
+ANN: {'neuron1': [60, 128], 'neuron2': [100, 150, 300], 'layers': [6, 8], 'learning_rate': ['decrease', 'clr']}
+Baseline: {}
+PosNeg: {}
+CNN: {'base_learning_rate': [0.001, 0.1], 'number_of_layers': [50, 75, 100], 'batch_size': [32]}
+Results:
+For the SVM classifier: 0.68
+For the ANN classifier: 0.75
+For the Baseline classifier: 0.66
+For the PosNeg classifier: 0.68
+For the CNN classifier: 0.66

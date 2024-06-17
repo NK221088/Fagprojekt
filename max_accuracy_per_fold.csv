@@ -1,7 +1,6 @@
 Evaluation,Model,Parameter,Accuracy
-1,ANN,"neuron2=300, learning_rate=decrease, layers=8, neuron1=128",0.5555555555555556
-2,ANN,"learning_rate=decrease, neuron2=100, layers=8, neuron1=60",0.5555555555555556
-3,ANN,"neuron2=300, layers=6, learning_rate=decrease, neuron1=128",0.5357142857142856
-4,ANN,"learning_rate=decrease, neuron2=100, layers=8, neuron1=60",0.4642857142857142
-5,ANN,"learning_rate=clr, neuron2=100, layers=8, neuron1=60",0.3928571428571428
-6,ANN,"neuron2=100, learning_rate=decrease, layers=8, neuron1=128",0.40625
+1,ANN,"neuron1=128, neuron2=150, learning_rate=clr, layers=8",0.8306451651357836
+2,ANN,"neuron1=60, neuron2=100, learning_rate=decrease, layers=6",0.8508064535356337
+3,ANN,"neuron1=60, neuron2=150, layers=6, learning_rate=clr",0.8354430334477486
+4,ANN,"neuron1=60, neuron2=100, layers=6, learning_rate=clr",0.8356164399891683
+5,ANN,"neuron1=128, learning_rate=clr, layers=6, neuron2=300",0.8225806451612904
