@@ -36,8 +36,8 @@ K = 5
 interpolate_bad_channels = False
 
 # Plotting and saving:
-plot_epochs = True
-plot_std_fNIRS_response = True
+plot_epochs = False
+plot_std_fNIRS_response = False
 plot_accuracy_across_k_folds = True
 
 save_plot_epochs = True
@@ -61,7 +61,7 @@ Baseline.theta = {}
 PosNeg.theta = {}
 CNN.theta = {"base_learning_rate": [0.01], "number_of_layers": [100], "batch_size": [32]}
 
-modelList = [SVM, ANN, Mean, Baseline, PosNeg, CNN]
+modelList = [SVM, Baseline]
 
 ############################
 
@@ -83,9 +83,6 @@ if individuals:
 else:
     results = StratifiedCV(modelList, all_data[epoch_type], all_data["Control"], startTime = startTime, K = K, stopTime = stopTime, freq = freq)
 
-if plot_accuracy_across_k_folds:
-    plot_of_accuracy_across_k_folds(results_across_k_folds =  results, save_plot = save_plot_accuracy_across_k_folds)
-
 # Extract and format the results for each classifier
 results_string_format = {}
 for key, value in results.items():
@@ -93,6 +90,11 @@ for key, value in results.items():
     if classifier not in results_string_format:
         results_string_format[classifier] = []
     results_string_format[classifier].append(value[0])  # Append the accuracy
+
+if plot_accuracy_across_k_folds:
+    plot_of_accuracy_across_k_folds(results_across_k_folds =  results, save_plot = save_plot_accuracy_across_k_folds)
+
+
 
 # Format the results with mean and confidence intervals
 formatted_results = {classifier: f"{np.mean(acc):.3f} ± {1.96 * np.std(acc) / np.sqrt(len(acc)):.3f}" for classifier, acc in results_string_format.items()}
