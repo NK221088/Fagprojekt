@@ -72,7 +72,7 @@ SVM.theta = {"kernel": ["rbf", "linear", "poly"], "C": list(np.logspace(-2, 10, 
 # CNN.theta = {"base_learning_rate": [0.001, 0.01, 0.1], "number_of_layers": [50, 75, 100, 125], "batch_size": [32, 64, 128]}
 
 
-# ANN_AND_SVM = False
+ANN_AND_SVM = False
 # modelList = [SVM, ANN, Baseline, PosNeg, CNN]
 modelList = [SVM]
 
