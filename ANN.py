@@ -11,6 +11,7 @@ from clr_callback import CyclicLR
 import gc
 import tensorflow as tf
 import os as os
+import shutil
 
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
     def __init__(self, initial_learning_rate, decay_steps, decay_rate):
