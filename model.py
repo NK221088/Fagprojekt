@@ -17,9 +17,14 @@ class model:
             if self.name == "SVM":
                 self.theta = ["linear", "poly", "rbf", "sigmoid"]           
             elif self.name == "ANN":
-                self.theta = [103,128,153,178,203,228,253,278,303]
+                self.theta = {
+    "neuron1": [60, 128],
+    "neuron2": [100, 150, 300],
+    "layers": [6, 8],
+    "learning_rate": ["decrease", "clr"],
+}
             elif self.name == "Mean":
-                self.theta = []
+                self.theta = {}
             elif self.name == "Baseline":
                 self.theta = []
             elif self.name == "PosNeg":
