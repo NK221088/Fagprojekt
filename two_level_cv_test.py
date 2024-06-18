@@ -18,7 +18,7 @@ import shutil
 ############################
 
 # Data set:
-data_set = "fNirs_motor_full_data" # "fNIRS_Alexandros_Healthy_data" #"fNirs_motor_full_data"
+data_set = "fNIRS_Alexandros_Healthy_data" # "fNirs_motor_full_data" # "fNirs_motor_full_data"
 epoch_type = "Imagery"
 combine_strategy = "mean"
 individuals = True # CANNOT BE CHANGED IN THIS SCRIPT
@@ -38,8 +38,8 @@ interpolate_bad_channels = False
 # Plotting and saving:
 save_results = True
 
-# Models
-SVM = model(name = "SVM")
+# # Models
+# SVM = model(name = "SVM")
 ANN = model(name = "ANN")
 # Mean = model(name = "Mean")
 # Baseline = model(name = "Baseline")
@@ -58,7 +58,7 @@ ANN.theta = {
 
 
 # CNN.theta = {"base_learning_rate": [0.001, 0.1], "number_of_layers": [50, 100], "batch_size": [32]}
-SVM.theta = {"kernel": ["rbf"], "C": list(np.logspace(-2, 10, 13)), "gamma": list(np.logspace(-9, 3, 13)), "degree": [1], "coef0": [0]}
+# SVM.theta = {"kernel": ["rbf"], "C": list(np.logspace(-2, 10, 13)), "gamma": list(np.logspace(-9, 3, 13)), "degree": [1], "coef0": [0]}
 # Mean.theta = {}
 # Baseline.theta = {}
 # PosNeg.theta = {}
@@ -68,8 +68,8 @@ SVM.theta = {"kernel": ["rbf"], "C": list(np.logspace(-2, 10, 13)), "gamma": lis
 
 ANN_AND_SVM = ANN.theta.get("use_svm")
 
-mean = model('Mean')
-modelList = [SVM]
+# mean = model('Mean')
+modelList = [ANN]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
