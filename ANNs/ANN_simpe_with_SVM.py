@@ -9,7 +9,6 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 from clr_callback import CyclicLR
 import gc
-import tensorflow as tf
 import shutil
 
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
@@ -24,7 +23,8 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             initial_learning_rate=self.initial_learning_rate,
             decay_steps=self.decay_steps,
             decay_rate=self.decay_rate,
-            staircase=True)(step)
+            staircase=True
+        )(step)
         return lr / (step + 1)
     
     def get_config(self):
@@ -45,7 +45,6 @@ def extract_features(X, model):
     # Extract features
     features = feature_extractor.predict(X)
     return features
-
 
 def load_pretrained_weights(model, weights_path):
     try:
@@ -99,12 +98,8 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     # Add the output layer for binary classification
     model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
     
-    # # Build the model with dummy data
-    # dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
-    # model(dummy_data)  # This will build the model
-    
-    # Load pretrained weights if provided
-    if weights_path:
+    # Load pretrained weights if the flag is set and path is provided
+    if theta.get("use_transfer_learning", False) and weights_path:
         load_pretrained_weights(model, weights_path)
         
     loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False)
@@ -150,23 +145,25 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
     model(dummy_data)  # This will build the model
 
-    # Create the feature extractor model
-    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
+    # Create the feature extractor model if using SVM
+    if theta.get("use_svm", False):
+        feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
+        
+        # Extract features from the trained network
+        train_features = feature_extractor.predict(X_train)
+        test_features = feature_extractor.predict(X_test)
+
+        # Train an SVM on the extracted features
+        svm = SVC(kernel='rbf')
+        svm.fit(train_features, ytrain)
+
+        # Evaluate the SVM
+        y_pred = svm.predict(test_features)
+        accuracy = accuracy_score(ytest, y_pred)
+    else:
+        # Directly evaluate the ANN model
+        loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
     
-    # Extract features from the trained network
-    train_features = feature_extractor.predict(X_train)
-    test_features = feature_extractor.predict(X_test)
-
-    # Train an SVM on the extracted features
-    svm = SVC(kernel='rbf')
-    svm.fit(train_features, ytrain)
-
-    # Evaluate the SVM
-    y_pred = svm.predict(test_features)
-    accuracy = accuracy_score(ytest, y_pred)
-    
-    # loss, accuracy = model.evaluate(X_test,  y_test, verbose=0)
-
     # Clear session and delete model to free up memory
     tf.keras.backend.clear_session()
     del model

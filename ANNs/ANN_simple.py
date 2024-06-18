@@ -9,7 +9,6 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 from clr_callback import CyclicLR
 import gc
-import os
 import shutil
 
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
@@ -24,7 +23,8 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             initial_learning_rate=self.initial_learning_rate,
             decay_steps=self.decay_steps,
             decay_rate=self.decay_rate,
-            staircase=True)(step)
+            staircase=True
+        )(step)
         return lr / (step + 1)
     
     def get_config(self):
@@ -33,13 +33,42 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             "decay_steps": self.decay_steps,
             "decay_rate": self.decay_rate,
         }
+    
+def extract_features(X, model):
+    # Build the model by making a dummy prediction
+    dummy_data = tf.zeros((1, *X.shape[1:]))
+    model.predict(dummy_data)
+    
+    # Create the feature extractor model
+    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
+    
+    # Extract features
+    features = feature_extractor.predict(X)
+    return features
 
+def load_pretrained_weights(model, weights_path):
+    try:
+        # Load the model without loading its architecture
+        pretrained_model = tf.keras.models.load_model(weights_path, compile=False)
+
+        # Extract weights from the pretrained model
+        pretrained_weights = pretrained_model.layers[3].get_weights()
+
+        # Set the weights of the specific layer in the main model
+        model.layers[3].set_weights(pretrained_weights)
+
+        print("Pretrained weights loaded successfully.")
+    except Exception as e:
+        print(f"Error loading pretrained weights: {e}")
+
+# Define your ANN_classifier function (main part of the script)
 def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
+    weights_path = "encoder_weights.h5"
+    
     # Allow memory growth for the GPU
     physical_devices = tf.config.list_physical_devices('GPU')
     if physical_devices:
         try:
-            # Set memory growth to avoid allocating all GPU memory at once
             tf.config.experimental.set_memory_growth(physical_devices[0], True)
         except RuntimeError as e:
             print(e)
@@ -57,42 +86,32 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     # Define your model
     model = tf.keras.models.Sequential()
     model.add(tf.keras.layers.Flatten(input_shape=(X_train.shape[1], X_train.shape[2])))
-    model.add(tf.keras.layers.Dense(theta["neuron1"], activation='relu'))
+    model.add(tf.keras.layers.Dense(16, activation='relu'))
     model.add(tf.keras.layers.Dropout(0.2))
-    
-    if theta["layers"] == 6:
-        model.add(tf.keras.layers.Dense(theta["neuron2"], activation='relu'))
-        model.add(tf.keras.layers.Dropout(0.2))
-    
+    model.add(tf.keras.layers.Dense(205, activation='relu'))
+    model.add(tf.keras.layers.Dropout(0.2))
+        
     if theta["layers"] == 8:
-        model.add(tf.keras.layers.Dense(theta["neuron2"], activation='relu'))
+        model.add(tf.keras.layers.Dense(theta["neurons2"], activation='relu'))
         model.add(tf.keras.layers.Dropout(0.2))
-        model.add(tf.keras.layers.Dense(theta["neuron1"], activation='relu'))
-        model.add(tf.keras.layers.Dropout(0.2))
-    
     
     # Add the output layer for binary classification
     model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
     
+    # Load pretrained weights if the flag is set and path is provided
+    if theta.get("use_transfer_learning", False) and weights_path:
+        load_pretrained_weights(model, weights_path)
+        
     loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False)
-    epochs = 300
+    epochs = 150
     batch_size = 100
+
     log_dir = "logs/"
-    # Clear old logs
-    for file in os.listdir(log_dir):
-        file_path = os.path.join(log_dir, file)
-        try:
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
-        except Exception as e:
-            print(f'Failed to delete {file_path}. Reason: {e}')
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
-    
+
     if theta["learning_rate"] == "decrease":
-        initial_learning_rate = 0.001
-        decay_steps = tf.constant(50, dtype=tf.int64)
+        initial_learning_rate = 0.01
+        decay_steps = 10
         decay_rate = 0.9
         
         optimizer = tf.keras.optimizers.Adam(
@@ -102,16 +121,16 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
                 decay_rate=decay_rate,
             )
         )
+        
         model.compile(optimizer=optimizer,
-                      loss=loss_fn, 
+                      loss=loss_fn,
                       metrics=['accuracy'])
-        
         model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback], verbose=0)
-        
+                
     elif theta["learning_rate"] == "clr":
-        initial_learning_rate = 0.0001
-        max_learning_rate = 0.001
-        step_size = 20
+        initial_learning_rate = 0.01
+        max_learning_rate = 0.02
+        step_size = 10
         
         optimizer = tf.keras.optimizers.Adam()
     
@@ -121,12 +140,33 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
 
         clr = CyclicLR(base_lr=initial_learning_rate, max_lr=max_learning_rate, step_size=step_size, mode='exp_range')
         model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback, clr], verbose=0)
-    
-    loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
+
+    # Ensure the model is built
+    dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
+    model(dummy_data)  # This will build the model
+
+    # Create the feature extractor model if using SVM
+    if theta.get("use_svm", False):
+        feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
+        
+        # Extract features from the trained network
+        train_features = feature_extractor.predict(X_train)
+        test_features = feature_extractor.predict(X_test)
+
+        # Train an SVM on the extracted features
+        svm = SVC(kernel='rbf')
+        svm.fit(train_features, ytrain)
+
+        # Evaluate the SVM
+        y_pred = svm.predict(test_features)
+        accuracy = accuracy_score(ytest, y_pred)
+    else:
+        # Directly evaluate the ANN model
+        loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
     
     # Clear session and delete model to free up memory
     tf.keras.backend.clear_session()
     del model
     gc.collect()
-    
+
     return accuracy
