@@ -73,7 +73,7 @@ PosNeg.theta = {}
 # CNN.theta = {"base_learning_rate": [0.001, 0.01, 0.1], "number_of_layers": [50, 75, 100, 125], "batch_size": [32, 64, 128]}
 
 
-ANN_AND_SVM = False
+ANN_AND_SVM = True
 
 mean = model('Mean')
 modelList = [Mean, ANN, CNN, SVM, Baseline, PosNeg]
