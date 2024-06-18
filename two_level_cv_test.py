@@ -47,14 +47,26 @@ ANN = model(name = "ANN")
 # CNN = model(name = "CNN")
 
 ANN.theta = {
-   "neuron1": [60, 128],
-   "neuron2": [100, 150, 300],
-   "layers": [6, 8],
-   "learning_rate": ["decrease", "clr"],
-   "use_svm" : [True],
-   "use_transfer_learning": [True],
-   
+     "neuron1": [60, 128],
+     "neuron2": [100, 300],
+     "layers": [6, 8],
+     "learning_rate": ["decrease", "clr"],
+     "layer_type": ["dense", "conv1d", "lstm"],
+     "activation_function": ["relu", "elu"],
+     "dropout_rate": [0.3],
+     "use_svm" : [True],
+     "use_transfer_learning": [True],
 }
+
+# ANN.theta = {
+#    "neuron1": [60, 128],
+#    "neuron2": [100, 150, 300],
+#    "layers": [6, 8],
+#    "learning_rate": ["decrease", "clr"],
+#    "use_svm" : [True],
+#    "use_transfer_learning": [True],
+   
+# }
 
 
 # CNN.theta = {"base_learning_rate": [0.001, 0.1], "number_of_layers": [50, 100], "batch_size": [32]}

@@ -9,8 +9,7 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 from clr_callback import CyclicLR
 import gc
-import tensorflow as tf
-import os as os
+import os
 import shutil
 
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
@@ -20,7 +19,7 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
         self.decay_rate = decay_rate
 
     def __call__(self, step):
-        step = tf.cast(step, tf.float32)  # Cast step to tf.float32
+        step = tf.cast(step, tf.float32)
         lr = tf.keras.optimizers.schedules.ExponentialDecay(
             initial_learning_rate=self.initial_learning_rate,
             decay_steps=self.decay_steps,
@@ -36,19 +35,22 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
         }
 
 def extract_features(X, model):
-    # Build the model by making a dummy prediction
     dummy_data = tf.zeros((1, *X.shape[1:]))
     model.predict(dummy_data)
-    
-    # Create the feature extractor model
     feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
-    
-    # Extract features
     features = feature_extractor.predict(X)
     return features
 
+def load_pretrained_weights(model, weights_path):
+    try:
+        pretrained_model = tf.keras.models.load_model(weights_path, compile=False)
+        pretrained_weights = pretrained_model.layers[3].get_weights()
+        model.layers[3].set_weights(pretrained_weights)
+        print("Pretrained weights loaded successfully.")
+    except Exception as e:
+        print(f"Error loading pretrained weights: {e}")
+
 def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
-    # Allow memory growth for the GPU
     physical_devices = tf.config.list_physical_devices('GPU')
     if physical_devices:
         try:
@@ -66,14 +68,11 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     y_test = tf.convert_to_tensor(ytest)
     y_test = tf.cast(y_test, tf.int32)
 
-    # Define your model
     model = tf.keras.models.Sequential()
 
-    # Flatten input if necessary
     if theta.get("layer_type") == "dense":
         model.add(tf.keras.layers.Flatten(input_shape=(X_train.shape[1], X_train.shape[2])))
 
-    # Define activation function
     def get_activation_function(name):
         if name == "leakyrelu":
             return tf.keras.layers.LeakyReLU()
@@ -83,12 +82,9 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             return tf.keras.activations.relu
 
     activation_function = get_activation_function(theta.get("activation_function", "relu"))
-
-    # Retrieve dropout rate or set default
     dropout_rate = theta.get("dropout_rate", 0.2)
-    initial_dropout_rate = dropout_rate * 0.5  # Scaling down for initial layers
+    initial_dropout_rate = dropout_rate * 0.5
 
-    # Add initial layers based on the type specified in theta
     if theta.get("layer_type") == "conv1d":
         model.add(tf.keras.layers.Conv1D(filters=theta["neuron1"], kernel_size=3, activation=activation_function, input_shape=(X_train.shape[1], X_train.shape[2])))
         model.add(tf.keras.layers.MaxPooling1D(pool_size=2))
@@ -101,7 +97,6 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         model.add(tf.keras.layers.Dense(theta["neuron1"], activation=activation_function))
         model.add(tf.keras.layers.Dropout(initial_dropout_rate))
 
-    # Add additional layers based on theta["layers"]
     if theta["layers"] == 6:
         if theta.get("layer_type") == "conv1d":
             model.add(tf.keras.layers.Conv1D(filters=theta["neuron2"], kernel_size=3, activation=activation_function))
@@ -126,16 +121,18 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             model.add(tf.keras.layers.Dense(theta["neuron1"], activation=activation_function))
         model.add(tf.keras.layers.Dropout(dropout_rate))
 
-    # Add the output layer for binary classification
     model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
 
-    # Compile the model
+    if theta.get("use_transfer_learning", False):
+        weights_path = "encoder_weights.h5"
+        if weights_path:
+            load_pretrained_weights(model, weights_path)
+
     loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False)
     epochs = 300
     batch_size = 100
     log_dir = "logs/"
-    
-    # Clear old logs
+
     for file in os.listdir(log_dir):
         file_path = os.path.join(log_dir, file)
         try:
@@ -171,26 +168,22 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         clr = CyclicLR(base_lr=initial_learning_rate, max_lr=max_learning_rate, step_size=step_size, mode='exp_range')
         model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback, clr], verbose=0)
 
-    # Ensure the model is built
     dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
-    model(dummy_data)  # This will build the model
+    model(dummy_data)
 
-    # Create the feature extractor model
-    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
-    
-    # Extract features from the trained network
-    train_features = feature_extractor.predict(X_train)
-    test_features = feature_extractor.predict(X_test)
+    if theta.get("use_svm", False):
+        feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
+        train_features = feature_extractor.predict(X_train)
+        test_features = feature_extractor.predict(X_test)
 
-    # Train an SVM on the extracted features
-    svm = SVC(kernel='rbf')
-    svm.fit(train_features, ytrain)
+        svm = SVC(kernel='rbf')
+        svm.fit(train_features, ytrain)
 
-    # Evaluate the SVM
-    y_pred = svm.predict(test_features)
-    accuracy = accuracy_score(ytest, y_pred)
+        y_pred = svm.predict(test_features)
+        accuracy = accuracy_score(ytest, y_pred)
+    else:
+        loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
 
-    # Clear session and delete model to free up memory
     tf.keras.backend.clear_session()
     del model
     gc.collect()
