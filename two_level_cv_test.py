@@ -18,8 +18,8 @@ import shutil
 ############################
 
 # Data set:
-data_set = "fNirs_motor_full_data" # "fNIRS_Alexandros_Healthy_data" # "fNirs_motor_full_data" #"fNirs_motor_full_data"
-epoch_type = "Tapping"
+data_set = "fNIRS_Alexandros_Healthy_data" # "fNirs_motor_full_data" #  "fNirs_motor_full_data" #"fNirs_motor_full_data"
+epoch_type = "Imagery"
 combine_strategy = "mean"
 individuals = True # CANNOT BE CHANGED IN THIS SCRIPT
 if not individuals:
