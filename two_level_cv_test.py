@@ -40,7 +40,6 @@ save_results = True
 
 # Models
 SVM = model(name = "SVM")
-ANN_SVM = model(name = "ANN")
 ANN = model(name = "ANN")
 # Mean = model(name = "Mean")
 Baseline = model(name = "Baseline")

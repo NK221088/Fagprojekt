@@ -130,7 +130,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback], verbose=0)
                 
     elif theta["learning_rate"] == "clr":
-        initial_learning_rate = 0.01
+        initial_learning_rate = 0.001
         max_learning_rate = 0.02
         step_size = 10
         
