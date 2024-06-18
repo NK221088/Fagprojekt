@@ -92,7 +92,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     model.add(tf.keras.layers.Dropout(0.2))
         
     if theta["layers"] == 8:
-        model.add(tf.keras.layers.Dense(theta["neurons2"], activation='relu'))
+        model.add(tf.keras.layers.Dense(theta["neuron2"], activation='relu'))
         model.add(tf.keras.layers.Dropout(0.2))
     
     # Add the output layer for binary classification
