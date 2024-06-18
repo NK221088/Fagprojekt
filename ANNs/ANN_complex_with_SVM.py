@@ -85,13 +85,13 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         model.add(tf.keras.layers.Conv1D(filters=theta["neuron1"], kernel_size=kernel_size, activation=activation_function, padding='same'))
         model.add(tf.keras.layers.Flatten())
 
-    model.add(tf.keras.layers.Dense(16, activation=activation_function))
+    model.add(tf.keras.layers.Dense(theta["neuron2"], activation=activation_function))
     model.add(tf.keras.layers.Dropout(0.2))
-    model.add(tf.keras.layers.Dense(205, activation=activation_function))
+    model.add(tf.keras.layers.Dense(theta["neuron2"], activation=activation_function))
     model.add(tf.keras.layers.Dropout(0.2))
         
     if theta["layers"] == 8:
-        model.add(tf.keras.layers.Dense(theta["neurons2"], activation=activation_function))
+        model.add(tf.keras.layers.Dense(theta["neuron1"], activation=activation_function))
         model.add(tf.keras.layers.Dropout(0.2))
     
     # Add the output layer for binary classification

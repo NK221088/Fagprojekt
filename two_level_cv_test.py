@@ -39,31 +39,31 @@ interpolate_bad_channels = False
 save_results = True
 
 # Models
-SVM = model(name = "SVM")
+# SVM = model(name = "SVM")
 ANN = model(name = "ANN")
 # Mean = model(name = "Mean")
-Baseline = model(name = "Baseline")
+# Baseline = model(name = "Baseline")
 # PosNeg = model(name = "PosNeg")
-CNN = model(name = "CNN")
-
-# ANN.theta = {
-#      "neuron1": [60, 128],
-#      "neuron2": [100, 300],
-#      "layers": [6, 8],
-#      "learning_rate": ["decrease", "clr"],
-#      "layer_type": ["dense", "conv1d", "lstm"],
-#      "activation_function": ["relu", "elu"],
-#      "dropout_rate": [0.3]
-# }
+# CNN = model(name = "CNN")
 
 ANN.theta = {
-   "neuron1": [60, 128],
-   "neuron2": [100, 150, 300],
-   "layers": [6, 8],
-   "learning_rate": ["decrease", "clr"],
-   "use_transfer_learning": [True, False],
-   "use_svm": [True, False],
+     "neuron1": [60, 128],
+     "neuron2": [100, 300],
+     "layers": [6, 8],
+     "learning_rate": ["decrease", "clr"],
+     "layer_type": ["dense", "conv1d", "lstm"],
+     "activation_function": ["relu", "elu"],
+     "dropout_rate": [0.3]
 }
+
+# ANN.theta = {
+#    "neuron1": [60, 128],
+#    "neuron2": [100, 150, 300],
+#    "layers": [6, 8],
+#    "learning_rate": ["decrease", "clr"],
+#    "use_transfer_learning": [True, False],
+#    "use_svm": [True, False],
+# }
 
 
 CNN.theta = {"base_learning_rate": [0.001, 0.1], "number_of_layers": [50, 100], "batch_size": [32]}
