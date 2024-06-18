@@ -10,6 +10,7 @@ from sklearn.metrics import accuracy_score
 from clr_callback import CyclicLR
 import gc
 import os
+import os
 import shutil
 
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
@@ -37,7 +38,7 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
 def extract_features(X, model):
     dummy_data = tf.zeros((1, *X.shape[1:]))
     model.predict(dummy_data)
-    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
+    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-4].output)
     features = feature_extractor.predict(X)
     return features
 
@@ -67,6 +68,9 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     X_test = tf.convert_to_tensor(Xtest)
     y_test = tf.convert_to_tensor(ytest)
     y_test = tf.cast(y_test, tf.int32)
+    # Our vectorized labels
+    y_train = np.asarray(y_train).astype('float32').reshape((-1,1))
+    y_test = np.asarray(y_test).astype('float32').reshape((-1,1))
 
     model = tf.keras.models.Sequential()
 
@@ -120,7 +124,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             model.add(tf.keras.layers.Dropout(dropout_rate))
             model.add(tf.keras.layers.Dense(theta["neuron1"], activation=activation_function))
         model.add(tf.keras.layers.Dropout(dropout_rate))
-
+    
     model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
 
     if theta.get("use_transfer_learning", False):
@@ -143,7 +147,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         except Exception as e:
             print(f'Failed to delete {file_path}. Reason: {e}')
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
-
+    
     if theta["learning_rate"] == "decrease":
         initial_learning_rate = 0.001
         decay_steps = 50
@@ -187,5 +191,5 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     tf.keras.backend.clear_session()
     del model
     gc.collect()
-
+    
     return accuracy

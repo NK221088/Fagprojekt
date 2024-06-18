@@ -38,7 +38,7 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
 def extract_features(X, model):
     dummy_data = tf.zeros((1, *X.shape[1:]))
     model.predict(dummy_data)
-    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
+    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-4].output)
     features = feature_extractor.predict(X)
     return features
 
@@ -55,7 +55,6 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     physical_devices = tf.config.list_physical_devices('GPU')
     if physical_devices:
         try:
-            # Set memory growth to avoid allocating all GPU memory at once
             tf.config.experimental.set_memory_growth(physical_devices[0], True)
         except RuntimeError as e:
             print(e)
@@ -69,6 +68,9 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     X_test = tf.convert_to_tensor(Xtest)
     y_test = tf.convert_to_tensor(ytest)
     y_test = tf.cast(y_test, tf.int32)
+    # Our vectorized labels
+    y_train = np.asarray(y_train).astype('float32').reshape((-1,1))
+    y_test = np.asarray(y_test).astype('float32').reshape((-1,1))
 
     model = tf.keras.models.Sequential()
 
@@ -122,7 +124,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             model.add(tf.keras.layers.Dropout(dropout_rate))
             model.add(tf.keras.layers.Dense(theta["neuron1"], activation=activation_function))
         model.add(tf.keras.layers.Dropout(dropout_rate))
-
+    
     model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
 
     if theta.get("use_transfer_learning", False):
@@ -131,7 +133,6 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             load_pretrained_weights(model, weights_path)
 
     loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False)
-    epochs = 300
     epochs = 300
     batch_size = 100
     log_dir = "logs/"
@@ -192,4 +193,3 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     gc.collect()
     
     return accuracy
-
