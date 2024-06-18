@@ -40,7 +40,6 @@ save_results = True
 
 # Models
 SVM = model(name = "SVM")
-ANN_SVM = model(name = "ANN")
 ANN = model(name = "ANN")
 # Mean = model(name = "Mean")
 Baseline = model(name = "Baseline")
@@ -57,22 +56,13 @@ CNN = model(name = "CNN")
 #      "dropout_rate": [0.3]
 # }
 
-ANN_SVM.theta = {
+ANN.theta = {
    "neuron1": [60, 128],
    "neuron2": [100, 150, 300],
    "layers": [6, 8],
    "learning_rate": ["decrease", "clr"],
-   "use_transfer_learning": [True],
-   "use_svm": [True],
-}
-
-ANN = {
-   "neuron1": [60, 128],
-   "neuron2": [100, 150, 300],
-   "layers": [6, 8],
-   "learning_rate": ["decrease", "clr"],
-   "use_transfer_learning": [False],
-   "use_svm": [False],
+   "use_transfer_learning": [True, False],
+   "use_svm": [True, False],
 }
 
 
@@ -85,7 +75,7 @@ Baseline.theta = {}
 ANN_AND_SVM = True
 
 # mean = model('Mean')
-modelList = [ANN_SVM, ANN, CNN, SVM, Baseline]
+modelList = [ANN, CNN, SVM, Baseline]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
