@@ -61,8 +61,8 @@ ANN.theta = {
    "neuron2": [100, 150, 300],
    "layers": [6, 8],
    "learning_rate": ["decrease", "clr"],
-   "use_svm" : True,
-   "use_transfer_learning": True,
+   "use_svm" : [True],
+   "use_transfer_learning": [True],
    
 }
 
