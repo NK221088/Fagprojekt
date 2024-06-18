@@ -39,44 +39,53 @@ interpolate_bad_channels = False
 save_results = True
 
 # Models
-# SVM = model(name = "SVM")
+SVM = model(name = "SVM")
+ANN_SVM = model(name = "ANN")
 ANN = model(name = "ANN")
 # Mean = model(name = "Mean")
-# Baseline = model(name = "Baseline")
+Baseline = model(name = "Baseline")
 # PosNeg = model(name = "PosNeg")
-# CNN = model(name = "CNN")
+CNN = model(name = "CNN")
 
-ANN.theta = {
-     "neuron1": [60, 128],
-     "neuron2": [100, 300],
-     "layers": [6, 8],
-     "learning_rate": ["decrease", "clr"],
-     "layer_type": ["dense", "conv1d", "lstm"],
-     "activation_function": ["relu", "elu"],
-     "dropout_rate": [0.3]
-}
+# ANN.theta = {
+#      "neuron1": [60, 128],
+#      "neuron2": [100, 300],
+#      "layers": [6, 8],
+#      "learning_rate": ["decrease", "clr"],
+#      "layer_type": ["dense", "conv1d", "lstm"],
+#      "activation_function": ["relu", "elu"],
+#      "dropout_rate": [0.3]
+# }
 
-ANN.theta = {
+ANN_SVM.theta = {
    "neuron1": [60, 128],
    "neuron2": [100, 150, 300],
    "layers": [6, 8],
    "learning_rate": ["decrease", "clr"],
+   "use_transfer_learning": [True],
+   "use_svm": [True],
+}
+
+ANN = {
+   "neuron1": [60, 128],
+   "neuron2": [100, 150, 300],
+   "layers": [6, 8],
+   "learning_rate": ["decrease", "clr"],
+   "use_transfer_learning": [False],
+   "use_svm": [False],
 }
 
 
-# CNN.theta = {"base_learning_rate": [0.001, 0.1], "number_of_layers": [50, 100], "batch_size": [32]}
-# SVM.theta = {"kernel": ["rbf", "linear", "poly"], "C": list(np.logspace(-2, 10, 13)), "gamma": list(np.logspace(-9, 3, 13)), "degree": [1,2,3,4,5], "coef0": [0]}
+CNN.theta = {"base_learning_rate": [0.001, 0.1], "number_of_layers": [50, 100], "batch_size": [32]}
+SVM.theta = {"kernel": ["rbf", "linear", "poly"], "C": list(np.logspace(-2, 10, 13)), "gamma": list(np.logspace(-9, 3, 13)), "degree": [1,2,3,4,5], "coef0": [0]}
 # Mean.theta = {}
-# Baseline.theta = {}
+Baseline.theta = {}
 # PosNeg.theta = {}
-
-# CNN.theta = {"base_learning_rate": [0.001, 0.01, 0.1], "number_of_layers": [50, 75, 100, 125], "batch_size": [32, 64, 128]}
-
 
 ANN_AND_SVM = True
 
 # mean = model('Mean')
-modelList = [ANN]
+modelList = [ANN_SVM, ANN, CNN, SVM, Baseline]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
