@@ -11,13 +11,15 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, baye
     dataset = {participant.name: participant.events for participant in dataset}
     
     
-    dataset_array = {'Tapping': [], 'Control': []}
+    dataArray = {'Tapping': [], 'Control': []}
     
     for patient, pdata in dataset.items():
               
         for data_type in pdata:
-            dataset_array[data_type].append(pdata[data_type])
-    
+            dataArray[data_type].append(pdata[data_type])
+        
+    for data_type in dataArray.keys():
+        dataArray[data_type] = np.vstack(dataArray[data_type])
     
     
     E_genList = []
