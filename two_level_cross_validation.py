@@ -6,7 +6,7 @@ from ICA import ICA
 
 def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, bayes_opt,data_types, freq = 7.81, use_ica = True):
     
-    
+
 
     dataset = {participant.name: participant.events for participant in dataset}
     
@@ -21,6 +21,7 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, baye
     for data_type in dataArray.keys():
         dataArray[data_type] = np.vstack(dataArray[data_type])
     
+    ica = ICA(dataArray, data_types)
     
     E_genList = []
 
@@ -66,7 +67,7 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, baye
             ytest = np.concatenate((np.ones(tappingArray_test.shape[0]), np.zeros(controlArray_test.shape[0])))[test_randomizer] 
             
             
-            E_val = StratifiedCV(modelList = modelList, tappingArray = tappingArray_par, controlArray = controlArray_par, startTime = startTime, stopTime = stopTime, freq = freq, K = K2, n_features=5, use_ica = use_ica, bayes_opt=bayes_opt)
+            E_val = StratifiedCV(modelList = modelList, tappingArray = tappingArray_par, controlArray = controlArray_par, startTime = startTime, stopTime = stopTime, freq = freq, K = K2, use_ica = use_ica, bayes_opt=bayes_opt, ica = ica)
             
             outer_pbar.update(1)
             E_gen = {}  # Initialize the outer dictionary

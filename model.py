@@ -68,8 +68,7 @@ class model:
     def getTheta(self):
         return self.theta
     
-    def load(self, Xtrain, Xtest, ytrain, ytest, n):
-        self.n = n
+    def load(self, Xtrain, Xtest, ytrain, ytest):
         self.Xtrain = Xtrain
         self.Xtest = Xtest
         self.ytrain = ytrain

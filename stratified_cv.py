@@ -11,7 +11,7 @@ from bayes_opt import BayesianOptimization
 from ICA import ICA
 
 
-def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_features, bayes_opt,use_ica, K = 4, freq = 7.81):
+def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, bayes_opt,use_ica, K = 4, freq = 7.81, **kwargs):
     
     E_val = {}
     
@@ -69,14 +69,18 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_f
             if use_ica == True:
                 for model in modelList:
                     model.useICA = True
-                Xtrain, Xtest = ICA(Xtrain = Xtrain, Xtest = Xtest, n_components=n_features, plot = False, save_plot = False)
-            
+                
+                ica = kwargs['ica']
+                
+                Xtrain = ica.transform(np.median(Xtrain, axis = 2))
+                Xtest = ica.transform(np.median(Xtest, axis = 2))
+
             if bayes_opt:
                 
                 for model in modelList:
 
-                    model.load(Xtest = Xtest, Xtrain = Xtrain, ytrain = ytrain, ytest = ytest, n = n_features)
-                    pbounds = {**model.gaussian_bound,**{f'Feature_{i}': (0,1) for i in range(n_features)}}   
+                    model.load(Xtest = Xtest, Xtrain = Xtrain, ytrain = ytrain, ytest = ytest, n = 2)
+                    pbounds = {**model.gaussian_bound,**{f'Feature_{i}': (0,1) for i in range(2)}}   
                     optimizer = BayesianOptimization(f = model.objective_function, pbounds = pbounds)
                     optimizer.maximize(init_points=0,n_iter=10)
                     E_val[model.name][i] = (optimizer.max['target'],optimizer.max['params'])
@@ -89,7 +93,8 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, n_f
                     for combination in itertools.product(*param_values):
                         theta = dict(zip(param_keys, combination))
                         inner_pbar.set_description(f'Currently evaluating ' + model.name + f' on parameter ' + str(theta))
-                        E_val[(model.name, i, frozenset(theta.items()))] = (model.train(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta), len(ytest))
+                        model.load(Xtrain = Xtrain, Xtest = Xtest, ytrain = ytrain, ytest = ytest)
+                        E_val[(model.name, i, frozenset(theta.items()))] = (model.train(theta = theta), len(ytest))
             
 
             k0_tapping += kernelTapping #Updating kernel.
