@@ -44,8 +44,8 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         except RuntimeError as e:
             print(e)
     
-    Xtest = (Xtest - np.mean(Xtrain, axis=0)) / np.std(Xtrain, axis=0)
-    Xtrain = (Xtrain - np.mean(Xtrain, axis=0)) / np.std(Xtrain, axis=0)
+    #Xtest = (Xtest - np.mean(Xtrain, axis=0)) / np.std(Xtrain, axis=0)
+    #Xtrain = (Xtrain - np.mean(Xtrain, axis=0)) / np.std(Xtrain, axis=0)
     
     X_train = tf.convert_to_tensor(Xtrain)
     y_train = tf.convert_to_tensor(ytrain)
@@ -56,7 +56,11 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     
     # Define your model
     model = tf.keras.models.Sequential()
-    model.add(tf.keras.layers.Flatten(input_shape=(X_train.shape[1], X_train.shape[2])))
+    if Xtrain.ndim == 3:
+        model.add(tf.keras.layers.Flatten(input_shape=(X_train.shape[1], X_train.shape[2])))
+    else:
+        model.add(tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1],)))
+        
     model.add(tf.keras.layers.Dense(theta["neuron1"], activation='relu'))
     model.add(tf.keras.layers.Dropout(0.2))
     
