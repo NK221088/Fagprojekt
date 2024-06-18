@@ -4,14 +4,14 @@ from tqdm import tqdm
 import itertools
 from ICA import ICA
 
-def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, bayes_opt, freq = 7.81, use_ica = True):
+def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, bayes_opt,data_types, freq = 7.81, use_ica = True):
     
     
 
     dataset = {participant.name: participant.events for participant in dataset}
     
     
-    dataArray = {'Tapping': [], 'Control': []}
+    dataArray = {data_types[0]: [], data_types[1]: []}
     
     for patient, pdata in dataset.items():
               
@@ -37,7 +37,7 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, baye
             D_test = {data_type: data[data_type] for data_type in data}
             tappingArray_par = np.array([])
             controlArray_par = np.array([])
-            D_par = {'Tapping': [], 'Control': []}
+            D_par = {data_types[0]: [], data_types[1]: []}
             for patient, pdata in dataset.items():
                 if patient != participant:
                     for data_type in pdata:
@@ -47,11 +47,11 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, baye
                 D_par[data_type] = np.vstack(D_par[data_type])
                     
             
-            tappingArray_par = D_par["Tapping"]
-            controlArray_par = D_par["Control"]
+            tappingArray_par = D_par[data_types[0]]
+            controlArray_par = D_par[data_types[1]]
             
-            tappingArray_test = D_test["Tapping"]
-            controlArray_test = D_test["Control"]
+            tappingArray_test = D_test[data_types[0]]
+            controlArray_test = D_test[data_types[1]]
             
             train_size = tappingArray_par.shape[0] + controlArray_par.shape[0]
             test_size =  tappingArray_test.shape[0] + controlArray_test.shape[0]           
