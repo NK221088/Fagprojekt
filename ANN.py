@@ -10,6 +10,7 @@ from sklearn.metrics import accuracy_score
 from clr_callback import CyclicLR
 import gc
 import os
+import os
 import shutil
 
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
@@ -24,6 +25,7 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             initial_learning_rate=self.initial_learning_rate,
             decay_steps=self.decay_steps,
             decay_rate=self.decay_rate,
+            staircase=True)(step)
             staircase=True)(step)
         return lr / (step + 1)
     
@@ -54,6 +56,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     physical_devices = tf.config.list_physical_devices('GPU')
     if physical_devices:
         try:
+            # Set memory growth to avoid allocating all GPU memory at once
             tf.config.experimental.set_memory_growth(physical_devices[0], True)
         except RuntimeError as e:
             print(e)
@@ -130,6 +133,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
 
     loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False)
     epochs = 300
+    epochs = 300
     batch_size = 100
     log_dir = "logs/"
 
@@ -143,7 +147,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         except Exception as e:
             print(f'Failed to delete {file_path}. Reason: {e}')
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
-
+    
     if theta["learning_rate"] == "decrease":
         initial_learning_rate = 0.001
         decay_steps = 50
@@ -187,5 +191,6 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     tf.keras.backend.clear_session()
     del model
     gc.collect()
-
+    
     return accuracy
+
