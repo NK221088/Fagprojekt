@@ -21,10 +21,14 @@ class model:
         
         if self.name == "ANN":
             self.gaussian_bound = {'neurons1': (50,70), 'neurons2': (50,200), 'layers': (0.51,3.49), 'learning_rate': (0.51,2.49)}
-        if self.name == 'SVM':
+        elif self.name == 'SVM':
             self.gaussian_bound = {'kernel': (0.5,4.5)}
-        if self.name == 'CNN':
+        elif self.name == 'CNN':
             self.gaussian_bound = {'learning_rate': (0.0001, 0.01)}
+        elif self.name == "Mean":
+            self.gaussian_bound = {}
+           
+        
         
         if theta == None:
             if self.name == "SVM":
@@ -50,7 +54,7 @@ class model:
                 return SVM_classifier(Xtrain = self.Xtrain, ytrain = self.ytrain, Xtest = self.Xtest, ytest = self.ytest, theta = theta)
         elif self.name == "ANN":
             if self.useMask:
-                return ANN_classifier(Xtrain = self.Xtrain[:,self.mask], ytrain = self.ytrain, Xtest = self.Xtest[:,self.mask], ytest = self.ytest, theta = theta, use_ica = self.useICA)
+                return ANN_classifier(Xtrain = self.Xtrain[:,self.mask], ytrain = self.ytrain, Xtest = self.Xtest[:,self.mask], ytest = self.ytest, theta = theta)
             else:
                 return ANN_classifier(Xtrain = self.Xtrain, ytrain = self.ytrain, Xtest = self.Xtest, ytest = self.ytest, theta = theta)
         elif self.name == "Mean":
@@ -76,52 +80,54 @@ class model:
         
 
         
-    def objective_function(self, **kwargs):
+    def objective_function(self, bayes = True, **kwargs):
         
         #Loading data with selected features
         self.useMask = True
         self.mask = tuple(i for i in range(self.n) if int(np.rint(kwargs[f'Feature_{i}'])) == 1)
         
-        
-        if self.name == 'ANN':
-            
-            layer_dic = {1: 4, 2: 6, 3: 8}
-            
-            if int(np.rint(kwargs['learning_rate'])) == 1:
-                kwargs['learning_rate'] = 'decrease'
+        if bayes:
+            if self.name == 'ANN':
                 
-            elif int(np.rint(kwargs['learning_rate'])) == 2:
-                kwargs['learning_rate'] = 'clr'
-            
-            
-            kwargs['layers'] = layer_dic[int(np.rint(kwargs['layers']))]
+                layer_dic = {1: 4, 2: 6, 3: 8}
                 
-            kwargs['neurons1'] = int(np.rint(kwargs['neurons1']))
-            
-            kwargs['neurons2'] = int(np.rint(kwargs['neurons2']))
-            
+                if int(np.rint(kwargs['learning_rate'])) == 1:
+                    kwargs['learning_rate'] = 'decrease'
+                    
+                elif int(np.rint(kwargs['learning_rate'])) == 2:
+                    kwargs['learning_rate'] = 'clr'
                 
+                
+                kwargs['layers'] = layer_dic[int(np.rint(kwargs['layers']))]
+                    
+                kwargs['neurons1'] = int(np.rint(kwargs['neurons1']))
+                
+                kwargs['neurons2'] = int(np.rint(kwargs['neurons2']))
+                
+                    
+                return self.train(kwargs)
+            
+            elif self.name == 'SVM':
+                if int(np.rint(kwargs['kernel'])) == 1:
+                    kwargs['kernel'] = 'linear'
+                    
+                elif int(np.rint(kwargs['kernel'])) == 2:
+                    kwargs['kernel'] = 'poly'
+                    
+                elif int(np.rint(kwargs['kernel'])) == 3:
+                    kwargs['kernel'] = 'rbf'
+                    
+                elif int(np.rint(kwargs['kernel'])) == 4:
+                    kwargs['kernel'] = 'sigmoid'
+                    
+                return self.train(kwargs)
+            
+            
             return self.train(kwargs)
-        
-        elif self.name == 'SVM':
-            if int(np.rint(kwargs['kernel'])) == 1:
-                kwargs['kernel'] = 'linear'
-                
-            elif int(np.rint(kwargs['kernel'])) == 2:
-                kwargs['kernel'] = 'poly'
-                
-            elif int(np.rint(kwargs['kernel'])) == 3:
-                kwargs['kernel'] = 'rbf'
-                
-            elif int(np.rint(kwargs['kernel'])) == 4:
-                kwargs['kernel'] = 'sigmoid'
-                
+        else:
             return self.train(kwargs)
-        
-        
-        return self.train(kwargs)
 
-    
+        
         
 
         

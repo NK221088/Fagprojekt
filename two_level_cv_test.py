@@ -76,7 +76,7 @@ PosNeg.theta = {}
 ANN_AND_SVM = True
 
 mean = model('Mean')
-modelList = [Mean, ANN, CNN, SVM, Baseline, PosNeg]
+modelList = [Mean, ANN, CNN, SVM, Baseline]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)

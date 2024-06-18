@@ -75,13 +75,9 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, baye
             if bayes_opt:
                 for model in modelList:
                     theta_star = max(E_val[model.name], key = E_val[model.name].get)
-                    
-                    Xtrain, Xtest = ICA(Xtrain = train_set, Xtest = test_set, n_components = 5, plot = False, save_plot = False)
-                    
-                    model.load(Xtrain = Xtrain, Xtest = Xtest, ytrain = ytrain, ytest = ytest, n = 5)
-                    
-                    
-                    E_test[model.name][count] = (model.objective_function(**E_val[model.name][theta_star][1]), test_size)
+                    Xtrain, Xtest = ICA(Xtrain = train_set, Xtest = test_set, n_components = 2, plot = False, save_plot = False)
+                    model.load(Xtrain = Xtrain, Xtest = Xtest, ytrain = ytrain, ytest = ytest)
+                    E_test[model.name][count] = (model.objective_function(bayes = True, **E_val[model.name][theta_star][1]), test_size)
                     
             else:
                 
@@ -106,7 +102,8 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, baye
                 E_genList.append(E_gen)
                 theta_star = [max(E_gen[model.name], key=E_gen[model.name].get) for model in modelList]                
                 for i, model in enumerate(modelList):
-                    E_test[model.name][count] = (model.train(Xtrain = train_set, ytrain = ytrain, Xtest = test_set, ytest = ytest, theta = dict(theta_star[i])), test_size)
+                    model.load(Xtrain = train_set, ytrain = ytrain, Xtest = test_set, ytest = ytest)
+                    E_test[model.name][count] = (model.objective_function(bayes = False, theta = dict(theta_star[i])), test_size)
             
             count += 1
     

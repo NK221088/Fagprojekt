@@ -88,13 +88,14 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, bay
             else:
                 
                 for model in modelList:
+                    model.theta = {**model.theta,**{f'Feature_{i}': [0,1] for i in range(2)}}  
                     param_keys = list(model.theta.keys())
                     param_values = [model.theta[key] for key in param_keys]
                     for combination in itertools.product(*param_values):
                         theta = dict(zip(param_keys, combination))
                         inner_pbar.set_description(f'Currently evaluating ' + model.name + f' on parameter ' + str(theta))
                         model.load(Xtrain = Xtrain, Xtest = Xtest, ytrain = ytrain, ytest = ytest)
-                        E_val[(model.name, i, frozenset(theta.items()))] = (model.train(theta = theta), len(ytest))
+                        E_val[(model.name, i, frozenset(theta.items()))] = (model.objective_function(bayes = False, **theta), len(ytest))
             
 
             k0_tapping += kernelTapping #Updating kernel.
