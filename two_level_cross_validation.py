@@ -103,7 +103,10 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, baye
                 theta_star = [max(E_gen[model.name], key=E_gen[model.name].get) for model in modelList]                
                 for i, model in enumerate(modelList):
                     model.load(Xtrain = train_set, ytrain = ytrain, Xtest = test_set, ytest = ytest)
-                    E_test[model.name][count] = (model.objective_function(bayes = False, theta = dict(theta_star[i])), test_size)
+                    if use_ica:
+                        E_test[model.name][count] = (model.objective_function(bayes = False, theta = dict(theta_star[i])), test_size)
+                    else:
+                        
             
             count += 1
     
