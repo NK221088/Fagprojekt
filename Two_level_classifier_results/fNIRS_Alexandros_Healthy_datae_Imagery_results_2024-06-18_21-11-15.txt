@@ -1,0 +1,26 @@
+Classifier Results:
+====================
+Data obtained at: 2024-06-18_21-11-15
+Dataset: fNIRS_Alexandros_Healthy_data
+Epoch type used for classification: Imagery
+Combine Strategy: mean
+Bad Channels Strategy: mean
+Start Time: 7.5
+K2: 10
+Stop Time: 12.5
+Frequency: 10.173
+The models were evaluated using hold one out with each patient.
+Theta parameters:
+Mean: {}
+ANN: {'neuron1': [60, 128], 'neuron2': [100, 150, 300], 'layers': [6, 8], 'learning_rate': ['decrease', 'clr']}
+CNN: {'base_learning_rate': [0.001, 0.1], 'number_of_layers': [50, 100], 'batch_size': [32]}
+SVM: {'kernel': ['rbf', 'linear', 'poly'], 'C': [0.01, 0.1, 1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, 10000000.0, 100000000.0, 1000000000.0, 10000000000.0], 'gamma': [1e-09, 1e-08, 1e-07, 1e-06, 1e-05, 0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0], 'degree': [1, 2, 3, 4, 5], 'coef0': [0]}
+Baseline: {}
+PosNeg: {}
+Results:
+For the Mean classifier: 0.56
+For the ANN classifier: 0.56
+For the CNN classifier: 0.5
+For the SVM classifier: 0.56
+For the Baseline classifier: 0.56
+For the PosNeg classifier: 0.56
