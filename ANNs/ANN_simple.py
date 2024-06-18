@@ -70,6 +70,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         model.add(tf.keras.layers.Dense(theta["neuron1"], activation='relu'))
         model.add(tf.keras.layers.Dropout(0.2))
     
+    
     # Add the output layer for binary classification
     model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
     

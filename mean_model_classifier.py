@@ -1,6 +1,7 @@
 import numpy as np
 def MeanModel(Xtrain, ytrain, Xtest, ytest, theta):
-    
+    ytrain = np.array(ytrain, dtype=bool)
+    ytest = np.array(ytest, dtype=bool)
     meanTapping = np.mean(Xtrain[ytrain]) #Finding the mean of tapping training set
     meanControl = np.mean(Xtrain[1 - ytrain]) #Finding the mean of control training set
     

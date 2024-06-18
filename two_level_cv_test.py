@@ -32,7 +32,7 @@ negative_correlation_enhancement = True
 threshold = 3
 startTime = 7.5
 stopTime = 12.5
-K2 = 5
+K2 = 10
 interpolate_bad_channels = False
 
 # Plotting and saving:
@@ -73,7 +73,7 @@ PosNeg.theta = {}
 # CNN.theta = {"base_learning_rate": [0.001, 0.01, 0.1], "number_of_layers": [50, 75, 100, 125], "batch_size": [32, 64, 128]}
 
 
-ANN_AND_SVM = True
+ANN_AND_SVM = False
 
 mean = model('Mean')
 modelList = [ANN, CNN, SVM, Mean, PosNeg, Baseline]
