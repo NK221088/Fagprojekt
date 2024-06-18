@@ -106,6 +106,7 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, baye
                     if use_ica:
                         E_test[model.name][count] = (model.objective_function(bayes = False, theta = dict(theta_star[i])), test_size)
                     else:
+                        E_test[model.name][count] = (model.train(Xtrain = train_set, ytrain = ytrain, Xtest = test_set, ytest = ytest, theta = dict(theta_star[i])), test_size)
                         
             
             count += 1
