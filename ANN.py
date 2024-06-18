@@ -4,14 +4,11 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from tensorflow.keras import layers, models
-from tensorflow.keras.callbacks import TensorBoard
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 from clr_callback import CyclicLR
 import gc
-import tensorflow as tf
-import os as os
-import shutil
+import os
 
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
     def __init__(self, initial_learning_rate, decay_steps, decay_rate):
@@ -133,19 +130,6 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False)
     epochs = 300
     batch_size = 100
-    log_dir = "logs/"
-    
-    # Clear old logs
-    for file in os.listdir(log_dir):
-        file_path = os.path.join(log_dir, file)
-        try:
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
-        except Exception as e:
-            print(f'Failed to delete {file_path}. Reason: {e}')
-    tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
 
     if theta["learning_rate"] == "decrease":
         initial_learning_rate = 0.001
@@ -160,7 +144,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             )
         )
         model.compile(optimizer=optimizer, loss=loss_fn, metrics=['accuracy'])
-        model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback], verbose=0)
+        model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=0)
     elif theta["learning_rate"] == "clr":
         initial_learning_rate = 0.00025
         max_learning_rate = 0.001
@@ -169,7 +153,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         optimizer = tf.keras.optimizers.Adam()
         model.compile(optimizer=optimizer, loss=loss_fn, metrics=['accuracy'])
         clr = CyclicLR(base_lr=initial_learning_rate, max_lr=max_learning_rate, step_size=step_size, mode='exp_range')
-        model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback, clr], verbose=0)
+        model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[clr], verbose=0)
 
     # Ensure the model is built
     dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
