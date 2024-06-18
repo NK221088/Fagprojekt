@@ -9,81 +9,51 @@ from model import model
 import numpy as np
 from datetime import datetime
 import csv
-import pandas as pd
-import shutil
 
+from datetime import datetime
 
 ############################
 # Settings:
 ############################
 
+
 # Data set:
-data_set = "fNIRS_Alexandros_Healthy_data" # "fNirs_motor_full_data" #"fNirs_motor_full_data"
-epoch_type = "Imagery"
+data_set = "fNirs_motor_full_data"
+epoch_type = "Tapping"
 combine_strategy = "mean"
 individuals = True # CANNOT BE CHANGED IN THIS SCRIPT
 if not individuals:
     raise Warning("This script can't run when the individual parameter is set to False.")
 
 # Data processing:
-bad_channels_strategy = "mean"
+bad_channels_strategy = "all"
 short_channel_correction = True
 negative_correlation_enhancement = True
 threshold = 3
 startTime = 7.5
 stopTime = 12.5
-K2 = 10
-interpolate_bad_channels = False
+K2 = 5
+interpolate_bad_channels = True
 
 # Plotting and saving:
 save_results = True
 
-# Models
-SVM = model(name = "SVM")
+#Models
 ANN = model(name = "ANN")
-Mean = model(name = "Mean")
-Baseline = model(name = "Baseline")
-PosNeg = model(name = "PosNeg")
-CNN = model(name = "CNN")
+# CNN = model(name = "CNN")
 
-ANN.theta = {
-     "neuron1": [60, 128],
-     "neuron2": [100, 300],
-     "layers": [6, 8],
-     "learning_rate": ["decrease", "clr"],
-     "layer_type": ["dense", "conv1d", "lstm"],
-     "activation_function": ["relu", "elu"],
-     "dropout_rate": [0.3]
-}
-
-#ANN.theta = {
-#    "neuron1": [60, 128],
-#    "neuron2": [100, 150, 300],
-#    "layers": [6, 8],
-#    "learning_rate": ["decrease", "clr"],
-#}
-
-
-CNN.theta = {"base_learning_rate": [0.001, 0.1], "number_of_layers": [50, 100], "batch_size": [32]}
-SVM.theta = {"kernel": ["rbf", "linear", "poly"], "C": list(np.logspace(-2, 10, 13)), "gamma": list(np.logspace(-9, 3, 13)), "degree": [1,2,3,4,5], "coef0": [0]}
-Mean.theta = {}
-Baseline.theta = {}
-PosNeg.theta = {}
-
-# CNN.theta = {"base_learning_rate": [0.001, 0.01, 0.1], "number_of_layers": [50, 75, 100, 125], "batch_size": [32, 64, 128]}
-
-
-ANN_AND_SVM = False
-
-mean = model('Mean')
-modelList = [ANN, Baseline]
+ANN.theta = {"neurons1": [50, 60, 70], "neurons2": [50, 100, 150, 200], "layers" : [4,6], "learning_rate": ["decrease", "clr"]}
+# CNN.theta = {"base_learning_rate": [0.01]}
+# SVM.theta = {"kernel": []}
+modelList = [ANN]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
-accuracy, E_genList, E_test = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, freq=freq, dataset = all_individuals, data_types=data_types)
+accuracy, E_genList = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, dataset = all_individuals, bayes_opt = True)
 
 # Get current date and time
 current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
 
 # Construct filename with date and time
 results_folder = "Two_level_classifier_results" # Define the folder name
@@ -103,21 +73,19 @@ if save_results:
         file.write("Frequency: {}\n".format(round(freq,3)))
         if individuals:
             file.write("The models were evaluated using hold one out with each patient.\n")
-        file.write("Theta parameters:\n")
-        for model in modelList:
-            file.write("{}: {}\n".format(model.name, model.theta))
-        if ANN_AND_SVM == True:
-            file.write("The architecture used the SVM instead of last layers.\n")
         file.write("Results:\n")
         for models, accuracy in accuracy.items():
             file.write("For the {} classifier: {}\n".format(models, np.round(accuracy,2)))
+            
+
+
     print(f"Results saved as {filename}")
 
-# Function to format parameters as strings
 def format_parameter(param):
-    return ", ".join([f"{k}={v}" for k, v in dict(param).items()])
+    # Convert frozenset to a string representation
+    param_str = ", ".join([f"{k}={v}" for k, v in dict(param).items()])
+    return param_str
 
-# Function to flatten the evaluation list
 def flatten_evallist(evallist):
     flattened_data = []
     for idx, evaluation in enumerate(evallist):
@@ -137,27 +105,13 @@ flat_data = flatten_evallist(E_genList)
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
 # Define the filename with the timestamp
-filename_gen = f"E_genList_output_{timestamp}.csv"
+filename = f"output_{timestamp}.csv"
 
 # Write the flattened data to a CSV file
-with open(filename_gen, 'w', newline='') as csvfile:
+with open(filename, 'w', newline='') as csvfile:
     fieldnames = ["Evaluation", "Model", "Parameter", "Accuracy"]
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     
     writer.writeheader()
     for row in flat_data:
         writer.writerow(row)
-
-# Create a new CSV file for E_test
-filename_test = f"E_test_output_{timestamp}.csv"
-
-# Write the E_test dictionary to a CSV file
-with open(filename_test, 'w', newline='') as csvfile:
-    fieldnames = ["Model", "E_test_Accuracy"]
-    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-    
-    writer.writeheader()
-    for model_name, accuracy in E_test.items():
-        writer.writerow({"Model": model_name, "E_test_Accuracy": accuracy})
-
-print(f"E_test results saved as {filename_test}")
