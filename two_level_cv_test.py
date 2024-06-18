@@ -46,15 +46,15 @@ ANN = model(name = "ANN")
 # PosNeg = model(name = "PosNeg")
 # CNN = model(name = "CNN")
 
-# ANN.theta = {
-#      "neuron1": [60, 128],
-#      "neuron2": [100, 300],
-#      "layers": [6, 8],
-#      "learning_rate": ["decrease", "clr"],
-#      "layer_type": ["dense", "conv1d", "lstm"],
-#      "activation_function": ["relu", "elu"],
-#      "dropout_rate": [0.3]
-# }
+ANN.theta = {
+     "neuron1": [60, 128],
+     "neuron2": [100, 300],
+     "layers": [6, 8],
+     "learning_rate": ["decrease", "clr"],
+     "layer_type": ["dense", "conv1d", "lstm"],
+     "activation_function": ["relu", "elu"],
+     "dropout_rate": [0.3]
+}
 
 ANN.theta = {
    "neuron1": [60, 128],
