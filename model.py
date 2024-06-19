@@ -35,17 +35,23 @@ class model:
         
     def train(self, Xtrain, ytrain, Xtest, ytest, theta):
         if self.name == "SVM":
-            return SVM_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
+            (accuracy, cm) = SVM_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
+            return accuracy, cm
         elif self.name == "ANN":
-            return ANN_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
+            (accuracy, cm) = ANN_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
+            return accuracy, cm
         elif self.name == "Mean":
-            return MeanModel(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)        
+            (accuracy, cm) = MeanModel(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
+            return accuracy, cm        
         elif self.name == "Baseline":
-            return BaselineModel(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
+            (accuracy, cm) = BaselineModel(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
+            return accuracy, cm
         elif self.name == "PosNeg":
-            return Positive_Negative_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
+            (accuracy, cm) = Positive_Negative_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
+            return accuracy, cm
         elif self.name == "CNN":
-            return CNN_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)[1]
+            (accuracy, cm) = CNN_classifier(Xtrain = Xtrain, ytrain = ytrain, Xtest = Xtest, ytest = ytest, theta = theta)
+            return accuracy, cm
         
     def getTheta(self):
         return self.theta

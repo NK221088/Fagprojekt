@@ -5,6 +5,8 @@ from tensorflow.keras.models import Model
 import numpy as np
 import matplotlib.pyplot as plt
 import gc
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
 
 gpus = tf.config.list_physical_devices('GPU')
 print("Num GPUs Available: ", len(gpus))
@@ -37,7 +39,6 @@ def make_dataset(X, y, batch_size=32, augment=False):
     dataset = dataset.shuffle(buffer_size=1000).batch(batch_size).prefetch(tf.data.AUTOTUNE)
     return dataset
 
-
 def plot_samples(X, n=5):
     plt.figure(figsize=(10, 2))
     for i in range(n):
@@ -46,16 +47,13 @@ def plot_samples(X, n=5):
         plt.axis('off')
     plt.show()
 
-
 def CNN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     train_dataset = make_dataset(Xtrain, ytrain, batch_size=theta["batch_size"], augment=True)
     val_dataset = make_dataset(Xtest, ytest, batch_size=theta["batch_size"])
 
     base_learning_rate = theta["base_learning_rate"]
-    # lr_schedule = ExponentialDecay(initial_learning_rate, decay_steps=100, decay_rate=0.96, staircase=True)
 
-    # Pretrained CNN model:f
-    # Load MobileNetV2 pre-trained on ImageNet without the top layer
+    # Pretrained CNN model:
     base_model = MobileNetV2(input_shape=(224, 224, 3), include_top=False, weights='imagenet')
     base_model.trainable = False
 
@@ -92,11 +90,19 @@ def CNN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     # Fine-tuning
     model.fit(train_dataset, epochs=5, initial_epoch=5, validation_data=val_dataset)
 
-    accuracy = model.evaluate(val_dataset)
-    
+    # Evaluate the model and get only the accuracy
+    loss, accuracy = model.evaluate(val_dataset)
+
+    # Predictions and confusion matrix
+    y_pred_probs = model.predict(val_dataset)
+    y_pred = (y_pred_probs > 0.5).astype(int).flatten()
+    y_true = np.concatenate([y for x, y in val_dataset], axis=0)
+
+    conf_matrix = confusion_matrix(y_true, y_pred)
+
     # Clear session and delete model to free up memory
     tf.keras.backend.clear_session()
     del model
     gc.collect()
     
-    return accuracy
+    return accuracy, conf_matrix

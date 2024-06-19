@@ -76,7 +76,8 @@ def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq
             ytest = np.concatenate((np.ones(tappingArray_test.shape[0]), np.zeros(controlArray_test.shape[0])))[test_randomizer] 
             
             for i, model in enumerate(modelList):
-                E_test[model.name][count] = (model.train(Xtrain = train_set, ytrain = ytrain, Xtest = test_set, ytest = ytest, theta = dict(theta_star[i])), test_size)
+                (accuracy, cm) = model.train(Xtrain = train_set, ytrain = ytrain, Xtest = test_set, ytest = ytest, theta = dict(theta_star[i]))
+                E_test[model.name][count] = (accuracy, test_size, cm)
             
             count += 1
     

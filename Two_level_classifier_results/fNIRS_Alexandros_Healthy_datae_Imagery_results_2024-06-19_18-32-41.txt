@@ -1,0 +1,17 @@
+Classifier Results:
+====================
+Data obtained at: 2024-06-19_18-32-41
+Dataset: fNIRS_Alexandros_Healthy_data
+Epoch type used for classification: Imagery
+Combine Strategy: mean
+Bad Channels Strategy: mean
+Start Time: 0
+K2: 5
+Stop Time: 15
+Frequency: 10.173
+The models were evaluated using hold one out with each patient.
+Theta parameters:
+ANN: {'neuron1': [60, 128], 'neuron2': [100, 300], 'layers': [6, 8], 'learning_rate': ['decrease', 'clr'], 'layer_type': ['dense', 'conv1d', 'lstm'], 'activation_function': ['relu', 'elu'], 'dropout_rate': [0.3]}
+The architecture used the SVM instead of last layers.
+Results:
+For the ANN classifier: 0.54

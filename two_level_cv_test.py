@@ -56,26 +56,26 @@ CNN = model(name = "CNN")
 #      "dropout_rate": [0.3]
 # }
 
+SVM.theta = {"kernel": ["rbf", "poly"], "C": list(np.logspace(-2, 10, 13)), "gamma": list(np.logspace(-9, 3, 13)), "degree": [2], "coef0": [0]}
 ANN.theta = {
-   "neuron1": [60, 128],
-   "neuron2": [100, 150, 300],
-   "layers": [6, 8],
-   "learning_rate": ["decrease", "clr"],
-   "use_transfer_learning": [True, False],
-   "use_svm": [True, False],
+    "model": [1,2],
+   "neuron1": [60,150,200],
+   "neuron2": [100],
+   "layers": [6],
+   "learning_rate": ["decrease"],
+   "use_transfer_learning": [True],
+   "use_svm": [True],
 }
-
-
-CNN.theta = {"base_learning_rate": [0.001, 0.1], "number_of_layers": [50, 100], "batch_size": [32]}
-SVM.theta = {"kernel": ["rbf", "linear", "poly"], "C": list(np.logspace(-2, 10, 13)), "gamma": list(np.logspace(-9, 3, 13)), "degree": [1,2,3,4,5], "coef0": [0]}
-# Mean.theta = {}
 Baseline.theta = {}
+CNN.theta = {"base_learning_rate": [0.1, 0.001], "number_of_layers": [50, 100], "batch_size": [32]}
+
+# Mean.theta = {}
 # PosNeg.theta = {}
 
 ANN_AND_SVM = True
 
 # mean = model('Mean')
-modelList = [ANN, CNN, SVM, Baseline]
+modelList = [SVM, ANN, Baseline, CNN]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
