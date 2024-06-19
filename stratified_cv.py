@@ -89,7 +89,7 @@ def StratifiedCV(modelList, tappingArray, controlArray, startTime, stopTime, bay
                 
                 for model in modelList:
                     if use_ica:
-                        model.theta = {**model.theta,**{f'Feature_{i}': [0,1] for i in range(2)}}
+                        model.theta = {**model.theta,**{f'Feature_{i}': [1] for i in range(2)}}
                           
                     param_keys = list(model.theta.keys())
                     param_values = [model.theta[key] for key in param_keys]
