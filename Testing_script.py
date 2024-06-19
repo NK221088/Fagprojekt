@@ -19,9 +19,9 @@ from model import model
 ############################
 
 # Data set:
-data_set = "AudioSpeechNoise" #   "fNirs_motor_full_data" # "fNIRS_Alexandros_Healthy_data" # "fNIrs_motor" #      
+data_set = "fNirs_motor_full_data" # "AudioSpeechNoise" #   "fNirs_motor_full_data" # "fNIRS_Alexandros_Healthy_data" # "fNIrs_motor" #      
 
-epoch_type = "Speech"
+epoch_type = "Tapping"
 combine_strategy = "mean"
 individuals = False
 
@@ -32,13 +32,13 @@ negative_correlation_enhancement = True
 threshold = 3
 startTime = 7.5
 stopTime = 12.5
-K = 5
+K = 2
 interpolate_bad_channels = False
 
 # Plotting and saving:
 plot_epochs = False
 plot_std_fNIRS_response = False
-plot_accuracy_across_k_folds = True
+plot_accuracy_across_k_folds = False
 
 save_plot_epochs = True
 save_plot_std_fNIRS_response = True
@@ -47,21 +47,21 @@ save_results = True
 
 
 # Models
-SVM = model(name = "SVM")
+# SVM = model(name = "SVM")
 ANN = model(name = "ANN")
-Mean = model(name = "Mean")
-Baseline = model(name = "Baseline")
-PosNeg = model(name = "PosNeg")
-CNN = model(name = "CNN")
+# Mean = model(name = "Mean")
+# Baseline = model(name = "Baseline")
+# PosNeg = model(name = "PosNeg")
+# CNN = model(name = "CNN")
 
-SVM.theta = {"kernel": ["rbf"], "C": [1.0], "gamma": ['scale'], "degree": [3], "coef0": [0.0]}
+# SVM.theta = {"kernel": ["rbf"], "C": [1.0], "gamma": ['scale'], "degree": [3], "coef0": [0.0]}
 ANN.theta = {}
-Mean.theta = {}
-Baseline.theta = {}
-PosNeg.theta = {}
-CNN.theta = {"base_learning_rate": [0.01], "number_of_layers": [100], "batch_size": [32]}
+# Mean.theta = {}
+# Baseline.theta = {}
+# PosNeg.theta = {}
+# CNN.theta = {"base_learning_rate": [0.01], "number_of_layers": [100], "batch_size": [32]}
 
-modelList = [SVM, Baseline]
+modelList = [ANN]
 
 ############################
 
