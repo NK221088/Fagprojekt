@@ -12,7 +12,7 @@ class model:
         
         self.name = name
         self.theta = theta
-        self.n = 0
+        self.n = 2
         self.mask = ()
         self.useMask = False
         
@@ -125,6 +125,8 @@ class model:
             
             return self.train(kwargs)
         else:
+            if kwargs['Feature_0'] == 0 and kwargs['Feature_1'] == 0:
+                return 0
             return self.train(kwargs)
 
         
