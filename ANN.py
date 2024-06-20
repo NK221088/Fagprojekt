@@ -34,7 +34,6 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             decay_steps=self.decay_steps,
             decay_rate=self.decay_rate,
             staircase=True)(step)
-            staircase=True)(step)
         return lr / (step + 1)
     
     def get_config(self):
