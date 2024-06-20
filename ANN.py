@@ -107,10 +107,9 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         batch_size = 100
 
         if theta["learning_rate"] == "decrease":
-            initial_learning_rate = 0.01
+            initial_learning_rate = 0.001
             decay_steps = tf.constant(50, dtype=tf.int64)
             decay_rate = 0.9
-            
 
             optimizer = tf.keras.optimizers.Adam(
                 learning_rate=fNirs_LRSchedule(
@@ -132,56 +131,72 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
 
             optimizer = tf.keras.optimizers.Adam()
 
-            model.compile(optimizer=optimizer,
-                        loss=loss_fn,
-                        metrics=['accuracy'])
+            model.compile(optimizer=optimizer, loss=loss_fn, metrics=['accuracy'])
 
             clr = CyclicLR(base_lr=initial_learning_rate, max_lr=max_learning_rate, step_size=step_size, mode='exp_range')
             model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[clr], verbose=0)
 
-        # Ensure the model is built
-        dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
-        model(dummy_data)  # This will build the model
+        if theta["use_svm"] == True:
+            # Ensure the model is built
+            dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
+            model(dummy_data)  # This will build the model
 
-        feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
+            feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
 
-        # Extract features from the trained network
-        train_features = feature_extractor.predict(X_train)
-        test_features = feature_extractor.predict(X_test)
+            # Extract features from the trained network
+            train_features = feature_extractor.predict(X_train)
+            test_features = feature_extractor.predict(X_test)
 
-        # Train an SVM on the extracted features
-        svm = SVC(kernel='rbf')
-        svm.fit(train_features, ytrain)
+            # Train an SVM on the extracted features
+            svm = SVC(kernel='rbf')
+            svm.fit(train_features, ytrain)
 
-        # Evaluate the SVM
-        y_pred = svm.predict(test_features)
-        accuracy = accuracy_score(ytest, y_pred)
-        conf_matrix = confusion_matrix(ytest, y_pred)
+            # Evaluate the SVM
+            y_pred = svm.predict(test_features)
+            accuracy = accuracy_score(ytest, y_pred)
+            conf_matrix = confusion_matrix(ytest, y_pred)
 
-        # Clear session and delete model to free up memory
-        tf.keras.backend.clear_session()
-        del model
-        gc.collect()
+            # Clear session and delete model to free up memory
+            tf.keras.backend.clear_session()
+            del model
+            gc.collect()
 
-        return accuracy, conf_matrix
+            return accuracy, conf_matrix
+        
+        else:
+            loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
+            y_pred_probs = model.predict(X_test)
+            y_pred = (y_pred_probs > 0.5).astype(int).flatten()
+            y_true = ytest
+            conf_matrix = confusion_matrix(y_true, y_pred)
+
+            tf.keras.backend.clear_session()
+            del model
+            gc.collect()
+
+            return accuracy, conf_matrix
     
     elif theta["model"] == 2:
-            model = tf.keras.models.Sequential([
-            tf.keras.layers.Conv1D(filters=64, kernel_size=3, activation='relu', input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),  # Convolutional layer
-            tf.keras.layers.LSTM(theta["neuron1"], return_sequences=True),  # LSTM layer
-            tf.keras.layers.LSTM(theta["neuron1"]),  # LSTM layer
-            tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer
-            ])
+            model = Sequential([
+            Conv1D(filters=64, kernel_size=3, activation='relu', input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
+            BatchNormalization(),
+            Dropout(0.5),
+            Conv1D(filters=128, kernel_size=3, activation='relu'),
+            BatchNormalization(),
+            Dropout(0.5),
+            LSTM(theta["neuron1"], return_sequences=True, kernel_regularizer=l2(0.001)),
+            LSTM(theta["neuron1"], kernel_regularizer=l2(0.001)),
+            Dense(1, activation='sigmoid')
+        ])
             
             loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False)
             epochs = 300
             batch_size = 100
 
             if theta["learning_rate"] == "decrease":
-                initial_learning_rate = 0.01
+                initial_learning_rate = 0.001
                 decay_steps = tf.constant(50, dtype=tf.int64)
                 decay_rate = 0.9
-                
 
                 optimizer = tf.keras.optimizers.Adam(
                     learning_rate=fNirs_LRSchedule(
