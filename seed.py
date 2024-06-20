@@ -4,7 +4,7 @@ import random
 import os
 
 # Set seeds for reproducibility
-def set_seeds(seed=72):
+def set_seeds(seed=82):
     tf.random.set_seed(seed)
     np.random.seed(seed)
     random.seed(seed)
