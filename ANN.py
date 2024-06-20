@@ -4,22 +4,32 @@ from sklearn.svm import SVC
 import gc
 import numpy as np
 from clr_callback import CyclicLR  # Assuming you have a CyclicLR implementation
+from seed import set_seeds
+set_seeds()
 
 def load_pretrained_weights(model, weights_path):
     try:
         pretrained_model = tf.keras.models.load_model(weights_path, compile=False)
         
-        # Load weights from the 'pre_dense_1' layer of the pretrained model to the 'dense_1' layer of the classifier model
-        pretrained_weights_1 = pretrained_model.get_layer('pre_dense_1').get_weights()
-        model.get_layer('dense_1').set_weights(pretrained_weights_1)
-        
-        # Load weights from the 'pre_dense_2' layer of the pretrained model to the 'dense_2' layer of the classifier model
-        pretrained_weights_2 = pretrained_model.get_layer('pre_dense_2').get_weights()
-        model.get_layer('dense_2').set_weights(pretrained_weights_2)
-        
-        print("Pretrained weights loaded successfully.")
+        # Load weights from 'pre_dense_1' layer of the pretrained model to 'dense_1' layer of the classifier model
+        if 'pre_dense_1' in pretrained_model.layers[-4].name:  # Check the layer name in the pretrained model
+            model.get_layer('dense_1').set_weights(pretrained_model.get_layer('pre_dense_1').get_weights())
+
+        # Load weights from 'pre_dense_2' layer of the pretrained model to 'dense_2' layer of the classifier model
+        if 'pre_dense_2' in pretrained_model.layers[-3].name:  # Check the layer name in the pretrained model
+            model.get_layer('dense_2').set_weights(pretrained_model.get_layer('pre_dense_2').get_weights())
+
+        print("Pretrained weights loaded successfully for middle layers.")
     except Exception as e:
         print(f"Error loading pretrained weights: {e}")
+
+
+def extract_features(X, model):
+    dummy_data = tf.zeros((1, *X.shape[1:]))
+    model.predict(dummy_data)
+    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
+    features = feature_extractor.predict(X)
+    return features
 
 class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
     def __init__(self, initial_learning_rate, decay_steps, decay_rate):
@@ -42,13 +52,6 @@ class fNirs_LRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
             "decay_steps": self.decay_steps,
             "decay_rate": self.decay_rate,
         }
-
-def extract_features(X, model):
-    dummy_data = tf.zeros((1, *X.shape[1:]))
-    model.predict(dummy_data)
-    feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
-    features = feature_extractor.predict(X)
-    return features
 
 def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     weights_path = "encoder_weights.h5"
