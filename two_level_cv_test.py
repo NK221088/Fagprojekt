@@ -18,8 +18,8 @@ import shutil
 ############################
 
 # Data set:
-data_set = "fNIRS_Alexandros_Healthy_data" # "fNirs_motor_full_data" #  "fNirs_motor_full_data" #"fNirs_motor_full_data"
-epoch_type = "Imagery"
+data_set = "fNirs_motor_full_data" # "fNIRS_Alexandros_Healthy_data" 
+epoch_type = "Tapping"
 combine_strategy = "mean"
 individuals = True # CANNOT BE CHANGED IN THIS SCRIPT
 if not individuals:
@@ -30,8 +30,8 @@ bad_channels_strategy = "mean"
 short_channel_correction = True
 negative_correlation_enhancement = True
 threshold = 3
-startTime = 0
-stopTime = 15
+startTime = 7.5
+stopTime = 12.5
 K2 = 5
 interpolate_bad_channels = False
 
@@ -46,7 +46,7 @@ Baseline = model(name = "Baseline")
 # PosNeg = model(name = "PosNeg")
 CNN = model(name = "CNN")
 
-# ANN.theta = {
+# ANN.theta = { 
 #      "neuron1": [60, 128],
 #      "neuron2": [100, 300],
 #      "layers": [6, 8],
