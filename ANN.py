@@ -4,6 +4,9 @@ from sklearn.svm import SVC
 import gc
 import numpy as np
 from clr_callback import CyclicLR  # Assuming you have a CyclicLR implementation
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv1D, LSTM, Dense, Dropout, BatchNormalization
+from tensorflow.keras.regularizers import l2
 from seed import set_seeds
 set_seeds()
 
@@ -184,7 +187,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             Conv1D(filters=128, kernel_size=3, activation='relu'),
             BatchNormalization(),
             Dropout(0.5),
-            LSTM(theta["neuron1"], return_sequences=True, kernel_regularizer=l2(0.001)),
+            LSTM(theta["neuron2"], return_sequences=True, kernel_regularizer=l2(0.001)),
             LSTM(theta["neuron1"], kernel_regularizer=l2(0.001)),
             Dense(1, activation='sigmoid')
         ])
