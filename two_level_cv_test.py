@@ -35,8 +35,8 @@ set_seeds()
 ############################
 
 # Data set:
-data_set = "fNIRS_Alexandros_Healthy_data"  # "fNirs_motor_full_data" # 
-epoch_type = "Imagery"
+data_set = "fNirs_motor_full_data"  # "fNIRS_Alexandros_Healthy_data" # 
+epoch_type = "Tapping"
 combine_strategy = "mean"
 individuals = True # CANNOT BE CHANGED IN THIS SCRIPT
 if not individuals:
