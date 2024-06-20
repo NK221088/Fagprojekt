@@ -34,7 +34,7 @@ negative_correlation_enhancement = True
 threshold = 3
 startTime = 0
 stopTime = 15
-K2 = 2
+K2 = 5
 interpolate_bad_channels = False
 
 # Plotting and saving:
