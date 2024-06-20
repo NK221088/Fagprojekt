@@ -12,14 +12,31 @@ import csv
 import pandas as pd
 import shutil
 
+import tensorflow as tf
+import numpy as np
+import random
+import os
+
+# Set seeds for reproducibility
+def set_seeds(seed=42):
+    tf.random.set_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    # If using TensorFlow with GPU:
+    os.environ['TF_DETERMINISTIC_OPS'] = '1'
+    os.environ['TF_CUDNN_DETERMINISTIC'] = '1'
+
+set_seeds()
+
 
 ############################
 # Settings:
 ############################
 
 # Data set:
-data_set = "fNirs_motor_full_data" # "fNIRS_Alexandros_Healthy_data" 
-epoch_type = "Tapping"
+data_set = "fNIRS_Alexandros_Healthy_data"  # "fNirs_motor_full_data" # 
+epoch_type = "Imagery"
 combine_strategy = "mean"
 individuals = True # CANNOT BE CHANGED IN THIS SCRIPT
 if not individuals:
@@ -30,8 +47,8 @@ bad_channels_strategy = "mean"
 short_channel_correction = True
 negative_correlation_enhancement = True
 threshold = 3
-startTime = 7.5
-stopTime = 12.5
+startTime = 0
+stopTime = 15
 K2 = 5
 interpolate_bad_channels = False
 

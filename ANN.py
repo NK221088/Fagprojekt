@@ -7,6 +7,23 @@ from tensorflow.keras.optimizers.schedules import ExponentialDecay
 from clr_callback import CyclicLR  # Assuming you have a CyclicLR implementation
 import seaborn as sns
 
+import tensorflow as tf
+import numpy as np
+import random
+import os
+
+# Set seeds for reproducibility
+def set_seeds(seed=42):
+    tf.random.set_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    # If using TensorFlow with GPU:
+    os.environ['TF_DETERMINISTIC_OPS'] = '1'
+    os.environ['TF_CUDNN_DETERMINISTIC'] = '1'
+
+set_seeds()
+
 def load_pretrained_weights(model, weights_path):
     try:
         pretrained_model = tf.keras.models.load_model(weights_path, compile=False)
@@ -221,14 +238,9 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     y_pred = (y_pred_probs > 0.5).astype(int).flatten()
     y_true = ytest
     conf_matrix = confusion_matrix(y_true, y_pred)
-        model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[tensorboard_callback, clr], verbose=0)
-    
-    loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
     
     tf.keras.backend.clear_session()
     del model
     gc.collect()
-    
-    return accuracy
 
     return accuracy, conf_matrix
