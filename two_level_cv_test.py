@@ -20,21 +20,21 @@ set_seeds()
 ############################
 
 # Data set:
-data_set = "fNirs_motor_full_data"  # "fNIRS_Alexandros_Healthy_data" # 
-epoch_type = "Tapping"
+data_set = "fNIRS_Alexandros_Healthy_data" # "fNirs_motor_full_data"  #    
+epoch_type = "Imagery"
 combine_strategy = "mean"
 individuals = True # CANNOT BE CHANGED IN THIS SCRIPT
 if not individuals:
     raise Warning("This script can't run when the individual parameter is set to False.")
 
-# Data processing:
+# Data processing: 
 bad_channels_strategy = "mean"
 short_channel_correction = True
 negative_correlation_enhancement = True
 threshold = 3
-startTime = 7.5
-stopTime = 12.5
-K2 = 5
+startTime = 0
+stopTime = 15
+K2 = 2
 interpolate_bad_channels = False
 
 # Plotting and saving:
@@ -43,7 +43,7 @@ save_results = True
 # Models
 ANN = model(name = "ANN")
 Baseline = model(name = "Baseline")
-
+ 
 ANN.theta = {
     "model": [1],
    "neuron1": [200],

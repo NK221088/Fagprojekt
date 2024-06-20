@@ -19,7 +19,7 @@ def pretrain_model(X, save_path):
     ])
     
     model.compile(optimizer='adam', loss='mse')
-    model.fit(X, X, epochs=50, batch_size=128, verbose=1)
+    model.fit(X, X, epochs=300, batch_size=128, verbose=1)
     
     model.save(save_path)
     print(f"Model saved to {save_path}")
