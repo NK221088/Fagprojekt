@@ -2,7 +2,7 @@ import pandas as pd
 
 # Load the datasets
 file_paths = [
-    "./E_genList_output_20240620_071951.csv"
+    "./Resultater_Rigshospitalet/E_genList_output_20240620_110152.csv"
 ]
 
 # Read the CSV files into DataFrames

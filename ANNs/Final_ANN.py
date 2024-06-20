@@ -8,15 +8,8 @@ from clr_callback import CyclicLR  # Assuming you have a CyclicLR implementation
 def load_pretrained_weights(model, weights_path):
     try:
         pretrained_model = tf.keras.models.load_model(weights_path, compile=False)
-        
-        # Load weights from the 'pre_dense_1' layer of the pretrained model to the 'dense_1' layer of the classifier model
-        pretrained_weights_1 = pretrained_model.get_layer('pre_dense_1').get_weights()
-        model.get_layer('dense_1').set_weights(pretrained_weights_1)
-        
-        # Load weights from the 'pre_dense_2' layer of the pretrained model to the 'dense_2' layer of the classifier model
-        pretrained_weights_2 = pretrained_model.get_layer('pre_dense_2').get_weights()
-        model.get_layer('dense_2').set_weights(pretrained_weights_2)
-        
+        pretrained_weights = pretrained_model.layers[3].get_weights()
+        model.layers[3].set_weights(pretrained_weights)
         print("Pretrained weights loaded successfully.")
     except Exception as e:
         print(f"Error loading pretrained weights: {e}")
@@ -73,14 +66,15 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
 
     if theta["model"] == 1:
         # Define your model
-        model = tf.keras.models.Sequential([
-            tf.keras.layers.Flatten(input_shape=(X_train.shape[1], X_train.shape[2])),
-            tf.keras.layers.Dense(200, activation='relu', name='dense_1'),
-            tf.keras.layers.Dropout(0.2),
-            tf.keras.layers.Dense(100, activation='relu', name='dense_2'),
-            tf.keras.layers.Dropout(0.2),
-            tf.keras.layers.Dense(1, activation='sigmoid')
-        ])
+        model = tf.keras.models.Sequential()
+        model.add(tf.keras.layers.Flatten(input_shape=(X_train.shape[1], X_train.shape[2])))
+        model.add(tf.keras.layers.Dense(200, activation='relu'))
+        model.add(tf.keras.layers.Dropout(0.2))
+        model.add(tf.keras.layers.Dense(100, activation='relu'))
+        model.add(tf.keras.layers.Dropout(0.2))
+
+        # Add the output layer for binary classification
+        model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
 
         # Load pretrained weights if the flag is set and path is provided
         if theta.get("use_transfer_learning", False) and weights_path:
@@ -102,8 +96,12 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
                     decay_rate=decay_rate,
                 )
             )
-            model.compile(optimizer=optimizer, loss=loss_fn, metrics=['accuracy'])
+            model.compile(optimizer=optimizer,
+                          loss=loss_fn, 
+                          metrics=['accuracy'])
+
             model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=0)
+
 
         # Ensure the model is built
         dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
