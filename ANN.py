@@ -6,22 +6,7 @@ from tensorflow.keras.callbacks import TensorBoard
 from tensorflow.keras.optimizers.schedules import ExponentialDecay
 from clr_callback import CyclicLR  # Assuming you have a CyclicLR implementation
 import seaborn as sns
-
-import tensorflow as tf
-import numpy as np
-import random
-import os
-
-# Set seeds for reproducibility
-def set_seeds(seed=42):
-    tf.random.set_seed(seed)
-    np.random.seed(seed)
-    random.seed(seed)
-    os.environ['PYTHONHASHSEED'] = str(seed)
-    # If using TensorFlow with GPU:
-    os.environ['TF_DETERMINISTIC_OPS'] = '1'
-    os.environ['TF_CUDNN_DETERMINISTIC'] = '1'
-
+from seed import set_seeds
 set_seeds()
 
 def load_pretrained_weights(model, weights_path):

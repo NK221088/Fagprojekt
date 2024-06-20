@@ -6,7 +6,8 @@ import numpy as np
 from mne import pick_types
 from mne.io import BaseRaw
 from mne.utils import _validate_type
-
+from seed import set_seeds
+set_seeds()
 
 def enhance_negative_correlation(raw):
     """

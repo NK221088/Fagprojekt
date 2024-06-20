@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import os
 from collections import Counter
 from datetime import datetime
+from seed import set_seeds
+set_seeds()
 
 def epoch_plot(epochs, epoch_type: str, bad_channels_strategy: str, save : bool, combine_strategy: str = "mean", threshold = None, data_set : str = "data_name"):
 

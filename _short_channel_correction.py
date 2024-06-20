@@ -8,6 +8,8 @@ from mne.io import BaseRaw
 from mne.preprocessing.nirs import source_detector_distances
 from mne.utils import _validate_type
 from scipy import linalg
+from seed import set_seeds
+set_seeds()
 
 
 def short_channel_regression(raw, max_dist=0.01):

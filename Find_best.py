@@ -1,5 +1,7 @@
 import pandas as pd
 import os
+from seed import set_seeds
+set_seeds()
 
 # Load the CSV file into a DataFrame
 file_path = "./E_genList_output_20240617_114700.csv"  # Update with your actual file path

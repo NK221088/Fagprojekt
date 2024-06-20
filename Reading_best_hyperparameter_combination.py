@@ -2,6 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from collections import Counter
 import re
+from seed import set_seeds
+set_seeds()
 
 # Assuming the CSV file is saved as 'generated_csv_file.csv'
 file_path = 'output_20240608_232043.csv'  # Replace with the actual path to your CSV file

@@ -1,4 +1,7 @@
 import numpy as np
+from seed import set_seeds
+set_seeds()
+
 def Positive_Negative_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     
     confusionMatrix = np.zeros((2,2)) # 0 = control, 1 = Tapping

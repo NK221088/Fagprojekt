@@ -5,6 +5,8 @@ import numpy as np
 from Participant_class import individual_participant_class
 import matplotlib.pyplot as plt
 from haemo_psd_plot import plot_psd_individual
+from seed import set_seeds
+set_seeds()
 
 def event_plot(individual_to_plot: individual_participant_class, type_of_event_plot: str, save: bool = False):
     """

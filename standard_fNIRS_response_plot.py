@@ -3,22 +3,7 @@ import matplotlib.pyplot as plt
 import os
 from collections import Counter
 from datetime import datetime
-
-import tensorflow as tf
-import numpy as np
-import random
-import os
-
-# Set seeds for reproducibility
-def set_seeds(seed=42):
-    tf.random.set_seed(seed)
-    np.random.seed(seed)
-    random.seed(seed)
-    os.environ['PYTHONHASHSEED'] = str(seed)
-    # If using TensorFlow with GPU:
-    os.environ['TF_DETERMINISTIC_OPS'] = '1'
-    os.environ['TF_CUDNN_DETERMINISTIC'] = '1'
-
+from seed import set_seeds
 set_seeds()
 
 def standard_fNIRS_response_plot(epochs, data_types: list, bad_channels_strategy: str, save: bool, combine_strategy: str = "mean", threshold=None, data_set: str = "data_name"):

@@ -1,3 +1,5 @@
+from seed import set_seeds
+set_seeds()
 class individual_participant_class:
     def __init__(self, name):
         self.name = name

@@ -12,6 +12,8 @@ import os
 from collections import Counter
 import numpy as np
 from model import model
+from seed import set_seeds
+set_seeds()
 
 
 ############################

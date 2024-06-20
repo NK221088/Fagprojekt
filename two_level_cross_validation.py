@@ -2,6 +2,8 @@ from model import *
 from stratified_cv import StratifiedCV
 from tqdm import tqdm
 import itertools
+from seed import set_seeds
+set_seeds()
 
 def two_level_cross_validation(modelList, K2, dataset, startTime, stopTime, freq = 7.81, data_types = [""]):
 
