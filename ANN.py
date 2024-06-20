@@ -76,14 +76,23 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
 
     if theta["model"] == 1:
         # Define your model
-        model = tf.keras.models.Sequential([
-            tf.keras.layers.Flatten(input_shape=(X_train.shape[1], X_train.shape[2])),
-            tf.keras.layers.Dense(200, activation='relu', name='dense_1'),
-            tf.keras.layers.Dropout(0.2),
-            tf.keras.layers.Dense(100, activation='relu', name='dense_2'),
-            tf.keras.layers.Dropout(0.2),
-            tf.keras.layers.Dense(1, activation='sigmoid')
-        ])
+        model = tf.keras.models.Sequential()
+        model.add(tf.keras.layers.Flatten(input_shape=(X_train.shape[1], X_train.shape[2])))
+        model.add(tf.keras.layers.Dense(theta["neuron1"], activation='relu'))
+        model.add(tf.keras.layers.Dropout(0.2))
+
+        if theta["layers"] == 6:
+            model.add(tf.keras.layers.Dense(theta["neuron2"], activation='relu'))
+            model.add(tf.keras.layers.Dropout(0.2))
+
+        elif theta["layers"] == 8:
+            model.add(tf.keras.layers.Dense(theta["neuron2"], activation='relu'))
+            model.add(tf.keras.layers.Dropout(0.2))
+            model.add(tf.keras.layers.Dense(theta["neuron1"], activation='relu'))
+            model.add(tf.keras.layers.Dropout(0.2))
+
+        # Add the output layer for binary classification
+        model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
 
         # Load pretrained weights if the flag is set and path is provided
         if theta.get("use_transfer_learning", False) and weights_path:
@@ -94,9 +103,10 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         batch_size = 100
 
         if theta["learning_rate"] == "decrease":
-            initial_learning_rate = 0.001
+            initial_learning_rate = 0.01
             decay_steps = tf.constant(50, dtype=tf.int64)
             decay_rate = 0.9
+            
 
             optimizer = tf.keras.optimizers.Adam(
                 learning_rate=fNirs_LRSchedule(
@@ -105,8 +115,25 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
                     decay_rate=decay_rate,
                 )
             )
-            model.compile(optimizer=optimizer, loss=loss_fn, metrics=['accuracy'])
+
+            model.compile(optimizer=optimizer,
+                        loss=loss_fn,
+                        metrics=['accuracy'])
             model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=0)
+
+        elif theta["learning_rate"] == "clr":
+            initial_learning_rate = 0.001
+            max_learning_rate = 0.0025
+            step_size = 50
+
+            optimizer = tf.keras.optimizers.Adam()
+
+            model.compile(optimizer=optimizer,
+                        loss=loss_fn,
+                        metrics=['accuracy'])
+
+            clr = CyclicLR(base_lr=initial_learning_rate, max_lr=max_learning_rate, step_size=step_size, mode='exp_range')
+            model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[clr], verbose=0)
 
         # Ensure the model is built
         dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
@@ -133,3 +160,60 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         gc.collect()
 
         return accuracy, conf_matrix
+    
+    elif theta["model"] == 2:
+            model = tf.keras.models.Sequential([
+            tf.keras.layers.Conv1D(filters=64, kernel_size=3, activation='relu', input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),  # Convolutional layer
+            tf.keras.layers.LSTM(theta["neuron1"], return_sequences=True),  # LSTM layer
+            tf.keras.layers.LSTM(theta["neuron1"]),  # LSTM layer
+            tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer
+            ])
+            
+            loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False)
+            epochs = 300
+            batch_size = 100
+
+            if theta["learning_rate"] == "decrease":
+                initial_learning_rate = 0.01
+                decay_steps = tf.constant(50, dtype=tf.int64)
+                decay_rate = 0.9
+                
+
+                optimizer = tf.keras.optimizers.Adam(
+                    learning_rate=fNirs_LRSchedule(
+                        initial_learning_rate=initial_learning_rate,
+                        decay_steps=decay_steps,
+                        decay_rate=decay_rate,
+                    )
+                )
+
+                model.compile(optimizer=optimizer,
+                            loss=loss_fn,
+                            metrics=['accuracy'])
+                model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=0)
+
+            elif theta["learning_rate"] == "clr":
+                initial_learning_rate = 0.001
+                max_learning_rate = 0.0025
+                step_size = 50
+
+                optimizer = tf.keras.optimizers.Adam()
+
+                model.compile(optimizer=optimizer,
+                            loss=loss_fn,
+                            metrics=['accuracy'])
+
+                clr = CyclicLR(base_lr=initial_learning_rate, max_lr=max_learning_rate, step_size=step_size, mode='exp_range')
+                model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[clr], verbose=0)
+
+            loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
+            y_pred_probs = model.predict(X_test)
+            y_pred = (y_pred_probs > 0.5).astype(int).flatten()
+            y_true = ytest
+            conf_matrix = confusion_matrix(y_true, y_pred)
+
+            tf.keras.backend.clear_session()
+            del model
+            gc.collect()
+
+            return accuracy, conf_matrix
