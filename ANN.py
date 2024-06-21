@@ -266,7 +266,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
                     loss=loss_fn, 
                     metrics=['accuracy'])
         
-        model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size, callbacks=[tensorboard_callback],verbose = 0)
+        model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size,verbose = 0)
         
         loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
         y_pred_probs = model.predict(X_test)
