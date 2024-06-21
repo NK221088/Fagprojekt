@@ -1,0 +1,75 @@
+Evaluation,Model,Parameter,Accuracy
+1,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+1,Baseline,,0.5
+2,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+2,Baseline,,0.5
+3,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5
+3,Baseline,,0.5
+4,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5
+4,Baseline,,0.5
+5,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5
+5,Baseline,,0.5
+6,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5
+6,Baseline,,0.5
+7,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5
+7,Baseline,,0.5
+8,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5
+8,Baseline,,0.5
+9,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+9,Baseline,,0.5
+10,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+10,Baseline,,0.5
+11,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+11,Baseline,,0.5
+12,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+12,Baseline,,0.5
+13,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+13,Baseline,,0.5
+14,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+14,Baseline,,0.5
+15,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+15,Baseline,,0.5
+16,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5
+16,Baseline,,0.5
+17,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+17,Baseline,,0.5
+18,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5
+18,Baseline,,0.5
+19,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5
+19,Baseline,,0.5
+20,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+20,Baseline,,0.5
+21,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+21,Baseline,,0.5
+22,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5
+22,Baseline,,0.5
+23,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5
+23,Baseline,,0.5
+24,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+24,Baseline,,0.5
+25,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+25,Baseline,,0.5
+26,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5
+26,Baseline,,0.5
+27,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+27,Baseline,,0.5
+28,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+28,Baseline,,0.5
+29,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+29,Baseline,,0.5
+30,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+30,Baseline,,0.5
+31,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5
+31,Baseline,,0.5
+32,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+32,Baseline,,0.5
+33,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5
+33,Baseline,,0.5
+34,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+34,Baseline,,0.5
+35,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5
+35,Baseline,,0.5
+36,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+36,Baseline,,0.5
+37,SVM,"kernel=rbf, degree=1, coef0=0, C=1000000000.0, gamma=1000",0.5011574074074074
+37,Baseline,,0.5

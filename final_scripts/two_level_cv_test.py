@@ -19,7 +19,7 @@ set_seeds()
 # Settings:
 ############################
 
-seed_used = 27
+seed_used = 11
 
 # Data set:
 data_set = "fNIRS_CUH_patient_data" #"fNirs_motor_full_data"  # "fNIRS_Alexandros_Healthy_data" # 
@@ -34,8 +34,8 @@ bad_channels_strategy = "mean"
 short_channel_correction = True
 negative_correlation_enhancement = True
 threshold = 3
-startTime = 0
-stopTime = 15
+startTime = 2
+stopTime = 7
 K2 = 2
 interpolate_bad_channels = False
 
@@ -45,6 +45,7 @@ save_results = True
 # Models
 SVM = model(name = "SVM")
 Baseline = model(name = "Baseline")
+Mean = model(name = 'Mean')
  
 # ANN.theta = {
 #     "model": [1],
@@ -58,13 +59,13 @@ Baseline = model(name = "Baseline")
 Baseline.theta = {}
 # CNN.theta = {"base_learning_rate": [0.1, 0.001], "number_of_layers": [50, 100], "batch_size": [32]}
 SVM.theta = {"kernel": ["rbf"], "C": [1e9], "gamma": [1000], "degree": [1], "coef0": [0]}
-# Mean.theta = {}
+Mean.theta = {}
 # PosNeg.theta = {}
 
 ANN_AND_SVM = False
 
 # mean = model('Mean')
-modelList = [SVM, Baseline]
+modelList = [Mean, Baseline]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
