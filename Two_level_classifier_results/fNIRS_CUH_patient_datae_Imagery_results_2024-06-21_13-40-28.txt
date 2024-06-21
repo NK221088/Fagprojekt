@@ -1,0 +1,20 @@
+Classifier Results:
+====================
+Data obtained at: 2024-06-21_13-40-28
+Dataset: fNIRS_CUH_patient_data
+Epoch type used for classification: Imagery
+Combine Strategy: mean
+Bad Channels Strategy: mean
+Start Time: 0
+K2: 2
+Stop Time: 15
+Frequency: 10.173
+The models were evaluated using hold one out with each patient.
+Theta parameters:
+ANN: {'model': [1], 'neuron1': [200], 'neuron2': [100], 'layers': [6], 'learning_rate': ['decrease'], 'use_transfer_learning': [True], 'use_svm': [True]}
+Baseline: {}
+The architecture used the SVM instead of last layers.
+Results:
+For the ANN classifier: 0.51
+For the Baseline classifier: 0.5
+Seed used: 27

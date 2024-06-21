@@ -64,13 +64,6 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         except RuntimeError as e:
             print(e)
 
-    # Performing standardization
-    epsilon = 1e-8
-    std = np.std(Xtrain, axis=0)
-    std[std == 0] = epsilon     # Replace zero standard deviations with epsilon
-    Xtest = (Xtest - np.mean(Xtrain, axis=0)) / std
-    Xtrain = (Xtrain - np.mean(Xtrain, axis=0)) / std
-
     X_train = tf.convert_to_tensor(Xtrain)
     y_train = tf.convert_to_tensor(ytrain)
     y_train = tf.cast(y_train, tf.int32)

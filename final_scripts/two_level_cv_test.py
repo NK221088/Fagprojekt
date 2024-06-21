@@ -43,31 +43,33 @@ interpolate_bad_channels = False
 save_results = True
 
 # Models
-ANN = model(name = "ANN")
+SVM = model(name = "SVM")
 Baseline = model(name = "Baseline")
  
-ANN.theta = {
-    "model": [1],
-   "neuron1": [200],
-   "neuron2": [100],
-   "layers": [6],
-   "learning_rate": ["decrease"],
-   "use_transfer_learning": [True],
-   "use_svm": [True],
-}
+# ANN.theta = {
+#     "model": [1],
+#    "neuron1": [200],
+#    "neuron2": [100],
+#    "layers": [6],
+#    "learning_rate": ["decrease"],
+#    "use_transfer_learning": [True],
+#    "use_svm": [True],
+# }
 Baseline.theta = {}
 # CNN.theta = {"base_learning_rate": [0.1, 0.001], "number_of_layers": [50, 100], "batch_size": [32]}
-
+SVM.theta = {"kernel": ["rbf"], "C": [1e9], "gamma": [1000], "degree": [1], "coef0": [0]}
 # Mean.theta = {}
 # PosNeg.theta = {}
 
-ANN_AND_SVM = True
+ANN_AND_SVM = False
 
 # mean = model('Mean')
-modelList = [ANN, Baseline]
+modelList = [SVM, Baseline]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
+for individuals in all_individuals:
+    individuals.Standardize()
 accuracy, E_genList, E_test = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, freq=freq, dataset = all_individuals, data_types=data_types)
 
 # Get current date and time

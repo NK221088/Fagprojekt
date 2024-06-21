@@ -21,9 +21,8 @@ set_seeds()
 ############################
 
 # Data set:
-data_set = "AudioSpeechNoise" #   "fNirs_motor_full_data" # "fNIRS_Alexandros_Healthy_data" # "fNIrs_motor" #      
-
-epoch_type = "Speech"
+data_set = "fNIRS_CUH_patient_data" # "AudioSpeechNoise" #   "fNirs_motor_full_data" # "fNIRS_Alexandros_Healthy_data" # "fNIrs_motor" #      
+epoch_type = "Imagery"
 combine_strategy = "mean"
 individuals = False
 
