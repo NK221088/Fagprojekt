@@ -87,6 +87,9 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         model.add(tf.keras.layers.Dropout(0.2))
         model.add(tf.keras.layers.Dense(theta["neuron2"], activation='relu'))
         model.add(tf.keras.layers.Dropout(0.2))
+        # Add the output layer for binary classification
+        model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
+        
 
         # Load pretrained weights if the flag is set and path is provided
         if theta.get("use_transfer_learning", False) and weights_path:
@@ -111,40 +114,40 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             model.compile(optimizer=optimizer, loss=loss_fn, metrics=['accuracy'])
             model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=0)
 
-        # # Ensure the model is built
-        # dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
-        # model(dummy_data)  # This will build the model
+        # Ensure the model is built
+        dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
+        model(dummy_data)  # This will build the model
 
-        # feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
+        feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
 
-        # # Extract features from the trained network
-        # train_features = feature_extractor.predict(X_train)
-        # test_features = feature_extractor.predict(X_test)
+        # Extract features from the trained network
+        train_features = feature_extractor.predict(X_train)
+        test_features = feature_extractor.predict(X_test)
 
-        # # Train an SVM on the extracted features
-        # svm = SVC(kernel='rbf')
-        # svm.fit(train_features, ytrain)
+        # Train an SVM on the extracted features
+        svm = SVC(kernel='rbf')
+        svm.fit(train_features, ytrain)
 
-        # # Evaluate the SVM
-        # y_pred = svm.predict(test_features)
-        # accuracy = accuracy_score(ytest, y_pred)
-        # conf_matrix = confusion_matrix(ytest, y_pred)
+        # Evaluate the SVM
+        y_pred = svm.predict(test_features)
+        accuracy = accuracy_score(ytest, y_pred)
+        conf_matrix = confusion_matrix(ytest, y_pred)
 
-        # # Clear session and delete model to free up memory
-        # tf.keras.backend.clear_session()
-        # del model
-        # gc.collect()
+        # Clear session and delete model to free up memory
+        tf.keras.backend.clear_session()
+        del model
+        gc.collect()
 
-        # return accuracy, conf_matrix
+        return accuracy, conf_matrix
 
-    loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
-    y_pred_probs = model.predict(X_test)
-    y_pred = (y_pred_probs > 0.5).astype(int).flatten()
-    y_true = ytest
-    conf_matrix = confusion_matrix(y_true, y_pred)
+    # loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
+    # y_pred_probs = model.predict(X_test)
+    # y_pred = (y_pred_probs > 0.5).astype(int).flatten()
+    # y_true = ytest
+    # conf_matrix = confusion_matrix(y_true, y_pred)
 
-    tf.keras.backend.clear_session()
-    del model
-    gc.collect()
+    # tf.keras.backend.clear_session()
+    # del model
+    # gc.collect()
 
-    return accuracy, conf_matrix
+    # return accuracy, conf_matrix

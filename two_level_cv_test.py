@@ -20,8 +20,6 @@ set_seeds()
 ############################
 
 # Data set:
-data_set = "fNIRS_Alexandros_Healthy_data" # "fNirs_motor_full_data"  #    
-epoch_type = "Imagery"
 data_set = "fNIRS_CUH_patient_data" #"fNirs_motor_full_data"  # "fNIRS_Alexandros_Healthy_data" # 
 epoch_type = "Imagery"
 combine_strategy = "mean"

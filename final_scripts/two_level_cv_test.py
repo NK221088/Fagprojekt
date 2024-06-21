@@ -19,8 +19,10 @@ set_seeds()
 # Settings:
 ############################
 
+seed_used = 27
+
 # Data set:
-data_set = "fNIRS_Alexandros_Healthy_data" # "fNirs_motor_full_data"  #    
+data_set = "fNIRS_CUH_patient_data" #"fNirs_motor_full_data"  # "fNIRS_Alexandros_Healthy_data" # 
 epoch_type = "Imagery"
 combine_strategy = "mean"
 individuals = True # CANNOT BE CHANGED IN THIS SCRIPT
@@ -97,6 +99,7 @@ if save_results:
         file.write("Results:\n")
         for models, accuracy in accuracy.items():
             file.write("For the {} classifier: {}\n".format(models, np.round(accuracy,2)))
+        file.write("Seed used: {}\n".format(round(seed_used,3)))
     print(f"Results saved as {filename}")
 
 # Function to format parameters as strings

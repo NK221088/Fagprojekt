@@ -1,0 +1,71 @@
+Evaluation,Model,Parameter,Accuracy
+1,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4614855570839065
+1,Baseline,,0.5006877579092159
+2,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.45973847212663455
+2,Baseline,,0.5010323468685478
+3,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4849726775956284
+3,Baseline,,0.5013661202185792
+4,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4979702300405954
+4,Baseline,,0.4993234100135318
+5,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.46593255333792155
+5,Baseline,,0.5010323468685478
+6,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.48830811554332876
+6,Baseline,,0.5006877579092159
+7,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.49759119064005497
+7,Baseline,,0.5010323468685478
+8,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.45629731589814176
+8,Baseline,,0.5010323468685478
+9,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4700619408121129
+9,Baseline,,0.5010323468685478
+10,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4604267033723331
+10,Baseline,,0.5010323468685478
+11,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4504685408299866
+11,Baseline,,0.5020080321285141
+12,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4845147969717825
+12,Baseline,,0.5010323468685478
+13,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.48864418444597385
+13,Baseline,,0.5010323468685478
+14,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4755677907777013
+14,Baseline,,0.5010323468685478
+15,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.47625602202339984
+15,Baseline,,0.5010323468685478
+16,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4762560220233999
+16,Baseline,,0.5010323468685478
+17,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4941500344115623
+17,Baseline,,0.5010323468685478
+18,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4790089470061941
+18,Baseline,,0.5010323468685478
+19,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.5106675843083276
+19,Baseline,,0.5010323468685478
+20,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4796971782518926
+20,Baseline,,0.5010323468685478
+21,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.462
+21,Baseline,,0.5013333333333333
+22,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4542955326460481
+22,Baseline,,0.49896907216494846
+23,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4757085020242915
+23,Baseline,,0.5006747638326585
+24,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.45123626373626374
+24,Baseline,,0.5
+25,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.46937370956641433
+25,Baseline,,0.5010323468685478
+26,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.49520547945205484
+26,Baseline,,0.5
+27,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.509979353062629
+27,Baseline,,0.5010323468685478
+28,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4700619408121129
+28,Baseline,,0.5010323468685478
+29,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.46937370956641433
+29,Baseline,,0.5010323468685478
+30,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4989676531314522
+30,Baseline,,0.5010323468685478
+31,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4783207157604955
+31,Baseline,,0.5010323468685478
+32,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4796971782518926
+32,Baseline,,0.5010323468685478
+33,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.47778537252221465
+33,Baseline,,0.5003417634996582
+34,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4831383344803854
+34,Baseline,,0.5010323468685478
+35,ANN,"learning_rate=decrease, use_svm=True, model=1, use_transfer_learning=True, layers=6, neuron1=200, neuron2=100",0.4845360824742268
+35,Baseline,,0.5003436426116838
