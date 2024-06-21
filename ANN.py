@@ -239,3 +239,43 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             gc.collect()
 
             return accuracy, conf_matrix
+    
+    elif theta["model"] == 3:
+        model = tf.keras.models.Sequential([
+        tf.keras.layers.Flatten(input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
+        tf.keras.layers.Dense(theta["neuron1"], activation='relu'),
+        tf.keras.layers.Dropout(0.2),
+        tf.keras.layers.Dense(1, activation='sigmoid')  # Output layer for binary classification. The units is 1, as the output of the sigmoid function represents the probability of belonging to the positive class
+        ])
+        
+        loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False)
+        epochs = 100
+        batch_size = 100
+        initial_learning_rate = 0.009
+        decay_steps = 20
+        decay_rate = 0.9
+        
+        optimizer = tf.keras.optimizers.Adam(
+            learning_rate=fNirs_LRSchedule(
+                initial_learning_rate = initial_learning_rate,
+                decay_steps = decay_steps,
+                decay_rate = decay_rate,
+            )
+        )
+        model.compile(optimizer=optimizer,
+                    loss=loss_fn, 
+                    metrics=['accuracy'])
+        
+        model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size, callbacks=[tensorboard_callback],verbose = 0)
+        
+        loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
+        y_pred_probs = model.predict(X_test)
+        y_pred = (y_pred_probs > 0.5).astype(int).flatten()
+        y_true = ytest
+        conf_matrix = confusion_matrix(y_true, y_pred)
+
+        tf.keras.backend.clear_session()
+        del model
+        gc.collect()
+
+        return accuracy, conf_matrix

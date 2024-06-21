@@ -48,11 +48,11 @@ CNN = model(name = "CNN")
 
 SVM.theta = {"kernel": ["rbf", "poly"], "C": list(np.logspace(-2, 10, 13)), "gamma": list(np.logspace(-9, 3, 13)), "degree": [2], "coef0": [0]}
 ANN.theta = {
-    "model": [1,2],
-   "neuron1": [60,150,200],
+    "model": [1,2,3],
+   "neuron1": [60,128,200],
    "neuron2": [100],
    "layers": [6],
-   "learning_rate": ["decrease"],
+   "learning_rate": ["decrease", "clr"],
    "use_transfer_learning": [True],
    "use_svm": [True, False],
 }
@@ -62,7 +62,7 @@ CNN.theta = {"base_learning_rate": [0.1, 0.001], "number_of_layers": [50, 100], 
 ANN_AND_SVM = True
 
 # mean = model('Mean')
-modelList = [SVM, ANN, Baseline, CNN]
+modelList = [ANN]
 
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
