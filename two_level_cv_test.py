@@ -22,6 +22,8 @@ set_seeds()
 # Data set:
 data_set = "fNIRS_Alexandros_Healthy_data" # "fNirs_motor_full_data"  #    
 epoch_type = "Imagery"
+data_set = "fNIRS_CUH_patient_data" #"fNirs_motor_full_data"  # "fNIRS_Alexandros_Healthy_data" # 
+epoch_type = "Imagery"
 combine_strategy = "mean"
 individuals = True # CANNOT BE CHANGED IN THIS SCRIPT
 if not individuals:
@@ -32,6 +34,8 @@ bad_channels_strategy = "mean"
 short_channel_correction = True
 negative_correlation_enhancement = True
 threshold = 3
+startTime = 0
+stopTime = 15
 startTime = 0
 stopTime = 15
 K2 = 5
