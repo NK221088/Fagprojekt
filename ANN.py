@@ -109,10 +109,10 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=0)
 
         # Ensure the model is built
-        dummy_data = tf.zeros((1, X_train.shape[1], X_train.shape[2]))
+        dummy_data = tf.zeros((X_train.shape[1], X_train.shape[2]))
         model(dummy_data)  # This will build the model
 
-        feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
+        feature_extractor = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-1].output)
 
         # Extract features from the trained network
         train_features = feature_extractor.predict(X_train)
