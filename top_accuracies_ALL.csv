@@ -1,25 +1,25 @@
 Evaluation,Model,Parameter,Accuracy
-1,SVM,"kernel=rbf, degree=2, coef0=0, gamma=0.1, C=100000000.0",0.5714285714285714
-2,SVM,"degree=2, C=1000000000.0, coef0=0, kernel=poly, gamma=1000.0",0.5714285714285714
-3,SVM,"degree=2, C=1000000000.0, coef0=0, kernel=poly, gamma=1000.0",0.6551724137931034
-4,SVM,"kernel=rbf, degree=2, C=10000.0, coef0=0, gamma=1000.0",0.6206896551724137
-5,SVM,"kernel=rbf, degree=2, C=0.01, coef0=0, gamma=1e-09",0.5172413793103449
-6,SVM,"degree=2, C=1000000000.0, coef0=0, kernel=poly, gamma=1000.0",0.625
-1,ANN,"layers=6, use_svm=True, use_transfer_learning=True, model=1, neuron2=100, learning_rate=decrease, neuron1=60",0.5357143070016589
-2,ANN,"layers=6, use_svm=True, use_transfer_learning=True, model=1, neuron2=100, learning_rate=decrease, neuron1=60",0.5357143070016589
-3,ANN,"layers=6, use_svm=True, use_transfer_learning=True, model=1, neuron2=100, learning_rate=decrease, neuron1=60",0.5172413998636706
-4,ANN,"layers=6, use_svm=True, use_transfer_learning=True, model=1, neuron2=100, learning_rate=decrease, neuron1=60",0.5172413998636706
-5,ANN,"layers=6, use_svm=True, use_transfer_learning=True, model=1, neuron2=100, learning_rate=decrease, neuron1=60",0.5172413998636706
-6,ANN,"layers=6, use_svm=True, use_transfer_learning=True, model=1, neuron2=100, learning_rate=decrease, neuron1=60",0.46875
+1,SVM,"kernel=rbf, C=0.01, degree=2, gamma=1e-09, coef0=0",0.5357142857142857
+2,SVM,"C=1000000000.0, degree=2, kernel=poly, gamma=1000.0, coef0=0",0.5714285714285714
+3,SVM,"kernel=rbf, degree=2, C=10000.0, gamma=1000.0, coef0=0",0.6551724137931034
+4,SVM,"kernel=rbf, degree=2, C=10000.0, gamma=1000.0, coef0=0",0.6206896551724138
+5,SVM,"kernel=rbf, degree=2, C=100000.0, gamma=1000.0, coef0=0",0.5517241379310345
+6,SVM,"C=1000000000.0, degree=2, kernel=poly, gamma=1000.0, coef0=0",0.5625
+1,ANN,"neuron1=150, learning_rate=decrease, model=1, use_transfer_learning=True, use_svm=False, layers=6, neuron2=100",0.5000000127724239
+2,ANN,"neuron1=60, learning_rate=decrease, model=1, use_transfer_learning=True, use_svm=False, layers=6, neuron2=100",0.5357143070016589
+3,ANN,"use_svm=True, learning_rate=decrease, model=1, neuron1=200, use_transfer_learning=True, layers=6, neuron2=100",0.6896551724137931
+4,ANN,"model=2, neuron1=60, use_svm=True, learning_rate=decrease, use_transfer_learning=True, layers=6, neuron2=100",0.5517241564290276
+5,ANN,"neuron1=150, learning_rate=decrease, model=1, use_transfer_learning=True, use_svm=False, layers=6, neuron2=100",0.4827586304524849
+6,ANN,"model=2, neuron1=60, learning_rate=decrease, use_transfer_learning=True, use_svm=False, layers=6, neuron2=100",0.5000000149011612
 1,Baseline,,0.5357142857142857
 2,Baseline,,0.5357142857142857
 3,Baseline,,0.5172413793103449
 4,Baseline,,0.5172413793103449
 5,Baseline,,0.5172413793103449
 6,Baseline,,0.46875
-1,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=50",0.4285714429404054
-2,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=50",0.5000000127724239
-3,CNN,"batch_size=32, number_of_layers=50, base_learning_rate=0.001",0.5517241512906963
-4,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=50",0.413793114752605
-5,CNN,"batch_size=32, number_of_layers=50, base_learning_rate=0.001",0.5517241461523648
-6,CNN,"batch_size=32, number_of_layers=50, base_learning_rate=0.001",0.5000000093132257
+1,CNN,"number_of_layers=100, base_learning_rate=0.1, batch_size=32",0.3928571540330138
+2,CNN,"number_of_layers=50, base_learning_rate=0.001, batch_size=32",0.5000000101115023
+3,CNN,"number_of_layers=50, base_learning_rate=0.001, batch_size=32",0.482758638159982
+4,CNN,"number_of_layers=50, base_learning_rate=0.001, batch_size=32",0.4482758790254593
+5,CNN,"number_of_layers=100, base_learning_rate=0.001, batch_size=32",0.5172413947253391
+6,CNN,"number_of_layers=50, base_learning_rate=0.001, batch_size=32",0.5000000093132257

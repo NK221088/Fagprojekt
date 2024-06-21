@@ -78,8 +78,8 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             print(f'Failed to delete {file_path}. Reason: {e}')
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
     
-    initial_learning_rate = 0.01
-    decay_steps = 50
+    initial_learning_rate = 0.009
+    decay_steps = 20
     decay_rate = 0.9
     
     optimizer = tf.keras.optimizers.Adam(

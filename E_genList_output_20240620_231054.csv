@@ -1,0 +1,13 @@
+Evaluation,Model,Parameter,Accuracy
+1,ANN,"use_svm=True, learning_rate=decrease, model=1, layers=6, use_transfer_learning=True, neuron2=100, neuron1=200",0.17857142857142855
+1,Baseline,,0.35714285714285704
+2,ANN,"use_svm=True, learning_rate=decrease, model=1, layers=6, use_transfer_learning=True, neuron2=100, neuron1=200",0.28571428571428564
+2,Baseline,,0.35714285714285704
+3,ANN,"use_svm=True, learning_rate=decrease, model=1, layers=6, use_transfer_learning=True, neuron2=100, neuron1=200",0.3793103448275863
+3,Baseline,,0.34482758620689663
+4,ANN,"use_svm=True, learning_rate=decrease, model=1, layers=6, use_transfer_learning=True, neuron2=100, neuron1=200",0.44827586206896547
+4,Baseline,,0.34482758620689663
+5,ANN,"use_svm=True, learning_rate=decrease, model=1, layers=6, use_transfer_learning=True, neuron2=100, neuron1=200",0.24137931034482762
+5,Baseline,,0.34482758620689663
+6,ANN,"use_svm=True, learning_rate=decrease, model=1, layers=6, use_transfer_learning=True, neuron2=100, neuron1=200",0.28125
+6,Baseline,,0.3125
