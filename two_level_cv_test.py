@@ -14,8 +14,8 @@ import shutil
 from seed import set_seeds
 from McNemar_test import McNemar_results
 
-set_seeds()
 seed = 11
+set_seeds()
 
 ############################
 # Settings:
