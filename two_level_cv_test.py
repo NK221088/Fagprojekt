@@ -47,7 +47,7 @@ SVM = model(name = "SVM")
 ANN = model(name = "ANN")
 Baseline = model(name = "Baseline")
 CNN = model(name = "CNN")
-Mean = model(name = "mean")
+Mean = model(name = "Mean")
 PosNeg = model(name = "PosNeg")
 
 SVM.theta = {"kernel": ["rbf", "poly"], "C": list(np.logspace(-2, 10, 13)), "gamma": list(np.logspace(-9, 3, 13)), "degree": [2], "coef0": [0]}
@@ -68,8 +68,7 @@ CNN.theta = {"base_learning_rate": [0.1, 0.01, 0.001], "number_of_layers": [50, 
 ANN_AND_SVM = True
 
 # mean = model('Mean')
-ANN, CNN, SVM, Baseline, 
-modelList = [Mean, PosNeg]
+modelList = [ANN, CNN, SVM, Baseline, PosNeg, Mean]
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
 accuracy, E_genList, E_test = two_level_cross_validation(modelList = modelList, K2 = K2, startTime = startTime, stopTime = stopTime, freq=freq, dataset = all_individuals, data_types=data_types)

@@ -66,13 +66,6 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             tf.config.experimental.set_memory_growth(physical_devices[0], True)
         except RuntimeError as e:
             print(e)
-    
-    #Performing standardization
-    epsilon = 1e-8
-    std = np.std(Xtrain, axis=0)
-    std[std == 0] = epsilon     # Replace zero standard deviations with epsilon
-    Xtest = (Xtest - np.mean(Xtrain, axis=0)) / std
-    Xtrain = (Xtrain - np.mean(Xtrain, axis=0)) / std
 
     X_train = tf.convert_to_tensor(Xtrain)
     y_train = tf.convert_to_tensor(ytrain)
@@ -246,32 +239,35 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         ])
         
         loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False)
-        epochs = 100
+        epochs = 300
         batch_size = 100
-        initial_learning_rate = 0.009
-        decay_steps = 20
-        decay_rate = 0.9
         
-        optimizer = tf.keras.optimizers.Adam(
-            learning_rate=fNirs_LRSchedule(
-                initial_learning_rate = initial_learning_rate,
-                decay_steps = decay_steps,
-                decay_rate = decay_rate,
-            )
-        )
-        model.compile(optimizer=optimizer,
-                    loss=loss_fn, 
-                    metrics=['accuracy'])
-        
-        model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size,verbose = 0)
-        
-        loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
-        y_pred_probs = model.predict(X_test)
-        y_pred = (y_pred_probs > 0.5).astype(int).flatten()
-        y_true = ytest
-        conf_matrix = confusion_matrix(y_true, y_pred)
+        if theta["learning_rate"] == "decrease":
+            initial_learning_rate = 0.001
+            decay_steps = tf.constant(50, dtype=tf.int64)
+            decay_rate = 0.9
 
-        tf.keras.backend.clear_session()
-        del model
-        gc.collect()
-        return accuracy, conf_matrix, (y_pred, ytest)
+            optimizer = tf.keras.optimizers.Adam(
+                learning_rate=fNirs_LRSchedule(
+                    initial_learning_rate=initial_learning_rate,
+                    decay_steps=decay_steps,
+                    decay_rate=decay_rate,
+                )
+            )
+
+            model.compile(optimizer=optimizer,
+                        loss=loss_fn,
+                        metrics=['accuracy'])
+            model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=0)
+
+        elif theta["learning_rate"] == "clr":
+            initial_learning_rate = 0.001
+            max_learning_rate = 0.0025
+            step_size = 50
+
+            optimizer = tf.keras.optimizers.Adam()
+
+            model.compile(optimizer=optimizer, loss=loss_fn, metrics=['accuracy'])
+
+            clr = CyclicLR(base_lr=initial_learning_rate, max_lr=max_learning_rate, step_size=step_size, mode='exp_range')
+            model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[clr], verbose=0)
