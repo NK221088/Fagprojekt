@@ -61,6 +61,8 @@ ANN.theta = {
    "use_svm": [True, False],
 }
 Baseline.theta = {}
+Mean.theta = {}
+PosNeg.theta = {}
 CNN.theta = {"base_learning_rate": [0.1, 0.01, 0.001], "number_of_layers": [50, 75, 100], "batch_size": [32]}
 
 ANN_AND_SVM = True
