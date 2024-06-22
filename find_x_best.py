@@ -1,8 +1,10 @@
 import pandas as pd
+from datetime import datetime
+import os
 
 # Load the datasets
 file_paths = [
-    "./E_genList_output_20240620_034432.csv"
+    "./Final_results/E_genList_output_20240621_042931.csv"
 ]
 
 # Read the CSV files into DataFrames
@@ -44,5 +46,11 @@ top_accuracies = get_top_accuracies(model_name, combined_df)
 # Display the results
 print(top_accuracies)
 
-# Optionally, save the results to a CSV file
-top_accuracies.to_csv(f'top_accuracies_{model_name}.csv', index=False)
+# Create directory if it doesn't exist
+output_dir = os.path.join(os.getcwd(), 'parameter_table')
+os.makedirs(output_dir, exist_ok=True)
+
+# Optionally, save the results to a CSV file with a timestamp
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+file_path = os.path.join(output_dir, f'top_accuracies_{model_name}_{timestamp}.csv')
+top_accuracies.to_csv(file_path, index=False)

@@ -22,4 +22,4 @@ Evaluation,Model,Parameter,Accuracy
 3,CNN,"batch_size=32, number_of_layers=50, base_learning_rate=0.001",0.5517241512906963
 4,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=50",0.413793114752605
 5,CNN,"batch_size=32, number_of_layers=50, base_learning_rate=0.001",0.5517241461523648
-6,CNN,"batch_size=32, number_of_layers=50, base_learning_rate=0.001",0.5000000093132257
+6,CNN,"batch_size=32, number_of_layers=50, base_learning_rate=0.001",0.5000000093132257 

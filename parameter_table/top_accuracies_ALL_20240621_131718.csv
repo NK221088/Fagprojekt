@@ -1,0 +1,25 @@
+Evaluation,Model,Parameter,Accuracy
+1,SVM,"gamma=1000.0, degree=2, kernel=poly, coef0=0, C=1000000000.0",0.6428571428571428
+2,SVM,"gamma=9.999999999999999e-10, degree=2, coef0=0, kernel=rbf, C=0.01",0.5357142857142857
+3,SVM,"gamma=1000.0, degree=2, kernel=poly, coef0=0, C=1000000000.0",0.5517241379310345
+4,SVM,"gamma=1000.0, C=100000.0, degree=2, coef0=0, kernel=rbf",0.5862068965517242
+5,SVM,"gamma=10.0, degree=2, coef0=0, kernel=rbf, C=10000000.0",0.5862068965517242
+6,SVM,"gamma=1000.0, degree=2, coef0=0, kernel=rbf, C=10000.0",0.59375
+1,ANN,"learning_rate=decrease, model=2, neuron2=100, use_svm=True, neuron1=200, use_transfer_learning=True, layers=6",0.571428585265364
+2,ANN,"learning_rate=decrease, model=2, neuron2=100, neuron1=200, use_svm=False, use_transfer_learning=True, layers=6",0.5000000180942672
+3,ANN,"neuron1=150, learning_rate=decrease, neuron2=100, model=1, use_svm=False, use_transfer_learning=True, layers=6",0.5517241564290276
+4,ANN,"neuron1=150, learning_rate=decrease, neuron2=100, model=1, use_svm=False, use_transfer_learning=True, layers=6",0.5517241461523648
+5,ANN,"learning_rate=decrease, neuron2=100, model=1, neuron1=200, use_svm=False, use_transfer_learning=True, layers=6",0.5172413947253391
+6,ANN,"neuron1=150, learning_rate=decrease, neuron2=100, use_svm=True, model=1, use_transfer_learning=True, layers=6",0.5
+1,Baseline,,0.5357142857142857
+2,Baseline,,0.5357142857142857
+3,Baseline,,0.5172413793103449
+4,Baseline,,0.5172413793103449
+5,Baseline,,0.5172413793103449
+6,Baseline,,0.46875
+1,CNN,"base_learning_rate=0.1, number_of_layers=50, batch_size=32",0.5000000180942672
+2,CNN,"number_of_layers=50, base_learning_rate=0.001, batch_size=32",0.5000000180942672
+3,CNN,"number_of_layers=100, base_learning_rate=0.001, batch_size=32",0.5517241487215305
+4,CNN,"number_of_layers=50, base_learning_rate=0.001, batch_size=32",0.482758638159982
+5,CNN,"number_of_layers=50, base_learning_rate=0.001, batch_size=32",0.5517241512906962
+6,CNN,"base_learning_rate=0.1, number_of_layers=100, batch_size=32",0.4999999981373548

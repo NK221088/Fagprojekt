@@ -1,0 +1,25 @@
+Evaluation,Model,Parameter,Accuracy
+1,SVM,"gamma=1000.0, C=1000000000.0, kernel=poly, degree=2, coef0=0",0.6428571428571428
+2,SVM,"gamma=1000.0, kernel=poly, degree=2, coef0=0, C=100000000.0",0.6071428571428571
+3,SVM,"gamma=1000.0, C=1000000000.0, kernel=poly, degree=2, coef0=0",0.5862068965517242
+4,SVM,"kernel=rbf, degree=2, C=10000000.0, coef0=0, gamma=1.0",0.6896551724137931
+5,SVM,"gamma=0.1, kernel=rbf, degree=2, C=10000000.0, coef0=0",0.5517241379310345
+6,SVM,"gamma=1000.0, C=1000000000.0, kernel=poly, degree=2, coef0=0",0.59375
+1,ANN,"use_svm=False, model=1, use_transfer_learning=True, layers=6, learning_rate=decrease, neuron1=150, neuron2=100",0.4285714429404054
+2,ANN,"use_svm=False, model=1, use_transfer_learning=True, layers=6, learning_rate=decrease, neuron1=60, neuron2=100",0.5357143016798156
+3,ANN,"use_svm=False, neuron1=200, model=1, use_transfer_learning=True, layers=6, learning_rate=decrease, neuron2=100",0.6206896695597418
+4,ANN,"neuron1=200, use_transfer_learning=True, layers=6, learning_rate=decrease, use_svm=True, model=2, neuron2=100",0.6206896644214104
+5,ANN,"use_svm=False, model=1, use_transfer_learning=True, layers=6, learning_rate=decrease, neuron1=150, neuron2=100",0.4482758764562936
+6,ANN,"use_svm=False, neuron1=200, use_transfer_learning=True, layers=6, learning_rate=decrease, model=2, neuron2=100",0.5625
+1,Baseline,,0.5357142857142857
+2,Baseline,,0.5357142857142857
+3,Baseline,,0.5172413793103449
+4,Baseline,,0.5172413793103449
+5,Baseline,,0.5172413793103449
+6,Baseline,,0.46875
+1,CNN,"number_of_layers=50, base_learning_rate=0.1, batch_size=32",0.5000000180942672
+2,CNN,"number_of_layers=50, base_learning_rate=0.1, batch_size=32",0.4642857291868755
+3,CNN,"number_of_layers=100, base_learning_rate=0.001, batch_size=32",0.5172413998636706
+4,CNN,"number_of_layers=50, base_learning_rate=0.001, batch_size=32",0.4482758738871278
+5,CNN,"number_of_layers=100, base_learning_rate=0.1, batch_size=32",0.4827586330216505
+6,CNN,"number_of_layers=100, base_learning_rate=0.001, batch_size=32",0.4687500055879354

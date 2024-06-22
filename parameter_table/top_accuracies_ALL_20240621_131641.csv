@@ -1,0 +1,25 @@
+Evaluation,Model,Parameter,Accuracy
+1,SVM,"gamma=1000.0, coef0=0, C=1000000000.0, kernel=poly, degree=2",0.6071428571428571
+2,SVM,"gamma=1e-09, coef0=0, C=0.01, kernel=rbf, degree=2",0.5357142857142857
+3,SVM,"gamma=1000.0, coef0=0, C=1000000000.0, kernel=poly, degree=2",0.6206896551724138
+4,SVM,"gamma=10.0, coef0=0, C=1000000.0, kernel=rbf, degree=2",0.6551724137931035
+5,SVM,"gamma=1000.0, coef0=0, kernel=rbf, degree=2, C=100000.0",0.5517241379310345
+6,SVM,"gamma=1000.0, C=100000000.0, coef0=0, kernel=poly, degree=2",0.625
+1,ANN,"neuron1=60, neuron2=100, model=2, learning_rate=decrease, layers=6, use_svm=False, use_transfer_learning=True",0.4642857265259539
+2,ANN,"neuron2=100, model=2, neuron1=200, learning_rate=decrease, use_svm=True, layers=6, use_transfer_learning=True",0.5714285799435207
+3,ANN,"neuron1=150, neuron2=100, learning_rate=decrease, model=1, layers=6, use_svm=False, use_transfer_learning=True",0.6206896695597418
+4,ANN,"neuron2=100, neuron1=200, learning_rate=decrease, model=1, layers=6, use_svm=False, use_transfer_learning=True",0.4482758764562935
+5,ANN,"neuron1=150, neuron2=100, learning_rate=decrease, model=1, layers=6, use_svm=False, use_transfer_learning=True",0.5517241512906962
+6,ANN,"neuron1=150, neuron2=100, model=2, learning_rate=decrease, use_svm=True, layers=6, use_transfer_learning=True",0.6250000074505806
+1,Baseline,,0.5357142857142857
+2,Baseline,,0.5357142857142857
+3,Baseline,,0.5172413793103449
+4,Baseline,,0.5172413793103449
+5,Baseline,,0.5172413793103449
+6,Baseline,,0.46875
+1,CNN,"batch_size=32, number_of_layers=100, base_learning_rate=0.001",0.4285714402794838
+2,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.4642857318477972
+3,CNN,"batch_size=32, number_of_layers=100, base_learning_rate=0.001",0.482758638159982
+4,CNN,"batch_size=32, number_of_layers=100, base_learning_rate=0.001",0.4827586355908163
+5,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.4482758764562935
+6,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=50",0.5312499962747097

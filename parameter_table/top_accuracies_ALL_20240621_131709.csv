@@ -1,0 +1,25 @@
+Evaluation,Model,Parameter,Accuracy
+1,SVM,"kernel=rbf, gamma=9.999999999999999e-10, degree=2, C=0.01, coef0=0",0.5357142857142857
+2,SVM,"kernel=rbf, gamma=9.999999999999999e-10, degree=2, C=0.01, coef0=0",0.5357142857142857
+3,SVM,"kernel=poly, gamma=1000.0, degree=2, C=1000000000.0, coef0=0",0.6551724137931034
+4,SVM,"kernel=rbf, gamma=10.0, degree=2, C=1000000.0, coef0=0",0.6551724137931034
+5,SVM,"kernel=poly, gamma=1000.0, degree=2, C=1000000000.0, coef0=0",0.5517241379310345
+6,SVM,"kernel=poly, C=100000000.0, gamma=1000.0, degree=2, coef0=0",0.59375
+1,ANN,"layers=6, learning_rate=decrease, neuron2=100, use_transfer_learning=True, neuron1=60, use_svm=False, model=1",0.3928571540330138
+2,ANN,"layers=6, learning_rate=decrease, neuron2=100, use_transfer_learning=True, model=2, neuron1=60, use_svm=False",0.5357143016798156
+3,ANN,"layers=6, learning_rate=decrease, neuron2=100, use_transfer_learning=True, neuron1=60, use_svm=False, model=1",0.6206896695597418
+4,ANN,"layers=6, learning_rate=decrease, neuron2=100, use_transfer_learning=True, neuron1=60, use_svm=False, model=1",0.5172413895870077
+5,ANN,"layers=6, learning_rate=decrease, neuron2=100, use_transfer_learning=True, use_svm=False, model=1, neuron1=200",0.4482758713179621
+6,ANN,"layers=6, learning_rate=decrease, neuron2=100, use_svm=True, use_transfer_learning=True, model=2, neuron1=60",0.6875000037252903
+1,Baseline,,0.5357142857142857
+2,Baseline,,0.5357142857142857
+3,Baseline,,0.5172413793103449
+4,Baseline,,0.5172413793103449
+5,Baseline,,0.5172413793103449
+6,Baseline,,0.46875
+1,CNN,"base_learning_rate=0.001, number_of_layers=100, batch_size=32",0.3928571540330138
+2,CNN,"base_learning_rate=0.1, number_of_layers=100, batch_size=32",0.5357143016798156
+3,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.5862069129943848
+4,CNN,"base_learning_rate=0.1, batch_size=32, number_of_layers=50",0.4827586381599821
+5,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.5172413947253391
+6,CNN,"base_learning_rate=0.001, number_of_layers=100, batch_size=32",0.5000000093132257
