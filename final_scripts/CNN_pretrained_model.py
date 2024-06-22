@@ -90,7 +90,7 @@ def CNN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
                   metrics=['accuracy'])
 
     # Fine-tuning
-    model.fit(train_dataset, epochs=5, initial_epoch=5, validation_data=val_dataset)
+    model.fit(train_dataset, epochs=20, initial_epoch=5, validation_data=val_dataset)
 
     # Evaluate the model and get only the accuracy
     loss, accuracy = model.evaluate(val_dataset)

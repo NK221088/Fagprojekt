@@ -107,4 +107,4 @@ def CNN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     del model
     gc.collect()
     
-    return accuracy, conf_matrix
+    return accuracy, conf_matrix, (y_pred, y_true)
