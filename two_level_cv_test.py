@@ -15,6 +15,7 @@ from seed import set_seeds
 from McNemar_test import McNemar_results
 
 set_seeds()
+seed = 11
 
 ############################
 # Settings:
@@ -90,6 +91,7 @@ if save_results:
         file.write("K2: {}\n".format(K2))
         file.write("Stop Time: {}\n".format(stopTime))
         file.write("Frequency: {}\n".format(round(freq,3)))
+        file.write("Seed: {}\n".format(seed))
         if individuals:
             file.write("The models were evaluated using hold one out with each patient.\n")
         file.write("Theta parameters:\n")
