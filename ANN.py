@@ -271,3 +271,14 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
 
             clr = CyclicLR(base_lr=initial_learning_rate, max_lr=max_learning_rate, step_size=step_size, mode='exp_range')
             model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[clr], verbose=0)
+        
+        loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
+        y_pred_probs = model.predict(X_test)
+        y_pred = (y_pred_probs > 0.5).astype(int).flatten()
+        y_true = ytest
+        conf_matrix = confusion_matrix(y_true, y_pred)
+
+        tf.keras.backend.clear_session()
+        del model
+        gc.collect()
+        return accuracy, conf_matrix, (y_pred, ytest)
