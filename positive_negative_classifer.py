@@ -1,15 +1,16 @@
 import numpy as np
 from seed import set_seeds
+from sklearn.metrics import confusion_matrix
+
 set_seeds()
 
 def Positive_Negative_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     
-    confusionMatrix = np.zeros((2,2)) # 0 = control, 1 = Tapping
-    #[[TP,FP]
-    # [FN,TN]]
+    predictions = (np.mean(Xtest, axis=(1,2)) > 0)
     
-    predictions = (np.mean(Xtest, axis = (1,2)) > 0) == ytest
+    accuracy = sum(predictions == ytest) / len(ytest)
     
-    accuracy = sum(predictions) / len(predictions)
+    # Calculate confusion matrix
+    conf_matrix = confusion_matrix(ytest, predictions)
     
-    return accuracy
+    return accuracy, conf_matrix, (predictions, ytest)
