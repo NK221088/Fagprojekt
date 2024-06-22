@@ -389,7 +389,7 @@ class fNIRS_CUH_patient_data_load(fNIRS_data_load):
         self.scalp_coupling_threshold = 0.8  # Change this value if needed
         self.reject_criteria = dict(hbo=80e-6)
         self.tmin = 0
-        self.tmax = 15
+        self.tmax = 14
         self.baseline = (0, 0)
         self.data_types = ["Imagery"]
         self.number_of_data_types = 2
