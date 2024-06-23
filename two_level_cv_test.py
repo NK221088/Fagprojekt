@@ -18,7 +18,11 @@ import shutil
 ############################
 
 # Data set:
+<<<<<<< Updated upstream
 data_set = "fNIRS_Alexandros_Healthy_data" # "fNirs_motor_full_data" #"fNirs_motor_full_data"
+=======
+data_set = "fNIRS_Alexandros_DoC_data" #"fNirs_motor_full_data"  # "fNIRS_Alexandros_Healthy_data" # 
+>>>>>>> Stashed changes
 epoch_type = "Imagery"
 combine_strategy = "mean"
 individuals = True # CANNOT BE CHANGED IN THIS SCRIPT
@@ -30,9 +34,17 @@ bad_channels_strategy = "mean"
 short_channel_correction = True
 negative_correlation_enhancement = True
 threshold = 3
+<<<<<<< Updated upstream
 startTime = 7.5
 stopTime = 12.5
 K2 = 10
+=======
+startTime = 0
+stopTime = 15
+startTime = 0
+stopTime = 15
+K2 = 5
+>>>>>>> Stashed changes
 interpolate_bad_channels = False
 
 # Plotting and saving:

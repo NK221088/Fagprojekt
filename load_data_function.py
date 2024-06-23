@@ -1,7 +1,17 @@
+<<<<<<< Updated upstream
 from Data_processesing_class import AudioSpeechNoise_data_load, fNIRS_full_motor_data_load, fNIRS_motor_data_load, fNIRS_Alexandros_DoC_data_load, fNIRS_Alexandros_Healthy_data_load
+=======
+from Data_processesing_class import AudioSpeechNoise_data_load, fNIRS_full_motor_data_load, fNIRS_motor_data_load, fNIRS_Alexandros_DoC_data_load, fNIRS_Alexandros_Healthy_data_load, fNIRS_CUH_patient_data_load
+import tensorflow as tf
+import numpy as np
+import random
+import os
+from seed import set_seeds
+set_seeds()
+>>>>>>> Stashed changes
 
 def load_data(data_set : str, short_channel_correction : bool = None, negative_correlation_enhancement : bool = None, individuals :bool = False, interpolate_bad_channels:bool=False):
-    if data_set not in ("fNIrs_motor", "AudioSpeechNoise", "fNirs_motor_full_data", "fNIRS_Alexandros_DoC_data", "fNIRS_Alexandros_Healthy_data"):
+    if data_set not in ("fNIrs_motor", "AudioSpeechNoise", "fNirs_motor_full_data", "fNIRS_Alexandros_DoC_data", "fNIRS_Alexandros_Healthy_data", "fNIRS_CUH_patient_data"):
         raise ValueError("Dataset does not exist.")
     if data_set == "fNIrs_motor":
         if individuals:
@@ -37,4 +47,11 @@ def load_data(data_set : str, short_channel_correction : bool = None, negative_c
             return all_epochs, data_name, all_data, all_freq, data_types, individual_data
         else:
             all_epochs, data_name, all_data, all_freq, data_types = fNIRS_Alexandros_Healthy_data_load(short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels).load_data()
+            return all_epochs, data_name, all_data, all_freq, data_types
+    if data_set ==  "fNIRS_CUH_patient_data":
+        if individuals:
+            all_epochs, data_name, all_data, all_freq, data_types, individual_data = fNIRS_CUH_patient_data_load(short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels).load_data()
+            return all_epochs, data_name, all_data, all_freq, data_types, individual_data
+        else:
+            all_epochs, data_name, all_data, all_freq, data_types = fNIRS_CUH_patient_data_load(short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels).load_data()
             return all_epochs, data_name, all_data, all_freq, data_types
