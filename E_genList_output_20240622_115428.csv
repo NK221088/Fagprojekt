@@ -1,0 +1,50 @@
+Evaluation,Model,Parameter,Accuracy
+1,SVM,"gamma=1000, kernel=rbf, C=1000000000.0, coef0=0, degree=1",0.5347985347985349
+1,ANN,"use_transfer_learning=True, model=1, use_svm=True, neuron1=200, neuron2=100, layers=6, learning_rate=decrease",0.494505491012182
+1,Baseline,,0.5054945054945055
+1,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=50",0.46886447061112513
+1,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=100",0.5128205267937629
+1,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.4322344287411197
+1,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=100",0.46520146345480895
+2,SVM,"gamma=1000, kernel=rbf, C=1000000000.0, coef0=0, degree=1",0.5826771653543307
+2,ANN,"use_transfer_learning=True, model=1, use_svm=True, neuron1=200, neuron2=100, layers=6, learning_rate=decrease",0.4566929042339325
+2,Baseline,,0.5039370078740157
+2,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=50",0.4881889820098877
+2,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=100",0.4803149700164795
+2,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.4606299251317978
+2,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=100",0.4724409431219101
+3,SVM,"gamma=1000, kernel=rbf, C=1000000000.0, coef0=0, degree=1",0.5275590551181102
+3,ANN,"use_transfer_learning=True, model=1, use_svm=True, neuron1=200, neuron2=100, layers=6, learning_rate=decrease",0.468503937125206
+3,Baseline,,0.5039370078740157
+3,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=50",0.4881889671087265
+3,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=100",0.4881889820098877
+3,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.4606299251317978
+3,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=100",0.4606299251317978
+4,SVM,"gamma=1000, kernel=rbf, C=1000000000.0, coef0=0, degree=1",0.5354330708661417
+4,ANN,"use_transfer_learning=True, model=1, use_svm=True, neuron1=200, neuron2=100, layers=6, learning_rate=decrease",0.5157480239868164
+4,Baseline,,0.5039370078740157
+4,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=50",0.4960629940032959
+4,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=100",0.4960629940032959
+4,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.4921259880065918
+4,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=100",0.4960629940032959
+5,SVM,"gamma=1000, kernel=rbf, C=1000000000.0, coef0=0, degree=1",0.5590551181102362
+5,ANN,"use_transfer_learning=True, model=1, use_svm=True, neuron1=200, neuron2=100, layers=6, learning_rate=decrease",0.4448819011449814
+5,Baseline,,0.5039370078740157
+5,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=50",0.5078740119934082
+5,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=100",0.5
+5,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.5
+5,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=100",0.4842519760131836
+6,SVM,"gamma=1000, kernel=rbf, C=1000000000.0, coef0=0, degree=1",0.49070631970260226
+6,ANN,"use_transfer_learning=True, model=1, use_svm=True, neuron1=200, neuron2=100, layers=6, learning_rate=decrease",0.49814124909475394
+6,Baseline,,0.49814126394052044
+6,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=50",0.4907063259068032
+6,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=100",0.501858732957379
+6,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.4907063259068032
+6,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=100",0.5204461077332054
+7,SVM,"gamma=1000, kernel=rbf, C=1000000000.0, coef0=0, degree=1",0.4881889763779528
+7,ANN,"use_transfer_learning=True, model=1, use_svm=True, neuron1=200, neuron2=100, layers=6, learning_rate=decrease",0.5
+7,Baseline,,0.5039370078740157
+7,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=50",0.5118110179901123
+7,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=100",0.5078740119934082
+7,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=50",0.4724409431219101
+7,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=100",0.5275590717792511

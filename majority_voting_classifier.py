@@ -24,4 +24,4 @@ def BaselineModel(Xtrain, ytrain, Xtest, ytest, theta):
     cm = np.array([[tn, fp],
                    [fn, tp]])
     
-    return accuracy, cm
+    return accuracy, cm, (y_pred, ytest)

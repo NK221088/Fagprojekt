@@ -48,6 +48,8 @@ class fNIRS_data_load:
     def load_data(self):
         for i in range(1, self.number_of_participants + 1):
             sub_id = str(i).zfill(2)  # Pad with zeros to get "01", "02", etc.
+            if self.data_name == 'fNIRS_CUH_patient_data':
+                sub_id = i
             raw_intensity = self.define_raw_intensity(sub_id)
 
             raw_intensity.annotations.set_durations(self.stimulus_duration)
@@ -280,26 +282,27 @@ class fNIRS_full_motor_data_load(fNIRS_data_load):
 
 class fNIRS_Alexandros_DoC_data_load(fNIRS_data_load):
     def __init__(self, short_channel_correction: bool, negative_correlation_enhancement: bool, individuals : bool = False, interpolate_bad_channels:bool=False):
-        self.number_of_participants = 4
+        self.number_of_participants = 7
         self.all_tapping = []
         self.all_control = []
-        self.annotation_names = {"1": "Tongue",
+        self.annotation_names = {"1": "Imagery",
+                                 "Rest": "Control"
                                 }
         self.file_path = mne.datasets.fnirs_motor.data_path()
         self.short_channel_correction = short_channel_correction
         self.negative_correlation_enhancement = negative_correlation_enhancement
-        self.stimulus_duration = 10
-        self.scalp_coupling_threshold = 0.5  # Change this value if needed
+        self.stimulus_duration = 14
+        self.scalp_coupling_threshold = 0.8  # Change this value if needed
         self.reject_criteria = dict(hbo=80e-6)
         self.tmin = -5
-        self.tmax = 15
+        self.tmax = 14
         self.baseline = (None, 0)
-        self.data_types = ["Tongue"]
+        self.data_types = ["Imagery"]
         self.number_of_data_types = 2
         self.data_name = "fNIRS_Alexandros_DoC_data"
         self.individuals = individuals
         self.interpolate_bad_channels = interpolate_bad_channels
-        self.unwanted = "15.0"
+        self.unwanted = "Pause"
         super().__init__(
             number_of_participants=self.number_of_participants,
             file_path=self.file_path,
@@ -323,6 +326,112 @@ class fNIRS_Alexandros_DoC_data_load(fNIRS_data_load):
         raw_intensity = mne.io.read_raw_snirf(f"Dataset/Alexandros/DoC/_2024-04-29_{sub_id}.snirf", verbose=True)
         raw_intensity.load_data()
         return raw_intensity
+    
+    def load_data(self):
+        for i in range(1, self.number_of_participants + 1):
+            sub_id = str(i).zfill(2)  # Pad with zeros to get "01", "02", etc.
+            raw_intensity = self.define_raw_intensity(sub_id)
+            raw_intensity = self.make_annotations(raw_intensity)
+
+            raw_intensity.annotations.rename(self.annotation_names)
+            unwanted = np.nonzero(raw_intensity.annotations.description == self.unwanted)
+            raw_intensity.annotations.delete(unwanted)
+
+            raw_od = mne.preprocessing.nirs.optical_density(raw_intensity)
+            
+            if self.short_channel_correction:
+                raw_od = mne_nirs.signal_enhancement.short_channel_regression(raw_od)
+            raw_od = mne_nirs.channels.get_long_channels(raw_od)
+
+            sci = mne.preprocessing.nirs.scalp_coupling_index(raw_od)
+
+            raw_od.info["bads"] = list(compress(raw_od.ch_names, sci < self.scalp_coupling_threshold))
+            if self.interpolate_bad_channels:
+                raw_od.interpolate_bads()
+
+            raw_haemo = mne.preprocessing.nirs.beer_lambert_law(raw_od, ppf=0.1)
+
+            raw_haemo_unfiltered = raw_haemo.copy()
+            raw_haemo.filter(0.05, 0.7, h_trans_bandwidth=0.2, l_trans_bandwidth=0.02)
+
+            if self.negative_correlation_enhancement:
+                raw_haemo = mne_nirs.signal_enhancement.enhance_negative_correlation(raw_haemo)
+
+            events, event_dict = mne.events_from_annotations(raw_haemo)
+
+            epochs = mne.Epochs(
+                raw_haemo,
+                events,
+                event_id=event_dict,
+                tmin=self.tmin,
+                tmax=self.tmax,
+                reject=self.reject_criteria,
+                reject_by_annotation=True,
+                proj=True,
+                baseline=self.baseline,
+                preload=True,
+                detrend=None,
+                verbose=True,
+            )
+
+            if len(epochs) != 0:
+                self.all_epochs.append(epochs)
+                self.all_control.append(epochs["Control"].get_data(copy=True))
+                
+                if self.individuals:
+                    Participant_i = individual_participant_class(f"Participant_{i}")
+                    Participant_i.events.update({"Control": epochs["Control"].get_data(copy=True)})
+                    Participant_i.raw_intensity = raw_intensity
+                    Participant_i.raw_od = raw_od
+                    Participant_i.raw_haemo_unfiltered = raw_haemo_unfiltered
+                    Participant_i.raw_haemo = raw_haemo
+                
+                for name in self.data_types:
+                    getattr(self, f'all_{name}').append(epochs[name].get_data(copy=True))
+                    if self.individuals:
+                        Participant_i.events.update({name: epochs[name].get_data(copy=True)})
+                
+                if self.individuals:
+                    getattr(self, 'Individual_participants').append(Participant_i)
+                
+
+        # Concatenate the control data
+        self.all_control = np.concatenate(self.all_control, axis=0)
+
+        # Concatenate the data for each data type
+        for name in self.data_types:
+            setattr(self, f'all_{name}', np.concatenate(getattr(self, f'all_{name}'), axis=0))
+
+        # Create the dictionary all_data with Control and data for each data type
+        all_data = {"Control": self.all_control}
+        for name in self.data_types:
+            all_data.update({name: getattr(self, f'all_{name}')})
+
+        # Update all_data with control_dict
+        all_freq = self.all_epochs[0].info['sfreq']
+        self.data_types.append("Control")
+        if self.individuals:
+            return self.all_epochs, self.data_name, all_data, all_freq, self.data_types, self.Individual_participants
+        else:
+            return self.all_epochs, self.data_name, all_data, all_freq, self.data_types
+    
+    def make_annotations(self, raw_intensity):
+        sampling_frequency = raw_intensity.info["sfreq"]
+        events, event_dict = mne.events_from_annotations(raw_intensity)
+        cropped_raw_data = raw_intensity.copy()
+        cropped_raw_data.annotations.set_durations(15)
+        for id,event in enumerate(events):
+            cropped_raw_data.annotations.append((event[0]) / cropped_raw_data.info['sfreq'] + 15, 14.0, "Rest")
+            if id == 7 or id == 15 or id == 23:
+                cropped_raw_data.annotations.append((event[0] ) / cropped_raw_data.info['sfreq'] + 29, 33, "Pause")
+            if id == 0:
+                duration = event[0] / cropped_raw_data.info['sfreq']
+                cropped_raw_data.annotations.append(0, duration, "Pause")
+        # cropped_raw_data.plot(n_channels=len(cropped_raw_data.ch_names), duration=600, show_scrollbars=True)
+        # plt.show()
+        # events, event_dict = mne.events_from_annotations(cropped_raw_data)
+        # print(events)
+        return cropped_raw_data
 
 class fNIRS_Alexandros_Healthy_data_load(fNIRS_data_load):
     def __init__(self, short_channel_correction: bool, negative_correlation_enhancement: bool, individuals : bool = False, interpolate_bad_channels:bool=False):
@@ -371,3 +480,165 @@ class fNIRS_Alexandros_Healthy_data_load(fNIRS_data_load):
         raw_intensity = mne.io.read_raw_snirf(f"Dataset/Alexandros/Healthy/_2024-04-29_{sub_id}.snirf", verbose=True)
         raw_intensity.load_data()
         return raw_intensity
+
+class fNIRS_CUH_patient_data_load(fNIRS_data_load):
+    def __init__(self, short_channel_correction: bool, negative_correlation_enhancement: bool, individuals : bool = False, interpolate_bad_channels:bool=False):
+        self.number_of_participants = 2
+        self.all_tapping = []
+        self.all_control = []
+        self.annotation_names = {"1": "Imagery",
+                                 "Rest": "Control"
+                                }
+        self.file_path = mne.datasets.fnirs_motor.data_path()
+        self.short_channel_correction = short_channel_correction
+        self.negative_correlation_enhancement = negative_correlation_enhancement
+        self.stimulus_duration = 15
+        self.scalp_coupling_threshold = 0.5  # Change this value if needed
+        self.reject_criteria = dict(hbo=80e-6)
+        self.tmin = 0
+        self.tmax = 15
+        self.baseline = (0, 0)
+        self.data_types = ["Imagery"]
+        self.number_of_data_types = 2
+        self.data_name = "fNIRS_CUH_patient_data"
+        self.individuals = individuals
+        self.interpolate_bad_channels = interpolate_bad_channels
+        self.unwanted = "Pause"
+        super().__init__(
+            number_of_participants=self.number_of_participants,
+            file_path=self.file_path,
+            annotation_names=self.annotation_names,
+            stimulus_duration=self.stimulus_duration,
+            short_channel_correction=self.short_channel_correction,
+            negative_correlation_enhancement=self.negative_correlation_enhancement,
+            scalp_coupling_threshold=self.scalp_coupling_threshold,
+            reject_criteria=self.reject_criteria,
+            baseline=self.baseline,
+            tmin=self.tmin,
+            tmax=self.tmax,
+            data_types=self.data_types,
+            number_of_data_types=self.number_of_data_types,
+            data_name=self.data_name,
+            individuals = self.individuals,
+            interpolate_bad_channels = self.interpolate_bad_channels,
+            unwanted = self.unwanted)
+
+    def define_raw_intensity(self, sub_id):
+            if sub_id == 9:
+                raw_intensity = mne.io.read_raw_snirf(f"L:\LovbeskyttetMapper\CONNECT-ME\DTU\Alex_Data\DoC\data_initial\P{sub_id}_2_2.snirf", verbose=True)
+            else:            
+                raw_intensity = mne.io.read_raw_snirf(f"L:\LovbeskyttetMapper\CONNECT-ME\DTU\Alex_Data\DoC\data_initial\P{sub_id}_1.snirf", verbose=True)
+            raw_intensity.load_data()
+            return raw_intensity
+        
+    def load_data(self):
+        for i in range(1, self.number_of_participants + 1):
+            sub_id = str(i).zfill(2)  # Pad with zeros to get "01", "02", etc.
+            if self.data_name == 'fNIRS_CUH_patient_data':
+                sub_id = i
+            if sub_id in [3, 14, 15, 17, 18, 30, 31, 41]:
+                continue
+            raw_intensity = self.define_raw_intensity(sub_id)
+            raw_intensity = self.make_annotations(raw_intensity)
+
+            raw_intensity.annotations.rename(self.annotation_names)
+            unwanted = np.nonzero(raw_intensity.annotations.description == self.unwanted)
+            raw_intensity.annotations.delete(unwanted)
+
+            raw_od = mne.preprocessing.nirs.optical_density(raw_intensity)
+            
+            if self.short_channel_correction:
+                raw_od = mne_nirs.signal_enhancement.short_channel_regression(raw_od)
+            raw_od = mne_nirs.channels.get_long_channels(raw_od)
+
+            sci = mne.preprocessing.nirs.scalp_coupling_index(raw_od)
+
+            raw_od.info["bads"] = list(compress(raw_od.ch_names, sci < self.scalp_coupling_threshold))
+            if self.interpolate_bad_channels:
+                raw_od.interpolate_bads()
+
+            raw_haemo = mne.preprocessing.nirs.beer_lambert_law(raw_od, ppf=0.1)
+
+            raw_haemo_unfiltered = raw_haemo.copy()
+            raw_haemo.filter(0.05, 0.7, h_trans_bandwidth=0.2, l_trans_bandwidth=0.02)
+
+            if self.negative_correlation_enhancement:
+                raw_haemo = mne_nirs.signal_enhancement.enhance_negative_correlation(raw_haemo)
+
+            events, event_dict = mne.events_from_annotations(raw_haemo)
+
+            epochs = mne.Epochs(
+                raw_haemo,
+                events,
+                event_id=event_dict,
+                tmin=self.tmin,
+                tmax=self.tmax,
+                reject=self.reject_criteria,
+                reject_by_annotation=True,
+                proj=True,
+                baseline=self.baseline,
+                preload=True,
+                detrend=None,
+                verbose=True,
+            )
+
+            if len(epochs) != 0:
+                self.all_epochs.append(epochs)
+                self.all_control.append(epochs["Control"].get_data(copy=True))
+                
+                if self.individuals:
+                    Participant_i = individual_participant_class(f"Participant_{i}")
+                    Participant_i.events.update({"Control": epochs["Control"].get_data(copy=True)})
+                    Participant_i.raw_intensity = raw_intensity
+                    Participant_i.raw_od = raw_od
+                    Participant_i.raw_haemo_unfiltered = raw_haemo_unfiltered
+                    Participant_i.raw_haemo = raw_haemo
+                
+                for name in self.data_types:
+                    getattr(self, f'all_{name}').append(epochs[name].get_data(copy=True))
+                    if self.individuals:
+                        Participant_i.events.update({name: epochs[name].get_data(copy=True)})
+                
+                if self.individuals:
+                    getattr(self, 'Individual_participants').append(Participant_i)
+                
+
+        # Concatenate the control data
+        self.all_control = np.concatenate(self.all_control, axis=0)
+
+        # Concatenate the data for each data type
+        for name in self.data_types:
+            setattr(self, f'all_{name}', np.concatenate(getattr(self, f'all_{name}'), axis=0))
+
+        # Create the dictionary all_data with Control and data for each data type
+        all_data = {"Control": self.all_control}
+        for name in self.data_types:
+            all_data.update({name: getattr(self, f'all_{name}')})
+
+        # Update all_data with control_dict
+        all_freq = self.all_epochs[0].info['sfreq']
+        self.data_types.append("Control")
+        if self.individuals:
+            return self.all_epochs, self.data_name, all_data, all_freq, self.data_types, self.Individual_participants
+        else:
+            return self.all_epochs, self.data_name, all_data, all_freq, self.data_types
+    
+    def make_annotations(self, raw_intensity):
+        sampling_frequency = raw_intensity.info["sfreq"]
+        events, event_dict = mne.events_from_annotations(raw_intensity)
+        cropped_raw_data = raw_intensity.copy()
+        cropped_raw_data.annotations.set_durations(15)
+        for id,event in enumerate(events):
+            cropped_raw_data.annotations.append((event[0]) / cropped_raw_data.info['sfreq'] + 15, 14.0, "Rest")
+            if id == 7 or id == 15 or id == 23:
+                cropped_raw_data.annotations.append((event[0] ) / cropped_raw_data.info['sfreq'] + 29, 33, "Pause")
+            if id == 0:
+                duration = event[0] / cropped_raw_data.info['sfreq']
+                cropped_raw_data.annotations.append(0, duration, "Pause")
+        # cropped_raw_data.plot(n_channels=len(cropped_raw_data.ch_names), duration=600, show_scrollbars=True)
+        # plt.show()
+        # events, event_dict = mne.events_from_annotations(cropped_raw_data)
+        # print(events)
+        return cropped_raw_data
+                
+        

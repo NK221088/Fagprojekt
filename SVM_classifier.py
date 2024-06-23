@@ -24,7 +24,7 @@ def SVM_classifier(Xtrain, ytrain, Xtest, ytest, theta):
     # Compute confusion matrix
     cm = confusion_matrix(ytest, ypred)
     
-    return accuracy, cm
+    return accuracy, cm, (ypred, ytest)
 
 
 

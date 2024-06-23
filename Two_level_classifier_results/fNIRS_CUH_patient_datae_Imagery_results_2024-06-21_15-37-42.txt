@@ -1,0 +1,19 @@
+Classifier Results:
+====================
+Data obtained at: 2024-06-21_15-37-42
+Dataset: fNIRS_CUH_patient_data
+Epoch type used for classification: Imagery
+Combine Strategy: mean
+Bad Channels Strategy: mean
+Start Time: 2
+K2: 2
+Stop Time: 7
+Frequency: 10.173
+The models were evaluated using hold one out with each patient.
+Theta parameters:
+SVM: {'kernel': ['rbf'], 'C': [1000000000.0], 'gamma': [1000], 'degree': [1], 'coef0': [0]}
+Baseline: {}
+Results:
+For the SVM classifier: 0.5
+For the Baseline classifier: 0.5
+Seed used: 11

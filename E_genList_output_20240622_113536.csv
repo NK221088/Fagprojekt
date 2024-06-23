@@ -1,0 +1,8 @@
+Evaluation,Model,Parameter,Accuracy
+1,SVM,"degree=1, C=1000000000.0, gamma=1000, kernel=rbf, coef0=0",0.5347985347985349
+2,SVM,"degree=1, C=1000000000.0, gamma=1000, kernel=rbf, coef0=0",0.5826771653543307
+3,SVM,"degree=1, C=1000000000.0, gamma=1000, kernel=rbf, coef0=0",0.5275590551181102
+4,SVM,"degree=1, C=1000000000.0, gamma=1000, kernel=rbf, coef0=0",0.5354330708661417
+5,SVM,"degree=1, C=1000000000.0, gamma=1000, kernel=rbf, coef0=0",0.5590551181102362
+6,SVM,"degree=1, C=1000000000.0, gamma=1000, kernel=rbf, coef0=0",0.49070631970260226
+7,SVM,"degree=1, C=1000000000.0, gamma=1000, kernel=rbf, coef0=0",0.4881889763779528

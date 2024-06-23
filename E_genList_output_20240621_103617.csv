@@ -1,0 +1,5 @@
+Evaluation,Model,Parameter,Accuracy
+1,ANN,"learning_rate=decrease, neuron1=200, use_transfer_learning=True, use_svm=True, model=1, layers=6, neuron2=100",0.35416666666666663
+1,Baseline,,0.5
+2,ANN,"learning_rate=decrease, neuron1=200, use_transfer_learning=True, use_svm=True, model=1, layers=6, neuron2=100",0.5319148936170213
+2,Baseline,,0.46808510638297873
