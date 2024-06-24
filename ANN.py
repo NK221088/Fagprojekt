@@ -67,6 +67,13 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         except RuntimeError as e:
             print(e)
 
+    # Performing standardization
+    #epsilon = 1e-8
+    #std = np.std(Xtrain, axis=0)
+    #std[std == 0] = epsilon     # Replace zero standard deviations with epsilon
+    #Xtest = (Xtest - np.mean(Xtrain, axis=0)) / std
+    #Xtrain = (Xtrain - np.mean(Xtrain, axis=0)) / std
+
     X_train = tf.convert_to_tensor(Xtrain)
     y_train = tf.convert_to_tensor(ytrain)
     y_train = tf.cast(y_train, tf.int32)
@@ -150,7 +157,8 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             tf.keras.backend.clear_session()
             del model
             gc.collect()
-            return accuracy, conf_matrix, (y_pred, ytest)
+
+            return accuracy, conf_matrix
         
         else:
             loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
@@ -162,8 +170,9 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             tf.keras.backend.clear_session()
             del model
             gc.collect()
-            return accuracy, conf_matrix, (y_pred, ytest)
 
+            return accuracy, conf_matrix
+    
     elif theta["model"] == 2:
             model = Sequential([
             Conv1D(filters=64, kernel_size=3, activation='relu', input_shape=(np.shape(X_train)[1], np.shape(X_train)[2])),
@@ -222,7 +231,8 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             tf.keras.backend.clear_session()
             del model
             gc.collect()
-            return accuracy, conf_matrix, (y_pred, ytest)
+
+            return accuracy, conf_matrix
     
     elif theta["model"] == 3:
         model = tf.keras.models.Sequential([
@@ -233,38 +243,24 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         ])
         
         loss_fn = tf.keras.losses.BinaryCrossentropy(from_logits=False)
-        epochs = 300
+        epochs = 100
         batch_size = 100
+        initial_learning_rate = 0.009
+        decay_steps = 20
+        decay_rate = 0.9
         
-        if theta["learning_rate"] == "decrease":
-            initial_learning_rate = 0.001
-            decay_steps = tf.constant(50, dtype=tf.int64)
-            decay_rate = 0.9
-
-            optimizer = tf.keras.optimizers.Adam(
-                learning_rate=fNirs_LRSchedule(
-                    initial_learning_rate=initial_learning_rate,
-                    decay_steps=decay_steps,
-                    decay_rate=decay_rate,
-                )
+        optimizer = tf.keras.optimizers.Adam(
+            learning_rate=fNirs_LRSchedule(
+                initial_learning_rate = initial_learning_rate,
+                decay_steps = decay_steps,
+                decay_rate = decay_rate,
             )
-
-            model.compile(optimizer=optimizer,
-                        loss=loss_fn,
-                        metrics=['accuracy'])
-            model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=0)
-
-        elif theta["learning_rate"] == "clr":
-            initial_learning_rate = 0.001
-            max_learning_rate = 0.0025
-            step_size = 50
-
-            optimizer = tf.keras.optimizers.Adam()
-
-            model.compile(optimizer=optimizer, loss=loss_fn, metrics=['accuracy'])
-
-            clr = CyclicLR(base_lr=initial_learning_rate, max_lr=max_learning_rate, step_size=step_size, mode='exp_range')
-            model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, callbacks=[clr], verbose=0)
+        )
+        model.compile(optimizer=optimizer,
+                    loss=loss_fn, 
+                    metrics=['accuracy'])
+        
+        model.fit(X_train, y_train, epochs = epochs, batch_size = batch_size,verbose = 0)
         
         loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
         y_pred_probs = model.predict(X_test)
@@ -275,4 +271,5 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         tf.keras.backend.clear_session()
         del model
         gc.collect()
-        return accuracy, conf_matrix, (y_pred, ytest)
+
+        return accuracy, conf_matrix
