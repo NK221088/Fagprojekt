@@ -1,0 +1,31 @@
+Evaluation,Model,Parameter,Accuracy
+1,ANN,"neuron1=100, model=1, use_transfer_learning=True, use_svm=False, neuron2=200, learning_rate=clr, layers=8",0.8467742019603329
+2,ANN,"model=1, neuron1=128, use_transfer_learning=True, use_svm=False, neuron2=200, learning_rate=clr, layers=8",0.8629032265274754
+3,ANN,"model=1, use_transfer_learning=True, use_svm=True, neuron2=200, learning_rate=clr, layers=8, neuron1=300",0.8512658227848101
+4,ANN,"model=1, use_transfer_learning=True, use_svm=True, neuron2=100, learning_rate=clr, layers=8, neuron1=300",0.8527397260273973
+5,ANN,"neuron1=100, model=1, use_transfer_learning=True, use_svm=True, neuron2=200, learning_rate=clr, layers=8",0.8548387096774195
+1,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=75",0.6854838620751135
+2,CNN,"number_of_layers=50, batch_size=32, base_learning_rate=0.001",0.6854838738518377
+3,CNN,"number_of_layers=100, base_learning_rate=0.1, batch_size=32",0.6677215254004998
+4,CNN,"base_learning_rate=0.01, batch_size=32, number_of_layers=75",0.7089041050982802
+5,CNN,"batch_size=32, base_learning_rate=0.001, number_of_layers=75",0.6774193615682662
+1,SVM,"kernel=rbf, C=1000000.0, gamma=10.0, coef0=0, degree=2",0.8346774193548387
+2,SVM,"coef0=0, kernel=rbf, C=1000000.0, gamma=1000.0, degree=2",0.8790322580645161
+3,SVM,"gamma=1000.0, kernel=rbf, C=10000.0, coef0=0, degree=2",0.8544303797468354
+4,SVM,"kernel=rbf, gamma=10.0, coef0=0, C=10000000.0, degree=2",0.8424657534246576
+5,SVM,"gamma=1000.0, kernel=rbf, C=100000.0, coef0=0, degree=2",0.8588709677419354
+1,Baseline,,0.6451612903225806
+2,Baseline,,0.6451612903225806
+3,Baseline,,0.6487341772151899
+4,Baseline,,0.6678082191780822
+5,Baseline,,0.6451612903225806
+1,PosNeg,,0.717741935483871
+2,PosNeg,,0.6975806451612903
+3,PosNeg,,0.7183544303797469
+4,PosNeg,,0.7260273972602739
+5,PosNeg,,0.7419354838709677
+1,Mean,,0.6290322580645161
+2,Mean,,0.6411290322580645
+3,Mean,,0.5759493670886076
+4,Mean,,0.6267123287671232
+5,Mean,,0.689516129032258

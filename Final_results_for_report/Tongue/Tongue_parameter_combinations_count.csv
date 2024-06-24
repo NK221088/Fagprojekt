@@ -1,0 +1,19 @@
+Parameter Combination,Count
+"('layers=3', 'learning_rate=decrease', 'model=1', 'neuron1=100', 'neuron2=100', 'use_svm=False', 'use_transfer_learning=True')",6
+"('C=0.01', 'degree=2', 'gamma=1e-09', 'kernel=rbf')",5
+"('C=1000000000.0', 'degree=2', 'gamma=1000.0', 'kernel=poly')",4
+"('base_learning_rate=0.001', 'batch_size=32', 'number_of_layers=100')",3
+"('base_learning_rate=0.1', 'batch_size=32', 'number_of_layers=50')",3
+"('base_learning_rate=0.01', 'batch_size=32', 'number_of_layers=50')",2
+"('C=10000.0', 'degree=2', 'gamma=1000.0', 'kernel=rbf')",2
+"('base_learning_rate=0.001', 'batch_size=32', 'number_of_layers=75')",1
+"('layers=8', 'learning_rate=clr', 'model=2', 'neuron1=100', 'neuron2=100', 'use_svm=False', 'use_transfer_learning=True')",1
+"('layers=8', 'learning_rate=clr', 'model=1', 'neuron1=100', 'neuron2=100', 'use_svm=False', 'use_transfer_learning=True')",1
+"('layers=6', 'learning_rate=clr', 'model=2', 'neuron1=128', 'neuron2=100', 'use_svm=False', 'use_transfer_learning=True')",1
+"('layers=8', 'learning_rate=clr', 'model=2', 'neuron1=100', 'neuron2=200', 'use_svm=False', 'use_transfer_learning=True')",1
+"('base_learning_rate=0.1', 'batch_size=32', 'number_of_layers=75')",1
+"('base_learning_rate=0.1', 'batch_size=32', 'number_of_layers=100')",1
+"('base_learning_rate=0.001', 'batch_size=32', 'number_of_layers=50')",1
+"('layers=3', 'learning_rate=clr', 'model=2', 'neuron1=100', 'neuron2=100', 'use_svm=True', 'use_transfer_learning=True')",1
+"('layers=6', 'learning_rate=clr', 'model=1', 'neuron1=100', 'neuron2=200', 'use_svm=False', 'use_transfer_learning=True')",1
+"('C=1000000000.0', 'degree=2', 'gamma=1.0', 'kernel=rbf')",1

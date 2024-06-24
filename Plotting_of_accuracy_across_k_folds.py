@@ -15,13 +15,18 @@ def parse_accuracy_dict(accuracy_dict_str):
     # Adjust to handle the new format with additional array
     return {k: (v[0], v[1]) for k, v in parsed_dict.items()}
 
-def plot_of_accuracy_across_k_folds_shaded(dfs, save_plot: bool = False):
+def plot_of_accuracy_across_k_folds_shaded(dfs, exclude_classifiers=None, save_plot: bool = False):
+    if exclude_classifiers is None:
+        exclude_classifiers = []
+
     # Create a dictionary to store accuracies for each classifier
     classifier_accuracies = {}
 
     for df in dfs:
         for _, row in df.iterrows():
             classifier = row['Model']
+            if classifier in exclude_classifiers:
+                continue
             fold_accuracies = parse_accuracy_dict(row['E_test_Accuracy'])
             if classifier not in classifier_accuracies:
                 classifier_accuracies[classifier] = {}
@@ -53,36 +58,30 @@ def plot_of_accuracy_across_k_folds_shaded(dfs, save_plot: bool = False):
         plt.plot(x_values, y_values, marker='o', label=classifier)  # Plot the line
         plt.fill_between(x_values, np.array(y_values) - np.array(y_errors), np.array(y_values) + np.array(y_errors), alpha=0.2)  # Add shaded confidence intervals
 
-    plt.xlabel("Fold-number")
+    plt.xlabel("Participant")
     plt.ylabel("Test accuracy")
-    plt.title("Test accuracy across {} folds".format(len(classifier_accuracies[list(classifier_accuracies.keys())[0]])))
+    plt.title("Test accuracy across {} participants".format(len(classifier_accuracies[list(classifier_accuracies.keys())[0]])))
     plt.xticks(np.arange(1, len(classifier_accuracies[list(classifier_accuracies.keys())[0]]) + 1, 1))  # Ensuring only integers on the x-axis
     plt.ylim(0, 1)  # Setting the y-axis scale from 0 to 1
     plt.legend()
 
     if save_plot:
-        plots_folder = "Plots"
+        plots_folder = "Final_results_for_report\Tongue"
         os.makedirs(plots_folder, exist_ok=True)  # Create the directory if it does not exist
         current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        filename = os.path.join(plots_folder, f"accuracy_plot_{current_datetime}.pdf")
+        filename = os.path.join(plots_folder, f"accuracy_plot_{current_datetime}_Tongue.pdf")
         plt.savefig(filename)
         print(f"Final plot saved as {filename}")
 
     plt.show()
 
 file_paths = [
-    "./Final_results/E_test_output_20240621_013039.csv",
-    "./Final_results/E_test_output_20240621_021347.csv",
-    "./Final_results/E_test_output_20240621_022202.csv",
-    "./Final_results/E_test_output_20240621_023716.csv",
-    "./Final_results/E_test_output_20240621_042931.csv",
+    "./Final_results_for_report\Tongue\E_test_output_20240623_180846.csv",
+    "./Final_results_for_report\Tongue\E_test_output_20240624_003849.csv"
 ]
 
 df1 = pd.read_csv(file_paths[0])
 df2 = pd.read_csv(file_paths[1])
-df3 = pd.read_csv(file_paths[2])
-df4 = pd.read_csv(file_paths[3])
-df5 = pd.read_csv(file_paths[4])
 
 # Call the function with the dataframes
-plot_of_accuracy_across_k_folds_shaded([df1, df2, df3, df4, df5], save_plot=True)
+plot_of_accuracy_across_k_folds_shaded([df1, df2], exclude_classifiers=['PosNeg', "Mean"], save_plot=True)

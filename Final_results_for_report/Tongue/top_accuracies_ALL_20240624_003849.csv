@@ -1,0 +1,37 @@
+Evaluation,Model,Parameter,Accuracy
+1,ANN,"use_transfer_learning=True, layers=8, model=2, neuron1=100, use_svm=False, learning_rate=clr, neuron2=200",0.6071428741727557
+2,ANN,"learning_rate=decrease, use_transfer_learning=True, neuron2=100, neuron1=100, use_svm=False, model=1, layers=3",0.5357143070016589
+3,ANN,"learning_rate=decrease, use_transfer_learning=True, neuron2=100, neuron1=100, use_svm=False, model=1, layers=3",0.5172413998636706
+4,ANN,"use_transfer_learning=True, neuron1=100, use_svm=False, model=1, learning_rate=clr, neuron2=200, layers=6",0.5862069129943848
+5,ANN,"learning_rate=decrease, use_transfer_learning=True, neuron2=100, neuron1=100, use_svm=False, model=1, layers=3",0.5172413998636706
+6,ANN,"use_svm=True, use_transfer_learning=True, neuron2=100, learning_rate=clr, model=2, neuron1=100, layers=3",0.5000000037252903
+1,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=50",0.4642857291868755
+2,CNN,"batch_size=32, number_of_layers=50, base_learning_rate=0.001",0.5000000180942672
+3,CNN,"batch_size=32, number_of_layers=100, base_learning_rate=0.1",0.4827586381599821
+4,CNN,"batch_size=32, base_learning_rate=0.1, number_of_layers=50",0.5172413998636706
+5,CNN,"batch_size=32, base_learning_rate=0.01, number_of_layers=50",0.482758638159982
+6,CNN,"number_of_layers=75, batch_size=32, base_learning_rate=0.1",0.5000000037252903
+1,SVM,"coef0=0, kernel=rbf, degree=2, gamma=1e-09, C=0.01",0.5357142857142857
+2,SVM,"coef0=0, kernel=rbf, degree=2, gamma=1e-09, C=0.01",0.5357142857142857
+3,SVM,"coef0=0, kernel=rbf, degree=2, gamma=1000.0, C=10000.0",0.5517241379310345
+4,SVM,"coef0=0, kernel=rbf, degree=2, gamma=1000.0, C=10000.0",0.7241379310344828
+5,SVM,"coef0=0, kernel=rbf, degree=2, gamma=1e-09, C=0.01",0.5172413793103449
+6,SVM,"coef0=0, degree=2, kernel=poly, gamma=1000.0, C=1000000000.0",0.6875
+1,Baseline,,0.5357142857142857
+2,Baseline,,0.5357142857142857
+3,Baseline,,0.5172413793103449
+4,Baseline,,0.5172413793103449
+5,Baseline,,0.5172413793103449
+6,Baseline,,0.46875
+1,PosNeg,,0.4285714285714285
+2,PosNeg,,0.4999999999999999
+3,PosNeg,,0.5172413793103449
+4,PosNeg,,0.5517241379310345
+5,PosNeg,,0.5172413793103449
+6,PosNeg,,0.5625
+1,Mean,,0.5
+2,Mean,,0.4642857142857142
+3,Mean,,0.5517241379310345
+4,Mean,,0.5517241379310345
+5,Mean,,0.5172413793103449
+6,Mean,,0.53125

@@ -35,5 +35,25 @@ for i in range(combined_df.shape[0]):
         else:
             param_dict[tuple(i.split('='))] = 1
 
+ann_keys = ['neuron1', 'neuron2', 'learning_rate', 'model', 'layers', 'use_svm', 'use_transfer_learning']
+cnn_keys = ['batch_size', 'number_of_layers', 'base_learning_rate']
+svm_keys = ['gamma', 'coef0', 'C', 'kernel', 'degree']
 
-print(param_dict)
+# Initialize empty dictionaries
+ann_dict = {}
+cnn_dict = {}
+svm_dict = {}
+
+# Populate dictionaries based on keywords
+for key, value in param_dict.items():
+    if key[0] in ann_keys:
+        ann_dict[key] = value
+    elif key[0] in cnn_keys:
+        cnn_dict[key] = value
+    elif key[0] in svm_keys:
+        svm_dict[key] = value
+
+# Output the resulting dictionaries
+print("ANN Dictionary:", ann_dict)
+print("CNN Dictionary:", cnn_dict)
+print("SVM Dictionary:", svm_dict)
