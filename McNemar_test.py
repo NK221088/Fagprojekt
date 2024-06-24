@@ -32,20 +32,35 @@ def save_results_to_csv(results, folder_path, filename="mcnemar_results.csv"):
     print(f"Results saved to {file_path}")
 
 # Function to perform McNemar's test and save the results
-def McNemar_results(file_path, save_folder):
-    data = load_data(file_path)
+def McNemar_results(file_paths, save_folder):
+    _True_labels = []
+    _model_predictions = {}
 
-    # Extract models and predictions
-    models = list(data.keys())
+    for file_path in file_paths:
+        data = load_data(file_path)
 
-    predictions = {model: {fold: pred[3] for fold, pred in data[model].items()} for model in models}
-    True_labels = [predictions[models[0]][key][1] for key in predictions[models[0]].keys()]
-    True_labels = np.concatenate(True_labels).ravel()  # Flattening list of true labels
-    predictions = {model: {fold: pred[0] for fold, pred in predictions[model].items()} for model in predictions.keys()}
+        # Extract models and predictions
+        models = list(data.keys())
 
-    # Prepare predictions for each model
-    model_predictions = {model: np.concatenate([predictions[model][fold] for fold in predictions[model].keys()]) for model in models}
+        predictions = {model: {fold: pred[3] for fold, pred in data[model].items()} for model in models}
+        True_labels = [predictions[models[0]][key][1] for key in predictions[models[0]].keys()]
+        True_labels = np.concatenate(True_labels).ravel()  # Flattening list of true labels
+        predictions = {model: {fold: pred[0] for fold, pred in predictions[model].items()} for model in predictions.keys()}
 
+        # Prepare predictions for each model
+        model_predictions = {model: np.concatenate([predictions[model][fold] for fold in predictions[model].keys()]) for model in models}
+
+        _True_labels.append(True_labels)
+
+        # Add or append model predictions to _model_predictions
+        for model in model_predictions:
+            if model in _model_predictions:
+                _model_predictions[model] = np.append(_model_predictions[model], model_predictions[model])
+            else:
+                _model_predictions[model] = model_predictions[model]
+    model_predictions = _model_predictions
+    True_labels = np.concatenate(_True_labels)
+    
     # McNemar's test for each pair of models
     def mcnemar_test(model1_preds, model2_preds, true_labels):
         # Contingency table
@@ -69,9 +84,11 @@ def McNemar_results(file_path, save_folder):
     # Optionally, print results
     for model_pair, result in results.items():
         model1, model2 = model_pair
-        print(f"McNemar's test between {model1} and {model2}: p-value = {result.pvalue:.4f}, statistic = {result.statistic:.4f}")
+        print(f"McNemar's test between {model1} and {model2}: p-value = {result.pvalue:.8f}, statistic = {result.statistic:.8f}")
 
 # Example usage
-file_path = 'E_test_output_20240622_115428.csv'  # Replace with your file path
-save_folder = "Final_results_for_report"
+file_path = ['Final_results_for_report\Tapping\E_test_output_20240623_091633.csv',
+             'Final_results_for_report\Tapping\E_test_output_20240624_094528.csv',
+             'Final_results_for_report\Tapping\E_test_output_20240624_221420.csv']  # Replace with your file path
+save_folder = "Final_results_for_report\Tapping"
 McNemar_results(file_path, save_folder)

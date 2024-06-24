@@ -78,18 +78,12 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         # Define your model
         model = tf.keras.models.Sequential()
         model.add(tf.keras.layers.Flatten(input_shape=(X_train.shape[1], X_train.shape[2])))
-        model.add(tf.keras.layers.Dense(theta["neuron1"], activation='relu'))
+        model.add(tf.keras.layers.Dense(theta[300], activation='relu'))
         model.add(tf.keras.layers.Dropout(0.2))
-
-        if theta["layers"] == 6:
-            model.add(tf.keras.layers.Dense(theta["neuron2"], activation='relu'))
-            model.add(tf.keras.layers.Dropout(0.2))
-
-        elif theta["layers"] == 8:
-            model.add(tf.keras.layers.Dense(theta["neuron2"], activation='relu'))
-            model.add(tf.keras.layers.Dropout(0.2))
-            model.add(tf.keras.layers.Dense(theta["neuron1"], activation='relu'))
-            model.add(tf.keras.layers.Dropout(0.2))
+        model.add(tf.keras.layers.Dense(theta[200], activation='relu'))
+        model.add(tf.keras.layers.Dropout(0.2))
+        model.add(tf.keras.layers.Dense(theta[300], activation='relu'))
+        model.add(tf.keras.layers.Dropout(0.2))
 
         # Add the output layer for binary classification
         model.add(tf.keras.layers.Dense(1, activation='sigmoid'))

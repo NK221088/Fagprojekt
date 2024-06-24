@@ -14,7 +14,7 @@ import shutil
 from seed import set_seeds
 from McNemar_test import McNemar_results
 
-seed = 11
+seed = 33
 set_seeds()
 
 ############################
@@ -22,8 +22,8 @@ set_seeds()
 ############################
 
 # Data set:
-data_set = "fNIRS_Alexandros_Healthy_data" # "fNirs_motor_full_data"  # "fNIRS_Alexandros_DoC_data" #    "fNIRS_CUH_patient_data" # 
-epoch_type = "Imagery"
+data_set = "fNirs_motor_full_data"  # "fNIRS_Alexandros_Healthy_data" #  "fNIRS_Alexandros_DoC_data" #    "fNIRS_CUH_patient_data" # 
+epoch_type = "Tapping"
 combine_strategy = "mean"
 individuals = True # CANNOT BE CHANGED IN THIS SCRIPT
 if not individuals:
@@ -34,8 +34,8 @@ bad_channels_strategy = "mean"
 short_channel_correction = True
 negative_correlation_enhancement = True
 threshold = 3
-startTime = 0
-stopTime = 15 
+startTime = 7.5
+stopTime = 12.5
 K2 = 5
 interpolate_bad_channels = False
 
