@@ -1,0 +1,8 @@
+Parameter,Count
+"('number_of_layers', '75')",7
+"('batch_size', '32')",15
+"('base_learning_rate', '0.001')",9
+"('base_learning_rate', '0.01')",5
+"('number_of_layers', '100')",7
+"('number_of_layers', '50')",1
+"('base_learning_rate', '0.1')",1

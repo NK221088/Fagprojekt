@@ -87,6 +87,7 @@ def McNemar_results(file_paths, save_folder):
         print(f"McNemar's test between {model1} and {model2}: p-value = {result.pvalue:.8f}, statistic = {result.statistic:.8f}")
 
 # Example usage
-file_path = ['Final_results_for_report\Tongue\E_test_output_20240623_180846.csv', 'Final_results_for_report\Tongue\E_test_output_20240624_003849.csv']  # Replace with your file path
+file_path = ['Final_results_for_report\Tongue\E_test_output_20240623_180846.csv',
+             'Final_results_for_report\Tongue\E_test_output_20240624_003849.csv']  # Replace with your file path
 save_folder = "Final_results_for_report\Tongue"
 McNemar_results(file_path, save_folder)

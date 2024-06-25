@@ -1,0 +1,12 @@
+Parameter,Count
+"('learning_rate', 'clr')",15
+"('layers', '8')",15
+"('use_svm', 'False')",6
+"('neuron1', '300')",12
+"('neuron2', '200')",12
+"('model', '1')",15
+"('use_transfer_learning', 'True')",15
+"('use_svm', 'True')",9
+"('neuron2', '100')",3
+"('neuron1', '100')",2
+"('neuron1', '128')",1
