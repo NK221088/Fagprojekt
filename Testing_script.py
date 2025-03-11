@@ -21,8 +21,8 @@ set_seeds()
 ############################
 
 # Data set:
-data_set = "fNIRS_CUH_patient_data" # "AudioSpeechNoise" #   "fNirs_motor_full_data" # "fNIRS_Alexandros_Healthy_data" # "fNIrs_motor" #      
-epoch_type = "Imagery"
+data_set = "fNirs_motor_full_data" # "fNIRS_CUH_patient_data" # "AudioSpeechNoise" #    "fNIRS_Alexandros_Healthy_data" # "fNIrs_motor" #      
+epoch_type = "Tapping"
 combine_strategy = "mean"
 individuals = True
 
@@ -31,8 +31,8 @@ bad_channels_strategy = "all"
 short_channel_correction = True
 negative_correlation_enhancement = True
 threshold = 3
-startTime = 0
-stopTime = 15
+startTime = 7.5
+stopTime = 12.5
 K = 5
 interpolate_bad_channels = False
 

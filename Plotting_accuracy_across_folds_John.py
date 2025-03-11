@@ -22,6 +22,8 @@ def plot_of_accuracy_across_k_folds_shaded(dfs, save_plot: bool = False):
     for df in dfs:
         for _, row in df.iterrows():
             classifier = row['Model']
+            if classifier == "PosNeg":
+                continue  # Skip the PosNeg classifier
             fold_accuracies = parse_accuracy_dict(row['E_test_Accuracy'])
             if classifier not in classifier_accuracies:
                 classifier_accuracies[classifier] = {}

@@ -22,7 +22,7 @@ set_seeds()
 ############################
 
 # Data set:
-data_set = "fNirs_motor_full_data"  # "fNIRS_Alexandros_Healthy_data" #  "fNIRS_Alexandros_DoC_data" #    "fNIRS_CUH_patient_data" # 
+data_set = "fNirs_motor_full_data"  # "fNIRS_Alexandros_Healthy_data" #    "fNIRS_Alexandros_DoC_data" #    "fNIRS_CUH_patient_data" # 
 epoch_type = "Tapping"
 combine_strategy = "mean"
 individuals = True # CANNOT BE CHANGED IN THIS SCRIPT
@@ -36,39 +36,39 @@ negative_correlation_enhancement = True
 threshold = 3
 startTime = 7.5
 stopTime = 12.5
-K2 = 5
+K2 = 2
 interpolate_bad_channels = False
 
 # Plotting and saving:
 save_results = True
 
 # Models
-SVM = model(name = "SVM")
+# SVM = model(name = "SVM")
 ANN = model(name = "ANN")
-Baseline = model(name = "Baseline")
-CNN = model(name = "CNN")
-Mean = model(name = "Mean")
-PosNeg = model(name = "PosNeg")
+# Baseline = model(name = "Baseline")
+# CNN = model(name = "CNN")
+# Mean = model(name = "Mean")
+# PosNeg = model(name = "PosNeg")
 
-SVM.theta = {"kernel": ["rbf", "poly"], "C": list(np.logspace(-2, 10, 13)), "gamma": list(np.logspace(-9, 3, 13)), "degree": [2], "coef0": [0]}
+# SVM.theta = {"kernel": ["rbf", "poly"], "C": list(np.logspace(-2, 10, 13)), "gamma": list(np.logspace(-9, 3, 13)), "degree": [2], "coef0": [0]}
 ANN.theta = {
-    "model": [1,2,3],
-   "neuron1": [100, 128, 300],
-   "neuron2": [100, 200],
-   "layers": [3,6,8],
-   "learning_rate": ["decrease", "clr"],
+    "model": [1],
+   "neuron1": [300],
+   "neuron2": [200],
+   "layers": [8],
+   "learning_rate": ["decrease"],
    "use_transfer_learning": [True],
-   "use_svm": [True, False],
+   "use_svm": [True],
 }
-Baseline.theta = {}
-Mean.theta = {}
-PosNeg.theta = {}
-CNN.theta = {"base_learning_rate": [0.1, 0.01, 0.001], "number_of_layers": [50, 75, 100], "batch_size": [32]}
+# Baseline.theta = {}
+# Mean.theta = {}
+# PosNeg.theta = {}
+# CNN.theta = {"base_learning_rate": [0.1, 0.01, 0.001], "number_of_layers": [50, 75, 100], "batch_size": [32]}
 
 ANN_AND_SVM = True
 
 # mean = model('Mean')
-modelList = [ANN, CNN, SVM, Baseline, PosNeg, Mean]
+modelList = [ANN]
 
 all_epochs, data_name, all_data, freq, data_types, all_individuals = load_data(data_set = data_set, short_channel_correction = short_channel_correction, negative_correlation_enhancement = negative_correlation_enhancement, individuals = individuals, interpolate_bad_channels=interpolate_bad_channels)
 

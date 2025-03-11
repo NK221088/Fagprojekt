@@ -1,0 +1,397 @@
+bef3df4 - Nikolai Treschow Kühl, 44 seconds ago : Merge branch 'main_copy' of https://github.com/NK221088/Fagprojekt into main_copy
+a81f642 - Nikolai Treschow Kühl, 52 seconds ago : Final push
+991f72b - Nikolai Treschow Kühl, 2 days ago : Fixing Isaks branch
+509131e - Isak, 2 days ago : Junk
+044b6fb - Nikolai Treschow Kühl, 2 days ago : Fixed bug with ANN model
+6258de0 - Nikolai Treschow Kühl, 2 days ago : Fixed bug with mean model
+a108e79 - Nikolai Treschow Kühl, 2 days ago : Debugging
+aa36596 - Nikolai Treschow Kühl, 2 days ago : Fixed theta dictionaries for mean og posneg
+d78f0fb - Nikolai Treschow Kühl, 2 days ago : Wrote Mean wrong
+d09b1ba - Nikolai Treschow Kühl, 2 days ago : Added seed to txt saving
+9d398be - Nikolai Treschow Kühl, 2 days ago : Added seed to txt saving
+58e7225 - Nikolai Treschow Kühl, 2 days ago : Deleted old results
+f71d0ee - Nikolai Treschow Kühl, 2 days ago : Scripts for plots, including McNemar test
+79685f3 - Nikolai Treschow Kühl, 2 days ago : McNemar final test
+4235875 - Nikolai Treschow Kühl, 2 days ago : Merge branch 'main_copy' of https://github.com/NK221088/Fagprojekt into main_copy
+2931cc4 - Nikolai Treschow Kühl, 2 days ago : Finalized McNemars test
+e22ee7a - Nikolai Treschow Kühl, 3 days ago : Last results
+43f1901 - Nikolai Treschow Kühl, 3 days ago : Results from CUH
+5d0d37a - Nikolai Treschow Kühl, 4 days ago : Changed scalp coupling index
+ef00e6f - Nikolai Treschow Kühl, 4 days ago : Results_CUH
+edc12d9 - Isak, 4 days ago : Changed standardzation method
+5fcaa5b - Nikolai Treschow Kühl, 4 days ago : Merge branch 'main_copy' of https://github.com/NK221088/Fagprojekt into main_copy
+f443adc - Nikolai Treschow Kühl, 4 days ago : Final folder for CUH
+cb8306a - Nikolai Treschow Kühl, 4 days ago : Merge branch 'main_copy' of https://github.com/NK221088/Fagprojekt into main_copy
+d1166cc - Nikolai Treschow Kühl, 4 days ago : Added CUH data to functio
+acf4753 - Nikolai Treschow Kühl, 4 days ago : Final folder for CUH
+f0d3e55 - Nikolai Treschow Kühl, 4 days ago : ANN ready for HPC
+e80538b - Nikolai Treschow Kühl, 4 days ago : Merge branch 'main_copy' of https://github.com/NK221088/Fagprojekt into main_copy
+d591957 - Nikolai Treschow Kühl, 4 days ago : ANN ready for HPC
+4c759b6 - JWHansen96, 4 days ago : seed = 55
+121beff - Nikolai Treschow Kühl, 4 days ago : Final script for HPC
+f68ff4b - Nikolai Treschow Kühl, 4 days ago : Final script for HPC
+7f4662a - Nikolai Treschow Kühl, 4 days ago : Final script for HPC
+fe4f410 - Nikolai Treschow Kühl, 4 days ago : Merge branch 'main_copy' of https://github.com/NK221088/Fagprojekt into main_copy
+628fec3 - Nikolai Treschow Kühl, 4 days ago : Prepared ANN and fixed bug before visit tomorrow morning
+086600f - JWHansen96, 4 days ago : seed = 102
+e7ec599 - Nikolai Treschow Kühl, 4 days ago : Made scripts ready for HPC
+0123771 - Nikolai Treschow Kühl, 4 days ago : Final_classifier
+e5a2358 - Nikolai Treschow Kühl, 5 days ago : Merge branch 'main_copy' of https://github.com/NK221088/Fagprojekt into main_copy
+11cbae3 - Nikolai Treschow Kühl, 5 days ago : Made final ANN ready
+6f1b8e0 - JWHansen96, 5 days ago : seed = 82
+75d03d4 - JWHansen96, 5 days ago : seed = 72
+5067e9d - JWHansen96, 5 days ago : seed = 62
+752c0e5 - Nikolai Treschow Kühl, 5 days ago : Made final ANN ready
+b2ac4f1 - Nikolai Treschow Kühl, 5 days ago : Made final ANN ready
+b258fea - Nikolai Treschow Kühl, 5 days ago : Merge branch 'main_copy' of https://github.com/NK221088/Fagprojekt into main_copy
+c69137b - Nikolai Treschow Kühl, 5 days ago : Implemented seed across all files
+30af59d - JWHansen96, 5 days ago : find_x_best function
+3b37b44 - JWHansen96, 5 days ago : lol jk this time tho
+e1be536 - JWHansen96, 5 days ago : tapping actual final for real this time
+c300544 - Nikolai Treschow Kühl, 5 days ago : Implemented random seed 42
+872e5c2 - Nikolai Treschow Kühl, 5 days ago : Implemented random seed 42
+ad8463d - Nikolai Treschow Kühl, 5 days ago : Implemented random seed 42
+28e9124 - Nikolai Treschow Kühl, 5 days ago : Ran script
+c90e27e - Nikolai Treschow Kühl, 5 days ago : Ran script
+0cd6bde - JWHansen96, 5 days ago : actual final tapping
+5a42ef2 - JWHansen96, 5 days ago : tapping final
+e9cb1bf - Nikolai Treschow Kühl, 5 days ago : Prepared final script
+7d22c51 - JWHansen96, 5 days ago : fNIRS_Alexandros_Healthy_data all models (true, true)
+b0898c6 - JWHansen96, 5 days ago : Revert "Tuned ANN, one more try :)"
+a3ea052 - JWHansen96, 5 days ago : Tuned ANN, one more try :)
+03eb077 - Nikolai Treschow Kühl, 6 days ago : Two level cross validation for all models
+d3be7a1 - Nikolai Treschow Kühl, 6 days ago : Two level cross validation for all models
+301bb6d - Nikolai Treschow Kühl, 6 days ago : Two level cross validation for all models
+61f4d78 - Nikolai Treschow Kühl, 6 days ago : Two level cross validation for all models
+4b921ff - Nikolai Treschow Kühl, 6 days ago : Two level cross validation for all models
+9489c4d - Nikolai Treschow Kühl, 6 days ago : Prepared script for testing complex ANN
+21b9001 - Nikolai Treschow Kühl, 6 days ago : Prepared script for testing complex ANN
+a859cc5 - Nikolai Treschow Kühl, 6 days ago : Prepared script for testing simple ANN
+b184967 - Nikolai Treschow Kühl, 6 days ago : Prepared script for testing complex ANN
+d3dffe6 - Nikolai Treschow Kühl, 6 days ago : Prepared script for testing complex ANN
+408c2f0 - Nikolai Treschow Kühl, 6 days ago : Prepared script for testing complex ANN
+28f4ef2 - Nikolai Treschow Kühl, 6 days ago : Prepared script for testing complex ANN
+8e9a709 - Nikolai Treschow Kühl, 6 days ago : Merge branch 'main_copy' of https://github.com/NK221088/Fagprojekt into main_copy
+7dd2e8c - Nikolai Treschow Kühl, 6 days ago : Made complex ANN ready for HPC
+8bbfdc5 - JWHansen96, 6 days ago : HPC update
+74c792a - JWHansen96, 6 days ago : simple ANN HPC
+066826c - Isak, 6 days ago : Typo key errors fixed
+1209724 - JWHansen96, 6 days ago : Merge branch 'main_copy' of https://github.com/NK221088/Fagprojekt into main_copy
+311137f - JWHansen96, 6 days ago : SVM HPC
+89938e3 - Nikolai Treschow Kühl, 6 days ago : Modified the simple ANN
+92d76b3 - Nikolai Treschow Kühl, 6 days ago : Modified the simple ANN
+e94729d - Nikolai Treschow Kühl, 6 days ago : Merge branch 'main_copy' of https://github.com/NK221088/Fagprojekt into main_copy
+bafe81f - Nikolai Treschow Kühl, 6 days ago : Modified the simple ANN
+2e7ded4 - JWHansen96, 6 days ago : SVM HPC initial
+8cd3ae7 - Nikolai Treschow Kühl, 7 days ago : Create events.out.tfevents.1718706152.JARVIS.63932.122.v2
+a58b37b - Nikolai Treschow Kühl, 7 days ago : Logs
+e6d62e7 - Nikolai Treschow Kühl, 7 days ago : Modified the simple ANN
+34b9b2f - Nikolai Treschow Kühl, 7 days ago : Modified the simple ANN
+38f5d2e - Nikolai Treschow Kühl, 7 days ago : Made script ready for final comparison
+174d2d1 - Nikolai Treschow Kühl, 7 days ago : Updated different ANNs
+29bc024 - Nikolai Treschow Kühl, 7 days ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+2590c51 - Nikolai Treschow Kühl, 7 days ago : Updated different ANNs
+9efc1b8 - JWHansen96, 7 days ago : ANN HPC
+ce5a7a5 - RallerR, 7 days ago : ANN test
+66fb40f - Nikolai Treschow Kühl, 7 days ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+1a4d38e - Nikolai Treschow Kühl, 7 days ago : Made simple ANN script ready for HPC
+d64bdbf - JWHansen96, 7 days ago : hopefully final complex setup
+18b769c - Nikolai Treschow Kühl, 7 days ago : Made complex ANN script ready for HPC
+5c78ede - Nikolai Treschow Kühl, 7 days ago : Made script ready for final comparison
+8aabb9a - Nikolai Treschow Kühl, 7 days ago : Made simple ANN ready for HPC
+e89e867 - Nikolai Treschow Kühl, 7 days ago : Made simple ANN ready for HPC
+e7dd8ff - Nikolai Treschow Kühl, 7 days ago : Made ANN ready for HPC
+abea174 - Isak, 7 days ago : All models added to two level cv test
+cf9efb2 - Nikolai Treschow Kühl, 7 days ago : Made ANN ready for HPC
+b875437 - Nikolai Treschow Kühl, 7 days ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+3527eb3 - Nikolai Treschow Kühl, 7 days ago : Made ANN ready for HPC
+f5f6368 - JWHansen96, 7 days ago : SVM HPC ready
+8f18824 - JWHansen96, 7 days ago : Made SVM ready for HPC
+22cb3b5 - Nikolai Treschow Kühl, 7 days ago : Made ANN ready for HPC
+020ea2b - Nikolai Treschow Kühl, 7 days ago : Made ANN ready for HPC
+5129654 - Nikolai Treschow Kühl, 7 days ago : Made CNN ready for HPC
+5fe405d - Nikolai Treschow Kühl, 8 days ago : Made complex ANN ready for HPC
+3d58218 - Nikolai Treschow Kühl, 8 days ago : First_two_level_cross_validation_on_Tapping_all_models_ready_for_HPC
+006fa4d - Nikolai Treschow Kühl, 8 days ago : First_two_level_cross_validation_on_Tapping_all_models_ready_for_HPC
+382a06b - Nikolai Treschow Kühl, 8 days ago : First_two_level_cross_validation_on_Tapping_all_models_ready_for_HPC
+813691c - Nikolai Treschow Kühl, 8 days ago : First_two_level_cross_validation_on_Tapping_all_models_ready_for_HPC
+08874fd - Nikolai Treschow Kühl, 8 days ago : Made CNN ready for HPC
+b697764 - Nikolai Treschow Kühl, 8 days ago : Made CNN ready for HPC
+4e39544 - Nikolai Treschow Kühl, 8 days ago : Made CNN ready for HPC
+c1aab78 - Nikolai Treschow Kühl, 8 days ago : Made complex ANN ready for HPC
+2266b77 - Nikolai Treschow Kühl, 8 days ago : Made complex ANN ready for HPC
+a7cbf59 - Nikolai Treschow Kühl, 8 days ago : Made CNN ready for HPC
+a38246c - Nikolai Treschow Kühl, 8 days ago : Made ANNs ready for HPC
+e73fe99 - Nikolai Treschow Kühl, 8 days ago : Made ANNs ready for HPC
+aaeded7 - Nikolai Treschow Kühl, 8 days ago : Made ANNs ready for HPC
+f6d2db3 - Nikolai Treschow Kühl, 8 days ago : Made ANNs ready for HPC
+cc53153 - Nikolai Treschow Kühl, 8 days ago : Made ANNs ready for HPC
+a068fc2 - Nikolai Treschow Kühl, 8 days ago : Fixed two level cross validation
+41015ae - Nikolai Treschow Kühl, 8 days ago : Made ANNs ready for HPC
+7f5a9b9 - Nikolai Treschow Kühl, 8 days ago : Made ANNs ready for HPC
+cfc1381 - Nikolai Treschow Kühl, 10 days ago : Made script ready for HPC
+f4576de - Nikolai Treschow Kühl, 10 days ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+49e68d5 - Nikolai Treschow Kühl, 10 days ago : Made script ready for HPC
+91cc10d - JWHansen96, 10 days ago : SVM finished without ICA
+58642aa - Nikolai Treschow Kühl, 10 days ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+d3e2914 - Nikolai Treschow Kühl, 10 days ago : Updated our ICA
+16ee10e - RallerR, 11 days ago : GPU for CNN
+25a5ed9 - Nikolai Treschow Kühl, 11 days ago : Made script ready for HPC
+73e9333 - Nikolai Treschow Kühl, 11 days ago : Made script ready for HPC
+86e6685 - Nikolai Treschow Kühl, 11 days ago : Made script ready for HPC
+e1fafd9 - Nikolai Treschow Kühl, 11 days ago : Made script ready for HPC
+bf6e261 - Nikolai Treschow Kühl, 11 days ago : Made script ready for HPC
+3b2ad19 - Nikolai Treschow Kühl, 11 days ago : Handled logging of unessecary logging
+b2bb60b - Nikolai Treschow Kühl, 12 days ago : Made script ready for HPC
+aa20803 - Nikolai Treschow Kühl, 12 days ago : Made script ready for HPC
+64bc689 - Nikolai Treschow Kühl, 12 days ago : Made script ready for HPC
+6750a6e - Nikolai Treschow Kühl, 12 days ago : Made script ready for HPC
+0a9c26e - Nikolai Treschow Kühl, 12 days ago : Made script ready for HPC
+025fefa - Nikolai Treschow Kühl, 12 days ago : Made script ready for HPC
+697cee7 - Nikolai Treschow Kühl, 12 days ago : Made script ready for HPC
+2ec7eea - Nikolai Treschow Kühl, 12 days ago : Made script ready for HPC
+454303a - Nikolai Treschow Kühl, 12 days ago : Made script ready for HPC
+1d7c4b3 - Nikolai Treschow Kühl, 12 days ago : Made script ready for HPC
+d8c8582 - Nikolai Treschow Kühl, 12 days ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+b2b76f9 - Nikolai Treschow Kühl, 12 days ago : Made script ready for HPC
+81e9d55 - RallerR, 12 days ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+958badf - RallerR, 12 days ago : CNN hyperparameters update
+e5c65ed - Nikolai Treschow Kühl, 12 days ago : Made script ready for HPC
+0b542e9 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+38854aa - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+8aad1b4 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+6574a10 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+ff8213c - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+f4dd2a3 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+545e141 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+d445e27 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+fab966c - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+6a63193 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+fe6d8c6 - Nikolai Treschow Kühl, 13 days ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+80794e1 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+6fe005f - Isak, 13 days ago : getConfig added to ANN
+9074236 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+6489ec9 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+b8ad636 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+485c1dd - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+97c17d2 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+c7dd3d0 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+77b395c - Nikolai Treschow Kühl, 13 days ago : Implemented pretraining and use of SVM in ANN
+91cec7e - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+33cfa0c - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+71160b6 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+d333aab - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+329e455 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+11d41c0 - Nikolai Treschow Kühl, 13 days ago : Made script ready for HPC
+ed1dc5a - Nikolai Treschow Kühl, 13 days ago : Updated ICA and PCA to use normalized data and to concatenate along epoch dimension
+0965559 - Nikolai Treschow Kühl, 2 weeks ago : Updated time variables and made script ready for HPC
+a2ecbef - Nikolai Treschow Kühl, 2 weeks ago : Updated time variables and made script ready for HPC
+57e111c - Nikolai Treschow Kühl, 2 weeks ago : Fixed the time at Alexandros data
+47cc60d - Nikolai Treschow Kühl, 2 weeks ago : Made script ready for HPC
+e3d9a56 - Nikolai Treschow Kühl, 2 weeks ago : Made script ready for HPC
+a623ea0 - Nikolai Treschow Kühl, 2 weeks ago : Small adjust to data path
+29574a0 - Nikolai Treschow Kühl, 2 weeks ago : Made script ready for HPC
+523f910 - Nikolai Treschow Kühl, 2 weeks ago : Made script ready for HPC
+fb7a32b - Nikolai Treschow Kühl, 2 weeks ago : Collected all data from Alexandros and updated the load data function
+378a16c - Nikolai Treschow Kühl, 2 weeks ago : Added the files from meetings with Alexandros
+e915431 - Nikolai Treschow Kühl, 2 weeks ago : Added the gc library to the ann script
+7a61fab - Nikolai Treschow Kühl, 2 weeks ago : Added memory management to our ANN, as the script failed at the HPC
+84948d2 - Nikolai Treschow Kühl, 2 weeks ago : Added documentation to CLR
+6c166eb - Isak, 2 weeks ago : Debugging
+81a5353 - Nikolai Treschow Kühl, 2 weeks ago : Tried fixing another related to Tensorflow
+ee20499 - Nikolai Treschow Kühl, 2 weeks ago : Tried fixing another related to Tensorflow
+815dbe7 - Nikolai Treschow Kühl, 2 weeks ago : Fixed error in clr_callback, as it used an old version of tensorflow
+10e1aa6 - Nikolai Treschow Kühl, 2 weeks ago : Implemented clr_callback (cyclical learning rate schedule) and made script ready for HPC
+262fc1e - Nikolai Treschow Kühl, 2 weeks ago : Changed the theta, so models can optimize multiple hyperparameters
+731cffb - Nikolai Treschow Kühl, 2 weeks ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+66b9b63 - Nikolai Treschow Kühl, 2 weeks ago : Made interpolation of bad channels
+a844118 - RallerR, 2 weeks ago : Removed theta_list
+896c484 - RallerR, 3 weeks ago : CNN update
+7206f35 - Nikolai Treschow Kühl, 3 weeks ago : ICA updated to be done
+ccdc7ce - Nikolai Treschow Kühl, 3 weeks ago : Updated the ICA function
+ddc1af7 - Nikolai Treschow Kühl, 3 weeks ago : Made ICA a function
+7a5bff3 - Nikolai Treschow Kühl, 3 weeks ago : Added ICA
+821fa01 - Nikolai Treschow Kühl, 3 weeks ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+7296e5e - Nikolai Treschow Kühl, 3 weeks ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+27478cb - RallerR, 3 weeks ago : Super computer test
+fa4c2c4 - Nikolai Treschow Kühl, 3 weeks ago : Made tests with ANN
+e92523e - Isak, 3 weeks ago : Changed submit script
+8e54ba6 - Isak, 3 weeks ago : Change return type for CNN
+c13d384 - Isak, 3 weeks ago : Debugging
+9551c95 - IsakBPetrin, 3 weeks ago : Removed plot for CNN
+c41c64c - IsakBPetrin, 3 weeks ago : Problems regarding parameters for ANN fixed
+c07900a - Isak, 3 weeks ago : CNN added to test file
+c69dc3c - Isak, 3 weeks ago : Timestamp added to CSV-files
+a8642b1 - Isak, 3 weeks ago : Third debugging of CSV-export
+cd33971 - Isak, 3 weeks ago : Second debugging of CSV-export
+6b53fc8 - Isak, 3 weeks ago : Debugging of CSV-export
+1e67042 - Isak, 3 weeks ago : Results are now exported to CSV-file.
+6c96a78 - Isak, 3 weeks ago : E_gen in invoice
+bbff898 - Isak, 3 weeks ago : Structered information over folds in 2-level-cv
+4b9a99f - Isak, 3 weeks ago : evalList added to access fold specifc performance
+8128371 - Isak Petrin, 3 weeks ago : Test commit
+a74f471 - Isak Bastholm Petrin, 3 weeks ago : Added TestFile from hpc
+c7b7327 - IsakBPetrin, 3 weeks ago : tqdm implemented for two level cross validation
+c5723db - IsakBPetrin, 3 weeks ago : Decay rate changed from tensor to scalar
+2c17378 - Nikolai Treschow Kühl, 7 weeks ago : Adding the saving part to our Two-Level CV testing Script
+08e6930 - Isak, 7 weeks ago : CNN integrated
+70588bf - Isak, 7 weeks ago : Integrated changes
+e94c270 - RallerR, 7 weeks ago : Merge branch 'CNN-to-stratification'
+8339e77 - Isak, 7 weeks ago : No changes
+4019076 - Isak, 7 weeks ago : Majority voting fix
+39bceeb - Isak, 7 weeks ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+a105ce8 - Isak, 7 weeks ago : Implementation of two level cross validation
+593a804 - RallerR, 7 weeks ago : Updated CNN model to use data drirectly instead of converting to images first
+6ba9fb1 - Isak, 7 weeks ago : Implementation of two-level-CV
+c8a57ce - Nikolai Treschow Kühl, 7 weeks ago : Played around with the ANN
+0f0299e - Nikolai Treschow Kühl, 7 weeks ago : Visualized the new data from CUH
+bfe67f1 - Nikolai Treschow Kühl, 8 weeks ago : Tried optimizing the ANN
+5efd3a5 - JWHansen96, 8 weeks ago : Further 2-level implementation
+cb7436c - Nikolai Treschow Kühl, 8 weeks ago : Made two new plot functions, to plot the events and to plot the haemo_psd before and after filtering
+73f566d - Isak, 8 weeks ago : two cv
+930ad28 - Nikolai Treschow Kühl, 8 weeks ago : Modified the individual participant data structure to be a class to easier access raw_intensity, raw_haemo, etc.
+ff0a7c0 - JWHansen96, 8 weeks ago : Another small update to two level cross validation.
+a72b211 - Isak, 8 weeks ago : Small update to two level cross validation.
+fddac48 - Isak, 8 weeks ago : Testing script for two level cv created.
+ac67513 - Nikolai Treschow Kühl, 8 weeks ago : Fixed the bug in our preprocesesing class, namely that we picked our long channels before we had made the correction. Now all short channels are removed properly.
+9fa14b3 - JWHansen96, 9 weeks ago : 2 level cross validation partial implementation
+e3d2307 - RallerR, 9 weeks ago : Draft of CNN class (not finished)
+6d15b66 - Nikolai Treschow Kühl, 9 weeks ago : CNN changes
+6bf28a3 - JWHansen96, 9 weeks ago : initial 2 level push
+058c0bf - Nikolai Treschow Kühl, 9 weeks ago : Made CNN as a function
+4074dac - JWHansen96, 9 weeks ago : created file
+34d9091 - Nikolai Treschow Kühl, 9 weeks ago : Checked if there were any mistakes on the preprocessing. Nothing new added.
+888c45a - Nikolai Treschow Kühl, 9 weeks ago : Test
+d90d4ea - Nikolai Treschow Kühl, 9 weeks ago : Updated the individual_k_fold to work properly, including the shuffling part
+8b9403a - Isak, 9 weeks ago : positive negative model updated
+75f0391 - Nikolai Treschow Kühl, 9 weeks ago : Push
+4e20b20 - Isak, 9 weeks ago : Small update to majority voting classifier
+2f17212 - Isak, 9 weeks ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+c56d514 - Isak, 9 weeks ago : New standardization method implemented in SVM
+dc742b5 - Nikolai Treschow Kühl, 9 weeks ago : Changed individual k fold
+bbb7482 - Nikolai Treschow Kühl, 9 weeks ago : Small adjustments
+567ac39 - JWHansen96, 9 weeks ago : Classifier per individual 2.0
+64e0b0a - Nikolai Treschow Kühl, 9 weeks ago : Push
+f0a0be6 - JWHansen96, 9 weeks ago : Classifier per individual
+96cd027 - Nikolai Treschow Kühl, 9 weeks ago : Updated the ANN standardization
+c860405 - Nikolai Treschow Kühl, 9 weeks ago : Updated ANN
+bc33e45 - Isak, 9 weeks ago : New CV integrated in ANN
+490f9f1 - JWHansen96, 9 weeks ago : more deleted pdfs
+b6c5147 - Isak, 9 weeks ago : Deleting PDF's
+d61bd72 - Isak, 9 weeks ago : New CV method implemented
+2c6a041 - Nikolai Treschow Kühl, 9 weeks ago : Tried to optimize ANN
+e4f84d3 - Nikolai Treschow Kühl, 9 weeks ago : Changed the name of the file saved for the ANN plot
+a5313eb - Nikolai Treschow Kühl, 9 weeks ago : Added the tensorflow visualizations to the ANN and CNN
+350187e - Nikolai Treschow Kühl, 9 weeks ago : Ran the image preprocessesing
+a0f418a - Nikolai Treschow Kühl, 10 weeks ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+22702c5 - Nikolai Treschow Kühl, 10 weeks ago : Updated the data loading class to also make it able to return the data for the individual participants
+b31f865 - JWHansen96, 10 weeks ago : CNN image preprocessing
+cb35a7f - RallerR, 10 weeks ago : Merge branch 'Rasmus'
+e914fce - RallerR, 10 weeks ago : CNN update
+5e79427 - RallerR, 10 weeks ago : Merge branch 'Rasmus'
+7eda19d - Nikolai Treschow Kühl, 10 weeks ago : commit
+ec7356b - RallerR, 10 weeks ago : Update CNN_data_prep.py
+373b253 - Nikolai Treschow Kühl, 10 weeks ago : Moved ole processing to folder
+f472572 - Nikolai Treschow Kühl, 2 months ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+e490c2d - Nikolai Treschow Kühl, 2 months ago : Made the hemoglobin plots ready for the CNN
+84bc030 - RallerR, 2 months ago : Pretrained CNN model
+2622bf8 - RallerR, 2 months ago : Update CNN.py
+d8af3a1 - Nikolai Treschow Kühl, 2 months ago : Fixed the error occuring because of the change in pandas' default value in get_data from True to False
+d4d7e33 - Nikolai Treschow Kühl, 2 months ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+b68792c - Nikolai Treschow Kühl, 2 months ago : Started on script to creating images for CNN
+0336004 - RallerR, 2 months ago : Create CNN.py
+183e3d9 - Nikolai Treschow Kühl, 2 months ago : Added plot of accuracies across k folds and made settings in testing script more intuitive
+5226353 - Nikolai Treschow Kühl, 3 months ago : Extracted the results lists from the stratified so these can be used for plotting, and made the string format of results easier to interpret
+840a4b4 - Nikolai Treschow Kühl, 3 months ago : Implemented the ANN in the stratified script
+771857d - Isak, 3 months ago : SVM changes
+ebb91ef - Nikolai Treschow Kühl, 3 months ago : Outcommented some lines
+78ed28f - Nikolai Treschow Kühl, 3 months ago : Fixed the load data function
+34d0330 - Nikolai Treschow Kühl, 3 months ago : Merge branch 'ANN_branch'
+ea2c194 - Nikolai Treschow Kühl, 3 months ago : Added a tf.
+d60ef56 - Nikolai Treschow Kühl, 3 months ago : Merge branch 'ANN_branch' of https://github.com/NK221088/Fagprojekt into ANN_branch
+103710d - Nikolai Treschow Kühl, 3 months ago : Changed the optimizer
+b6c56d0 - RallerR, 3 months ago : New CNN model
+871d64d - RallerR, 3 months ago : Update ANN.py
+fcc1db2 - Nikolai Treschow Kühl, 3 months ago : Added staircase to learning rate schedule
+912915f - Nikolai Treschow Kühl, 3 months ago : Added a learning rate scheduling class and a more elaborate defintion of the optimizer
+9390743 - Nikolai Treschow Kühl, 3 months ago : .
+5347a4c - Nikolai Treschow Kühl, 3 months ago : Verifying gpus found
+0f53dba - Isak, 3 months ago : SVM added to origin
+a3d9b5b - Nikolai Treschow Kühl, 3 months ago : Fixed the saving of the standard response plot - it was saving a blank fig before
+a2d550b - Nikolai Treschow Kühl, 3 months ago : Test
+0273d8b - Nikolai Treschow Kühl, 3 months ago : Implemented data processesing as a class and made new plot function for the standard fNIRS resposne plot
+a8a6d05 - Nikolai Treschow Kühl, 3 months ago : Streamlined the inital pipeline a bit and removed redundant code
+3629b44 - Nikolai Treschow Kühl, 3 months ago : Merge branch 'ANN_branch'
+b4196b5 - Nikolai Treschow Kühl, 3 months ago : Initial ANN
+56ede9e - Isak, 3 months ago : New kernel implemented for SVM
+0333da9 - JWHansen96, 3 months ago : SVM implemented
+a842616 - Isak, 3 months ago : SVM classifier file created
+993a6c9 - JWHansen96, 3 months ago : added SCC and NCE
+0bdec4c - Nikolai Treschow Kühl, 3 months ago : Test
+8cd9e5f - Nikolai Treschow Kühl, 3 months ago : Commit
+52b6813 - Isak, 3 months ago : New simple model implemented (pn)
+5634a49 - Nikolai Treschow Kühl, 3 months ago : Commit
+ce46eff - Nikolai Treschow Kühl, 3 months ago : Removed all results
+9bbf5a9 - Nikolai Treschow Kühl, 3 months ago : Updated load data function
+2afeaff - Nikolai Treschow Kühl, 3 months ago : Made data load as a function
+46219f1 - JWHansen96, 3 months ago : Update fnirs_processing_AudioSpeechNoise
+49e0146 - Isak, 3 months ago : CI implemented
+9bdc516 - Isak, 3 months ago : CI implemented
+bab1854 - Nikolai Treschow Kühl, 3 months ago : Outcommented
+5c313ab - JWHansen96, 3 months ago : small naming change
+c4c5882 - Nikolai Treschow Kühl, 3 months ago : Test
+04e95aa - Nikolai Treschow Kühl, 3 months ago : Commit
+20aea0e - Nikolai Treschow Kühl, 3 months ago : Updated testing script
+f060883 - JWHansen96, 3 months ago : signal enhancement techniques
+e60be1b - RallerR, 3 months ago : Added data and processing of it
+305fd8f - Nikolai Treschow Kühl, 3 months ago : Fixed plotting
+1e5e2eb - Nikolai Treschow Kühl, 3 months ago : Commit
+1e72ba7 - Nikolai Treschow Kühl, 3 months ago : Edited plot function, added save options, edited reading of data from processesing and made test script more intuitive
+1b3da4c - Nikolai Treschow Kühl, 3 months ago : commit
+32edd16 - Nikolai Treschow Kühl, 3 months ago : Plot function updated with concatenate
+78ce3b6 - Nikolai Treschow Kühl, 3 months ago : Plot function updated with concatenate
+ed25adc - RallerR, 3 months ago : Automate frequency
+86ae19a - Nikolai Treschow Kühl, 3 months ago : Plots
+1f5e624 - Nikolai Treschow Kühl, 3 months ago : Using mne.concatenate_epochs
+6d4b7dd - Nikolai Treschow Kühl, 4 months ago : Set up of test script including new frequency
+3a1f07e - Nikolai Treschow Kühl, 4 months ago : Divided into multiple scripts
+6d734e7 - JWHansen96, 4 months ago : Merge branch '2nd-dataset-pipeline'
+0f80c06 - Isak, 4 months ago : General solution for labeling
+c10a697 - Isak, 4 months ago : Simplified Baseline model
+b5a7c0b - Isak, 4 months ago : Majority vote implemented
+25c23dc - Nikolai Treschow Kühl, 4 months ago : Start def Baseline
+6608c87 - Isak, 4 months ago : Implemented as functions.
+e9085aa - Nikolai Treschow Kühl, 4 months ago : Py
+7168814 - Nikolai Treschow Kühl, 4 months ago : Edited the end of the preprocessing - moved from the baseline classifier
+68affcd - JWHansen96, 4 months ago : Second pipeline 1.01
+a1f90b2 - JWHansen96, 4 months ago : Second pipeline 1.0
+10788cc - RallerR, 4 months ago : Updated requirement file again again again again
+7e98c66 - RallerR, 4 months ago : Updated requirement file again again again
+a48c7b3 - RallerR, 4 months ago : Updated requirement file again again
+837455a - RallerR, 4 months ago : Updated requirement file again
+b2b8571 - RallerR, 4 months ago : Updated requirement file
+a952769 - RallerR, 4 months ago : Added requirement file
+a44c1fc - IsakBPetrin, 4 months ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+5c5e97e - Nikolai Treschow Kühl, 4 months ago : Classifier opdated
+e17495e - Nikolai Treschow Kühl, 4 months ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+4cef281 - Nikolai Treschow Kühl, 4 months ago : New
+78b4304 - JWHansen96, 4 months ago : Load new data
+935d201 - Nikolai Treschow Kühl, 4 months ago : TEST PIPELINE
+856942c - Nikolai Treschow Kühl, 4 months ago : With load data
+3620e4e - Nikolai Treschow Kühl, 4 months ago : Test
+70c26eb - Nikolai Treschow Kühl, 4 months ago : With_Isaks_code
+df76872 - IsakBPetrin, 4 months ago : John push
+03a29a3 - IsakBPetrin, 4 months ago : John push
+3296002 - JWHansen96, 4 months ago : Test xx1
+b8cb4a7 - JWHansen96, 4 months ago : Update Initial_pipeline.ipynb
+1c13cad - IsakBPetrin, 4 months ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+314a8e6 - Nikolai Treschow Kühl, 4 months ago : With_new_py
+0fca028 - IsakBPetrin, 4 months ago : Hej
+2d9e863 - Nikolai Treschow Kühl, 4 months ago : Baseline_classifier
+be592e3 - Nikolai Treschow Kühl, 4 months ago : Commit
+73dc6cb - Nikolai Treschow Kühl, 4 months ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+1501ec1 - Nikolai Treschow Kühl, 4 months ago : Commit
+efe5fca - JWHansen96, 4 months ago : Merge branch 'main' of https://github.com/NK221088/Fagprojekt
+894247e - JWHansen96, 4 months ago : Commit test 1.0
+d3fb64e - Nikolai Treschow Kühl, 4 months ago : Commit
+cd3323d - Nikolai Treschow Kühl, 4 months ago : Commit

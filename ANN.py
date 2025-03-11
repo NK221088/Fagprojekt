@@ -85,11 +85,11 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
         # Define your model
         model = tf.keras.models.Sequential()
         model.add(tf.keras.layers.Flatten(input_shape=(X_train.shape[1], X_train.shape[2])))
-        model.add(tf.keras.layers.Dense(theta[300], activation='relu'))
+        model.add(tf.keras.layers.Dense(300, activation='relu'))
         model.add(tf.keras.layers.Dropout(0.2))
-        model.add(tf.keras.layers.Dense(theta[200], activation='relu'))
+        model.add(tf.keras.layers.Dense(200, activation='relu'))
         model.add(tf.keras.layers.Dropout(0.2))
-        model.add(tf.keras.layers.Dense(theta[300], activation='relu'))
+        model.add(tf.keras.layers.Dense(300, activation='relu'))
         model.add(tf.keras.layers.Dropout(0.2))
 
         # Add the output layer for binary classification
@@ -158,7 +158,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             del model
             gc.collect()
 
-            return accuracy, conf_matrix
+            return accuracy, conf_matrix, (y_pred, ytest)
         
         else:
             loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
@@ -171,7 +171,7 @@ def ANN_classifier(Xtrain, ytrain, Xtest, ytest, theta):
             del model
             gc.collect()
 
-            return accuracy, conf_matrix
+            return accuracy, conf_matrix, (y_pred, ytest)
     
     elif theta["model"] == 2:
             model = Sequential([

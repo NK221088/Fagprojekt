@@ -2,6 +2,7 @@ from Participant_class import individual_participant_class
 from datetime import datetime
 from seed import set_seeds
 set_seeds()
+import os
 
 def plot_psd_individual(individual, save=False):
     """
